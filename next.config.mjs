@@ -1,20 +1,19 @@
-import js from "@eslint/js";
-import tseslint from "typescript-eslint";
-import next from "eslint-config-next";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
 
-export default [
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
-  next,
-  {
-    rules: {
-      // Custom rules
-      "react/react-in-jsx-scope": "off", // Next.js me zaroorat nahi
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        { argsIgnorePattern: "^_" }
-      ],
-      "no-console": ["warn", { allow: ["warn", "error"] }],
-    },
+  images: {
+    domains: [
+      "images.unsplash.com",
+      "via.placeholder.com",
+      "example.com"
+    ],
   },
-];
+
+  experimental: {
+    appDir: true, // Next.js 13+ ke liye
+  },
+};
+
+export default nextConfig;
