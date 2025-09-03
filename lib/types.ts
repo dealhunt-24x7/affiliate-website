@@ -1,21 +1,21 @@
+// Type for Product
 export interface Product {
   id: number;
   name: string;
   description: string;
   price: number;
-  image?: string;
+  image: string;
   affiliateLink: string;
-  category?: string;
-  specs?: Record<string, string>; // ✅ Added specs property
+  specs?: Record<string, string>; // Optional product specifications
 }
 
-export interface Blog {
-  id: number;
-  title: string;
+// Type for Blog Post
+export interface BlogPost {
   slug: string;
-  content: string;
-  excerpt: string;
-  date: string;
+  title: string;
   author: string;
+  date: string; // ISO string format
+  content: string;
   image?: string;
+  tags: string[];
 }
