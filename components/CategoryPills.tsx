@@ -1,36 +1,25 @@
 "use client";
+import React from "react";
 
-const categories = [
-  "Mobiles",
-  "Laptops",
-  "Fashion",
-  "Home Appliances",
-  "Beauty",
-  "Sports",
-  "Books",
-  "Toys",
-  "Furniture",
-  "Groceries",
-  "Cameras",
-  "Watches",
-  "Shoes",
-  "Gaming",
-  "Accessories",
-];
+interface CategoryPillsProps {
+  categories: string[];
+  onSelect?: (category: string) => void;
+}
 
-export default function CategoryPills() {
+const CategoryPills: React.FC<CategoryPillsProps> = ({ categories, onSelect }) => {
   return (
-    <div className="overflow-x-auto whitespace-nowrap px-4 py-3 bg-gray-50 border-b">
-      <div className="flex space-x-3">
-        {categories.map((cat, i) => (
-          <button
-            key={i}
-            className="px-4 py-2 text-sm rounded-full bg-white border hover:bg-blue-100 transition"
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
+    <div className="flex flex-wrap gap-2">
+      {categories.map((cat, idx) => (
+        <button
+          key={idx}
+          onClick={() => onSelect && onSelect(cat)}
+          className="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-sm"
+        >
+          {cat}
+        </button>
+      ))}
     </div>
   );
-}
+};
+
+export default CategoryPills;
