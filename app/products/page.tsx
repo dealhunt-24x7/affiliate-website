@@ -1,29 +1,44 @@
 import { getProducts } from "@/lib/products";
 import { SearchBar } from "@/components/SearchBar";
-import { CategoryPills } from "@/components/CategoryPills";
+import CategoryPills from "@/components/CategoryPills";
 import { FiltersSidebar } from "@/components/FiltersSidebar";
 import { SortBar } from "@/components/SortBar";
-import { ProductCard } from "@/components/ProductCard";
+import ProductCard from "@/components/ProductCard";
 
-export default function ProductsPage() {
-  const products = getProducts();
+export default async function ProductsPage() {
+  const products = await getProducts();
 
   return (
-    <main className="container mx-auto px-4 py-8 flex gap-6">
-      {/* Sidebar */}
-      <FiltersSidebar />
-
-      {/* Main content */}
-      <div className="flex-1">
+    <main className="p-4 md:p-6 lg:p-8">
+      {/* Search bar */}
+      <div className="mb-4">
         <SearchBar />
-        <CategoryPills />
-        <SortBar />
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+      {/* Categories + Filters */}
+      <div className="flex flex-col md:flex-row md:gap-6">
+        {/* Sidebar (filters) */}
+        <aside className="w-full md:w-64 mb-4 md:mb-0">
+          <FiltersSidebar />
+        </aside>
+
+        {/* Main content */}
+        <section className="flex-1">
+          {/* Category Pills */}
+          <CategoryPills />
+
+          {/* Sort bar */}
+          <div className="my-4">
+            <SortBar />
+          </div>
+
+          {/* Products grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
       </div>
     </main>
   );
