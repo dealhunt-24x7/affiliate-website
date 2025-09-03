@@ -1,1 +1,47 @@
-
+[
+  {
+    "id": 1,
+    "name": "Wireless Bluetooth Headphones",
+    "description": "High-quality wireless headphones with noise cancellation and 20 hours battery life.",
+    "price": 59.99,
+    "rating": 4.5,
+    "image": "/images/product1.jpg",
+    "affiliateLink": "https://affiliate-link.com/product1",
+    "category": "Electronics",
+    "specs": {
+      "Battery Life": "20 hours",
+      "Connectivity": "Bluetooth 5.0",
+      "Noise Cancellation": "Active"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Smart Fitness Watch",
+    "description": "Track your workouts, heart rate, and sleep with this stylish fitness watch.",
+    "price": 89.99,
+    "rating": 4.3,
+    "image": "/images/product2.jpg",
+    "affiliateLink": "https://affiliate-link.com/product2",
+    "category": "Wearables",
+    "specs": {
+      "Display": "1.5 inch AMOLED",
+      "Battery Life": "7 days",
+      "Water Resistance": "5 ATM"
+    }
+  },
+  {
+    "id": 3,
+    "name": "4K Ultra HD Smart TV",
+    "description": "55-inch 4K UHD TV with HDR and built-in streaming apps.",
+    "price": 499.99,
+    "rating": 4.7,
+    "image": "/images/product3.jpg",
+    "affiliateLink": "https://affiliate-link.com/product3",
+    "category": "Home Entertainment",
+    "specs": {
+      "Screen Size": "55 inch",
+      "Resolution": "4K UHD",
+      "HDR": "Supported"
+    }
+  }
+]
