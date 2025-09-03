@@ -1,28 +1,29 @@
-export function FiltersSidebar() {
+"use client";
+import React from "react";
+
+interface FiltersSidebarProps {
+  filters?: string[];
+  onFilterChange?: (filter: string) => void;
+}
+
+const FiltersSidebar: React.FC<FiltersSidebarProps> = ({ filters = [], onFilterChange }) => {
   return (
-    <aside className="w-64 p-4 border-r border-gray-300">
-      <h2 className="text-lg font-bold mb-4">Filters</h2>
-      <div>
-        <h3 className="font-semibold">Category</h3>
-        <ul>
-          <li>
-            <input type="checkbox" id="electronics" />
-            <label htmlFor="electronics"> Electronics</label>
+    <aside className="p-4 border rounded-lg w-full sm:w-64">
+      <h3 className="font-semibold mb-2">Filters</h3>
+      <ul className="space-y-2">
+        {filters.map((filter, idx) => (
+          <li key={idx}>
+            <button
+              className="w-full text-left px-3 py-1 rounded hover:bg-gray-100"
+              onClick={() => onFilterChange && onFilterChange(filter)}
+            >
+              {filter}
+            </button>
           </li>
-          <li>
-            <input type="checkbox" id="books" />
-            <label htmlFor="books"> Books</label>
-          </li>
-          <li>
-            <input type="checkbox" id="fashion" />
-            <label htmlFor="fashion"> Fashion</label>
-          </li>
-        </ul>
-      </div>
-      <div className="mt-4">
-        <h3 className="font-semibold">Price Range</h3>
-        <input type="range" min="0" max="1000" className="w-full" />
-      </div>
+        ))}
+      </ul>
     </aside>
   );
-}
+};
+
+export default FiltersSidebar;
