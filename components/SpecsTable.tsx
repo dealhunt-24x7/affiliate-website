@@ -5,4 +5,16 @@ export function SpecsTable({ specs }: { specs: Record<string, string> }) {
         <tr>
           <th className="border p-2">Specification</th>
           <th className="border p-2">Details</th>
-        </tr
+        </tr>
+      </thead>
+      <tbody>
+        {Object.entries(specs).map(([key, value]) => (
+          <tr key={key}>
+            <td className="border p-2">{key}</td>
+            <td className="border p-2">{value}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
