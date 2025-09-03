@@ -1,62 +1,66 @@
 import CategoryPills from "@/components/CategoryPills";
 import ProductCard from "@/components/ProductCard";
 
-const sampleProducts = [
-  {
-    name: "iPhone 15",
-    description: "Latest Apple smartphone with A16 chip",
-    image: "https://via.placeholder.com/400x300",
-    rating: 5,
-  },
-  {
-    name: "Samsung Galaxy S23",
-    description: "High-end Android flagship with powerful performance",
-    image: "https://via.placeholder.com/400x300",
-    rating: 4,
-  },
-  {
-    name: "Dell XPS 15",
-    description: "Premium laptop with sleek design",
-    image: "https://via.placeholder.com/400x300",
-    rating: 5,
-  },
-  {
-    name: "Nike Air Max",
-    description: "Stylish and comfortable sneakers",
-    image: "https://via.placeholder.com/400x300",
-    rating: 4,
-  },
-];
-
 export default function HomePage() {
-  return (
-    <div>
-      {/* Category Pills */}
-      <CategoryPills />
+  const trendingProducts = Array.from({ length: 8 }, (_, i) => ({
+    id: i + 1,
+    name: `Trending Product ${i + 1}`,
+    description: "This is a sample trending product",
+    image: "/placeholder.png",
+    rating: 4.5,
+  }));
 
-      {/* Deal of the Day / Hero Section */}
-      <section className="px-4 py-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center">
-        <h1 className="text-2xl md:text-4xl font-bold">Deal of the Day</h1>
-        <p className="mt-2 text-sm md:text-base">
-          Grab the best offers before they expire!
-        </p>
+  const categories = [
+    "Electronics",
+    "Fashion",
+    "Home",
+    "Beauty",
+    "Sports",
+    "Books",
+    "Toys",
+    "Groceries",
+    "Automotive",
+    "Health",
+  ];
+
+  return (
+    <main className="px-4 sm:px-6 lg:px-8 py-6">
+      {/* Category Pills */}
+      <section className="mb-8">
+        <CategoryPills categories={categories} />
       </section>
 
-      {/* Product Grid */}
-      <section className="max-w-7xl mx-auto px-4 py-8">
-        <h2 className="text-xl font-semibold mb-4">Trending Products</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {sampleProducts.map((product, idx) => (
-            <ProductCard
-              key={idx}
-              name={product.name}
-              description={product.description}
-              image={product.image}
-              rating={product.rating}
-            />
+      {/* Deal of the Day */}
+      <section className="mb-12">
+        <h2 className="text-xl font-semibold mb-4">Deal of the Day</h2>
+        <div className="flex gap-4 overflow-x-auto pb-2">
+          {trendingProducts.map((product) => (
+            <div key={product.id} className="min-w-[250px]">
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
       </section>
-    </div>
+
+      {/* Category Wise Products */}
+      {categories.map((category, idx) => (
+        <section key={idx} className="mb-12">
+          <h2 className="text-xl font-semibold mb-4">{category}</h2>
+          <div className="flex gap-4 overflow-x-auto pb-2">
+            {Array.from({ length: 10 }, (_, i) => ({
+              id: i + 1,
+              name: `${category} Product ${i + 1}`,
+              description: "Sample description",
+              image: "/placeholder.png",
+              rating: 4,
+            })).map((product) => (
+              <div key={product.id} className="min-w-[250px]">
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+    </main>
   );
 }
