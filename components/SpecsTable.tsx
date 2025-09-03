@@ -1,4 +1,6 @@
-export function SpecsTable({ specs }: { specs: Record<string, string> }) {
+type Props = { specs: Record<string, string> };
+
+export function SpecsTable({ specs }: Props) {
   return (
     <table className="min-w-full border-collapse border border-gray-300">
       <thead>
@@ -16,5 +18,5 @@ export function SpecsTable({ specs }: { specs: Record<string, string> }) {
         ))}
       </tbody>
     </table>
-  )
+  );
 }
