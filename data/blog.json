@@ -1,1 +1,32 @@
-
+[
+  {
+    "id": 1,
+    "title": "Top 10 Gadgets You Must Have in 2023",
+    "slug": "top-10-gadgets-2023",
+    "excerpt": "A curated list of the most exciting gadgets that you should check out this year.",
+    "content": "Technology is evolving rapidly. Here are the top 10 gadgets of 2023 that bring innovation and convenience to your daily life...",
+    "cover": "/images/blog1.jpg",
+    "tags": ["Technology", "Gadgets"],
+    "date": "2023-01-05"
+  },
+  {
+    "id": 2,
+    "title": "Why Fitness Trackers Are Worth It",
+    "slug": "fitness-trackers-worth-it",
+    "excerpt": "Are fitness trackers just a trend or do they actually help? Let's find out.",
+    "content": "Fitness trackers have become increasingly popular. They help monitor heart rate, steps, and even sleep patterns...",
+    "cover": "/images/blog2.jpg",
+    "tags": ["Health", "Wearables"],
+    "date": "2023-02-20"
+  },
+  {
+    "id": 3,
+    "title": "Smart TVs vs Traditional TVs",
+    "slug": "smart-vs-traditional-tvs",
+    "excerpt": "Is it time to upgrade to a smart TV? We break down the pros and cons.",
+    "content": "Smart TVs come with built-in apps, voice control, and internet connectivity. Traditional TVs, on the other hand, are often more affordable...",
+    "cover": "/images/blog3.jpg",
+    "tags": ["Entertainment", "TV"],
+    "date": "2023-03-15"
+  }
+]
