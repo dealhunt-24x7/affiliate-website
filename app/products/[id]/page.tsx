@@ -1,58 +1,42 @@
 import { getProductById } from "@/lib/products";
 import { notFound } from "next/navigation";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { ProductGallery } from "@/components/ProductGallery";
-import { SpecsTable } from "@/components/SpecsTable";
-import { formatCurrency, formatRating } from "@/lib/utils";
+import Image from "next/image";
+import { SpecsTable } from "@/components/SpecsTable"; // make sure file name is exactly SpecsTable.tsx
 
-interface ProductPageProps {
-  params: { id: string };
-}
-
-export default function ProductPage({ params }: ProductPageProps) {
-  const productId = parseInt(params.id, 10);
-  const product = getProductById(productId);
+export default function ProductPage({ params }: { params: { id: string } }) {
+  const product = getProductById(Number(params.id));
 
   if (!product) {
-    return notFound();
+    notFound();
   }
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <Breadcrumbs />
+    <div>
+      <h1 className="text-2xl font-bold mb-4">{product?.name}</h1>
+      <Image
+        src={product?.image || "/placeholder.png"}
+        alt={product?.name || "Product"}
+        width={400}
+        height={400}
+        className="rounded-md mb-4"
+      />
+      <p className="mb-4">{product?.description}</p>
+      <p className="mb-4 font-semibold">${product?.price}</p>
+      <a
+        href={product?.affiliateLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-blue-500 text-white px-4 py-2 rounded"
+      >
+        Buy Now
+      </a>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Product Images */}
-        <ProductGallery images={[product.image]} />
-
-        {/* Product Info */}
-        <div>
-          <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
-          <p className="text-gray-700 mb-4">{product.description}</p>
-
-          <p className="text-xl font-semibold text-blue-600 mb-2">
-            {formatCurrency(product.price)}
-          </p>
-          <p className="mb-4">{formatRating(product.rating)}</p>
-
-          <a
-            href={product.affiliateLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-          >
-            Buy Now
-          </a>
-        </div>
-      </div>
-
-      {/* Specifications */}
-      {product.specs && (
+      {product?.specs && (
         <div className="mt-8">
-          <h2 className="text-xl font-bold mb-4">Specifications</h2>
+          <h2 className="text-xl font-bold mb-2">Specifications</h2>
           <SpecsTable specs={product.specs} />
         </div>
       )}
-    </main>
+    </div>
   );
 }
