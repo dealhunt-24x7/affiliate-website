@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { HiMenu } from "react-icons/hi"; // Menu icon
 
