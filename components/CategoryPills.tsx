@@ -1,14 +1,32 @@
-const categories = ["Electronics", "Books", "Fashion", "Home", "Sports"];
+"use client";
 
-export function CategoryPills() {
+const categories = [
+  "Mobiles",
+  "Laptops",
+  "TVs",
+  "Headphones",
+  "Cameras",
+  "Watches",
+  "Appliances",
+  "Fashion",
+  "Beauty",
+  "Toys",
+  "Gaming",
+  "Grocery",
+  "Books",
+  "Fitness",
+  "Furniture",
+];
+
+export default function CategoryPills() {
   return (
-    <div className="flex space-x-2 mb-4">
-      {categories.map((category) => (
+    <div className="no-scrollbar flex gap-2 overflow-x-auto px-3 py-2">
+      {categories.map((c) => (
         <button
-          key={category}
-          className="bg-gray-200 rounded-full px-4 py-2 hover:bg-gray-300 transition"
+          key={c}
+          className="whitespace-nowrap rounded-full border px-4 py-2 text-sm hover:bg-gray-50"
         >
-          {category}
+          {c}
         </button>
       ))}
     </div>
