@@ -1,24 +1,30 @@
-import Link from "next/link"
-import { BlogPost } from "@/lib/types"
+import Link from "next/link";
+import { BlogPost } from "@/lib/types";
 
 export function BlogCard({ post }: { post: BlogPost }) {
   return (
-    <article className="border rounded-lg shadow-sm overflow-hidden">
+    <article className="border p-4 rounded-lg shadow-sm">
       <img
         src={post.cover}
         alt={post.title}
-        className="w-full h-48 object-cover"
+        className="w-full h-48 object-cover rounded-md mb-4"
       />
-      <div className="p-4">
-        <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-        <p className="text-gray-600 mb-4">{post.excerpt}</p>
-        <Link
-          href={`/blog/${post.slug}`}
-          className="text-blue-500 hover:underline"
-        >
-          Read more
-        </Link>
+      <h3 className="text-xl font-semibold mb-1">
+        <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+      </h3>
+      <p className="text-sm text-gray-500 mb-2">
+        {post.date} • {post.author}
+      </p>
+      <div className="flex flex-wrap gap-2">
+        {post.tags.map((t) => (
+          <span
+            key={t}
+            className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-700"
+          >
+            #{t}
+          </span>
+        ))}
       </div>
     </article>
-  )
+  );
 }
