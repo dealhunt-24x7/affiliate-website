@@ -1,30 +1,24 @@
-"use client";
-import React from "react";
-import ProductCard from "./ProductCard";
+import React, { useEffect, useRef } from "react";
+import ProductCard from "@/components/ProductCard"; // Assuming this exists
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  rating: number;
-}
+const HorizontalProductRow = ({ products }) => {
+  const rowRef = useRef(null);
 
-interface HorizontalProductRowProps {
-  title: string;
-  products: Product[];
-}
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (rowRef.current) {
+        rowRef.current.scrollLeft += 200; // Scroll distance
+      }
+    }, 3000); // Scroll interval
 
-const HorizontalProductRow: React.FC<HorizontalProductRowProps> = ({
-  title,
-  products,
-}) => {
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="mb-8">
-      <h3 className="text-xl font-semibold mb-3">{title}</h3>
-      <div className="no-scrollbar flex gap-3 overflow-x-auto px-3">
-        {products.slice(0, 25).map((p) => (
-          <ProductCard key={p.id} {...p} />
+    <section>
+      <div className="no-scrollbar flex gap-3 overflow-x-auto px-3" ref={rowRef}>
+        {products.slice(0, 25).map((product) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </section>
