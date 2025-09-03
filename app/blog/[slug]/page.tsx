@@ -1,44 +1,46 @@
+import { getBlogPostBySlug, getAllBlogPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
-import { getBlogPostBySlug } from "@/lib/blog";
+import Image from "next/image";
 
-interface BlogPostPageProps {
-  params: { slug: string };
+export async function generateStaticParams() {
+  const posts = getAllBlogPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
+export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = getBlogPostBySlug(params.slug);
 
   if (!post) {
-    return notFound();
+    notFound();
   }
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <article className="prose max-w-none">
-        <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-        <p className="text-sm text-gray-500 mb-6">
-          {new Date(post.date).toLocaleDateString()}
-        </p>
-        <img
-          src={post.cover}
-          alt={post.title}
-          className="w-full h-64 object-cover rounded-lg mb-6"
-        />
-        <div
-          className="text-lg text-gray-700"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-        <div className="mt-4">
-          {post.tags.map((tag) => (
-            <span
-              key={tag}
-              className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-700 mr-2"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-      </article>
-    </main>
+    <div className="max-w-3xl mx-auto py-8">
+      <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
+      <p className="text-gray-600 mb-2">By {post.author}</p>
+      <p className="text-gray-500 mb-6">{post.date}</p>
+      <Image
+        src={post.image || "/placeholder.png"}
+        alt={post.title}
+        width={800}
+        height={400}
+        className="rounded-md mb-6"
+      />
+      <div className="prose max-w-none">
+        <p>{post.content}</p>
+      </div>
+      <div className="mt-4">
+        {post.tags.map((tag: string) => (
+          <span
+            key={tag}
+            className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-700 mr-2"
+          >
+            #{tag}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }
