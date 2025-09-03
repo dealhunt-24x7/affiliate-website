@@ -1,39 +1,62 @@
-import Header from "@/components/Header";
 import CategoryPills from "@/components/CategoryPills";
-import DealsCarousel from "@/components/DealsCarousel";
-import HorizontalProductRow from "@/components/HorizontalProductRow";
-import Footer from "@/components/Footer";
-import FloatingButtons from "@/components/FloatingButtons";
-import { getProducts } from "@/lib/products";
-import { Product } from "@/lib/types";
+import ProductCard from "@/components/ProductCard";
 
-export default async function HomePage() {
-  const products = await getProducts();
-  const categories = Array.from(new Set(products.map((p) => p.category))).slice(0, 15);
+const sampleProducts = [
+  {
+    name: "iPhone 15",
+    description: "Latest Apple smartphone with A16 chip",
+    image: "https://via.placeholder.com/400x300",
+    rating: 5,
+  },
+  {
+    name: "Samsung Galaxy S23",
+    description: "High-end Android flagship with powerful performance",
+    image: "https://via.placeholder.com/400x300",
+    rating: 4,
+  },
+  {
+    name: "Dell XPS 15",
+    description: "Premium laptop with sleek design",
+    image: "https://via.placeholder.com/400x300",
+    rating: 5,
+  },
+  {
+    name: "Nike Air Max",
+    description: "Stylish and comfortable sneakers",
+    image: "https://via.placeholder.com/400x300",
+    rating: 4,
+  },
+];
 
-  const deals = products.slice(0, 10).map((p) => ({
-    id: p.id,
-    title: p.name,
-    image: p.images[0] || "/images/sample-1.jpg",
-  }));
-
-  const byCategory: Record<string, Product[]> = {};
-  categories.forEach((c) => {
-    byCategory[c] = products.filter((p) => p.category === c).slice(0, 25);
-  });
-
+export default function HomePage() {
   return (
-    <main>
-      <Header />
+    <div>
+      {/* Category Pills */}
       <CategoryPills />
-      <section className="mt-2">
-        <DealsCarousel items={deals} />
+
+      {/* Deal of the Day / Hero Section */}
+      <section className="px-4 py-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center">
+        <h1 className="text-2xl md:text-4xl font-bold">Deal of the Day</h1>
+        <p className="mt-2 text-sm md:text-base">
+          Grab the best offers before they expire!
+        </p>
       </section>
-      {categories.map((c) => (
-        <HorizontalProductRow key={c} title={c} products={byCategory[c]} />
-      ))}
-      <Footer />
-      <FloatingButtons />
-    </main>
+
+      {/* Product Grid */}
+      <section className="max-w-7xl mx-auto px-4 py-8">
+        <h2 className="text-xl font-semibold mb-4">Trending Products</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {sampleProducts.map((product, idx) => (
+            <ProductCard
+              key={idx}
+              name={product.name}
+              description={product.description}
+              image={product.image}
+              rating={product.rating}
+            />
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }
