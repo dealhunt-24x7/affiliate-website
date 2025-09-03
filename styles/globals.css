@@ -2,11 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global custom styles */
-body {
-  @apply bg-gray-50 text-gray-900;
+/* 🌍 Global Styles */
+html, body {
+  @apply bg-gray-50 text-gray-900 antialiased;
+  scroll-behavior: smooth;
 }
 
-a {
-  @apply text-blue-600 hover:underline;
+/* 🔹 Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* 🔹 Category Pills (Horizontal Scroll) */
+.category-scroll {
+  @apply flex space-x-4 overflow-x-auto no-scrollbar px-4 py-2;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 🔹 Deal Carousel Animations */
+.deal-slide {
+  animation: slide-left 20s linear infinite;
+}
+@keyframes slide-left {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* 🔹 Floating Buttons */
+.floating-btn {
+  @apply fixed bottom-5 right-5 z-50 p-4 rounded-full shadow-lg cursor-pointer bg-blue-600 text-white transition-transform;
+}
+.floating-btn:hover {
+  transform: scale(1.1);
+  @apply bg-blue-700;
+}
+
+/* 🔹 Smooth Card Hover */
+.product-card {
+  @apply transition-transform duration-200 ease-in-out hover:scale-105 hover:shadow-lg;
+}
+
+/* 🔹 Dark Mode Support */
+.dark body {
+  @apply bg-gray-900 text-gray-100;
+}
+.dark .product-card {
+  @apply bg-gray-800;
 }
