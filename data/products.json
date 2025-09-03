@@ -1,45 +1,47 @@
 [
   {
     "id": 1,
-    "name": "Smartphone X",
-    "description": "High performance smartphone with great camera.",
-    "price": 699,
-    "image": "/images/product1.jpg",
-    "affiliateLink": "https://example.com/product1",
-    "category": "Electronics",
+    "name": "iPhone 15 Pro",
+    "description": "The latest Apple flagship with A17 Bionic chip, titanium body, and advanced camera system.",
+    "price": 1199,
+    "image": "/images/products/iphone15pro.jpg",
+    "affiliateLink": "https://example.com/iphone15pro",
     "specs": {
-      "Display": "6.5-inch OLED",
-      "Processor": "Octa-core 3.0GHz",
-      "RAM": "8GB",
-      "Storage": "128GB"
+      "Display": "6.1-inch Super Retina XDR",
+      "Processor": "A17 Pro Bionic",
+      "Camera": "48MP + 12MP + 12MP",
+      "Battery": "3200mAh",
+      "Storage": "128GB / 256GB / 512GB"
     }
   },
   {
     "id": 2,
-    "name": "Wireless Headphones",
-    "description": "Noise-cancelling wireless headphones with long battery life.",
-    "price": 199,
-    "image": "/images/product2.jpg",
-    "affiliateLink": "https://example.com/product2",
-    "category": "Electronics",
+    "name": "Samsung Galaxy S25 Ultra",
+    "description": "Samsung’s top-tier phone with Snapdragon 8 Gen 4, S-Pen, and 200MP camera.",
+    "price": 1299,
+    "image": "/images/products/galaxys25ultra.jpg",
+    "affiliateLink": "https://example.com/galaxys25ultra",
     "specs": {
-      "Battery Life": "30 hours",
-      "Connectivity": "Bluetooth 5.0",
-      "Weight": "250g"
+      "Display": "6.8-inch Dynamic AMOLED 2X",
+      "Processor": "Snapdragon 8 Gen 4",
+      "Camera": "200MP + 12MP + 10MP + 10MP",
+      "Battery": "5000mAh",
+      "Storage": "256GB / 512GB / 1TB"
     }
   },
   {
     "id": 3,
-    "name": "Smartwatch Z",
-    "description": "Feature-rich smartwatch with health tracking.",
-    "price": 299,
-    "image": "/images/product3.jpg",
-    "affiliateLink": "https://example.com/product3",
-    "category": "Wearables",
+    "name": "MacBook Air M3",
+    "description": "Ultra-thin laptop powered by Apple’s M3 chip for blazing-fast performance.",
+    "price": 1399,
+    "image": "/images/products/macbookairm3.jpg",
+    "affiliateLink": "https://example.com/macbookairm3",
     "specs": {
-      "Display": "1.6-inch AMOLED",
-      "Battery Life": "7 days",
-      "Water Resistance": "5 ATM"
+      "Display": "13.6-inch Liquid Retina",
+      "Processor": "Apple M3",
+      "RAM": "8GB / 16GB",
+      "Battery": "18 hours",
+      "Storage": "256GB / 512GB / 1TB"
     }
   }
 ]
