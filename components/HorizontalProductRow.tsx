@@ -1,15 +1,34 @@
-import ProductCard from "@/components/ProductCard";
-import { Product } from "@/lib/types";
+"use client";
+import React from "react";
+import ProductCard from "./ProductCard";
 
-export default function HorizontalProductRow({ title, products }: { title: string; products: Product[] }) {
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  rating: number;
+}
+
+interface HorizontalProductRowProps {
+  title: string;
+  products: Product[];
+}
+
+const HorizontalProductRow: React.FC<HorizontalProductRowProps> = ({
+  title,
+  products,
+}) => {
   return (
-    <section className="my-6">
-      <div className="mb-2 px-3 text-lg font-semibold">{title}</div>
+    <section className="mb-8">
+      <h3 className="text-xl font-semibold mb-3">{title}</h3>
       <div className="no-scrollbar flex gap-3 overflow-x-auto px-3">
         {products.slice(0, 25).map((p) => (
-          <ProductCard key={p.id} product={p} />
+          <ProductCard key={p.id} {...p} />
         ))}
       </div>
     </section>
   );
-}
+};
+
+export default HorizontalProductRow;
