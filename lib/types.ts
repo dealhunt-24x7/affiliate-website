@@ -3,7 +3,7 @@ export type Product = {
   name: string
   description: string
   price: number
-  image?: string
+  image: string
   affiliateLink: string
   specs?: Record<string, string>
   rating?: number
@@ -15,7 +15,7 @@ export type BlogPost = {
   slug: string
   excerpt: string
   content: string
-  cover: string
+  image: string
   date: string
   author: string
   tags: string[]
