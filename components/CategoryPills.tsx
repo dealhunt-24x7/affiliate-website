@@ -1,18 +1,19 @@
 "use client";
 
-import React from "react";
+type CategoryPillsProps = {
+  categories: string[];
+};
 
-const categories = [
-  "Mobile", "Laptop", "Headphones", "Watches", "Electronic", "Fashion",
-  "Men", "Women", "Kids", "Footwear", "Home appliance", "Sports",
-  "Jewellery", "Kitchen", "Home decor", "Study", "Others"
-];
-
-const CategoryPills = () => {
+const CategoryPills = ({ categories }: CategoryPillsProps) => {
   return (
-    <div className="flex flex-wrap justify-center">
-      {categories.map((category, index) => (
-        <div key={index} className="category-pill">{category}</div>
+    <div className="flex flex-wrap gap-2">
+      {categories.map((cat, idx) => (
+        <span
+          key={idx}
+          className="cursor-pointer rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700 hover:bg-blue-200"
+        >
+          {cat}
+        </span>
       ))}
     </div>
   );
