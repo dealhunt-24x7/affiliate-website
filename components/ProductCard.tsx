@@ -1,37 +1,41 @@
-import { Star } from "lucide-react";
+import Image from "next/image";
 
-interface ProductCardProps {
+export interface Product {
+  id: number;
   name: string;
-  description: string;
+  description?: string;
   image: string;
-  rating: number;
+  price?: number;
+  rating?: number;
 }
 
-export default function ProductCard({ name, description, image, rating }: ProductCardProps) {
+interface ProductCardProps {
+  product: Product;
+}
+
+export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <div className="border rounded-lg shadow hover:shadow-lg transition bg-white">
-      <img
-        src={image}
-        alt={name}
-        className="w-full h-48 object-cover rounded-t-lg"
+    <div className="border rounded-lg p-4 shadow hover:shadow-lg transition">
+      <Image
+        src={product.image}
+        alt={product.name}
+        width={300}
+        height={200}
+        className="w-full h-40 object-cover rounded-md mb-3"
       />
-      <div className="p-4">
-        <h3 className="font-semibold text-gray-800 truncate">{name}</h3>
-        <p className="text-sm text-gray-500 mb-2 truncate">{description}</p>
-        <div className="flex items-center space-x-1">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star
-              key={i}
-              className={`h-4 w-4 ${
-                i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-              }`}
-            />
-          ))}
-        </div>
-        <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
-          Compare
-        </button>
-      </div>
+      <h3 className="font-semibold text-lg mb-1">{product.name}</h3>
+      {product.description && (
+        <p className="text-sm text-gray-500 mb-2">{product.description}</p>
+      )}
+      {product.price && (
+        <p className="text-primary font-bold mb-2">₹{product.price}</p>
+      )}
+      {product.rating && (
+        <p className="text-yellow-500">⭐ {product.rating}/5</p>
+      )}
+      <button className="mt-2 bg-blue-600 text-white px-3 py-1 rounded-lg">
+        Compare
+      </button>
     </div>
   );
 }
