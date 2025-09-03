@@ -7,7 +7,9 @@
     "content": "Smartphones in 2025 are more powerful than ever. In this post, we cover the best options for performance, camera quality, and price.",
     "cover": "/images/blog/smartphones.jpg",
     "date": "2025-09-01",
-    "tags": ["tech", "smartphones", "gadgets"]
+    "tags": ["tech", "smartphones", "gadgets"],
+    "author": "John Doe",
+    "image": "/images/blog/smartphones-banner.jpg"
   },
   {
     "id": 2,
@@ -17,7 +19,9 @@
     "content": "If you’re looking for a reliable laptop that fits your budget, these are the best options under $1000 in 2025.",
     "cover": "/images/blog/laptops.jpg",
     "date": "2025-08-20",
-    "tags": ["tech", "laptops", "budget"]
+    "tags": ["tech", "laptops", "budget"],
+    "author": "Jane Smith",
+    "image": "/images/blog/laptops-banner.jpg"
   },
   {
     "id": 3,
@@ -27,6 +31,8 @@
     "content": "From smart lights to voice assistants, these gadgets make your home smarter and more convenient.",
     "cover": "/images/blog/smart-home.jpg",
     "date": "2025-07-15",
-    "tags": ["home", "gadgets", "iot"]
+    "tags": ["home", "gadgets", "iot"],
+    "author": "Michael Brown",
+    "image": "/images/blog/smart-home-banner.jpg"
   }
 ]
