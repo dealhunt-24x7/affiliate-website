@@ -1,41 +1,24 @@
-import Image from "next/image";
-
-export interface Product {
-  id: number;
-  name: string;
-  description?: string;
-  image: string;
-  price?: number;
-  rating?: number;
-}
+"use client";
+import React from "react";
 
 interface ProductCardProps {
-  product: Product;
+  name: string;
+  description: string;
+  image: string;
+  rating: number;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+const ProductCard: React.FC<ProductCardProps> = ({ name, description, image, rating }) => {
   return (
-    <div className="border rounded-lg p-4 shadow hover:shadow-lg transition">
-      <Image
-        src={product.image}
-        alt={product.name}
-        width={300}
-        height={200}
-        className="w-full h-40 object-cover rounded-md mb-3"
-      />
-      <h3 className="font-semibold text-lg mb-1">{product.name}</h3>
-      {product.description && (
-        <p className="text-sm text-gray-500 mb-2">{product.description}</p>
-      )}
-      {product.price && (
-        <p className="text-primary font-bold mb-2">₹{product.price}</p>
-      )}
-      {product.rating && (
-        <p className="text-yellow-500">⭐ {product.rating}/5</p>
-      )}
-      <button className="mt-2 bg-blue-600 text-white px-3 py-1 rounded-lg">
-        Compare
-      </button>
+    <div className="border rounded-lg shadow-sm p-4 flex flex-col">
+      <img src={image} alt={name} className="w-full h-40 object-cover rounded-md mb-3" />
+      <h4 className="font-semibold text-lg mb-1">{name}</h4>
+      <p className="text-sm text-gray-600 mb-2">{description}</p>
+      <div className="flex items-center text-yellow-500">
+        {"⭐".repeat(rating)}
+      </div>
     </div>
   );
-}
+};
+
+export default ProductCard;
