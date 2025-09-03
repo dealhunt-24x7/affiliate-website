@@ -5,20 +5,17 @@ import { SpecsTable } from "@/components/SpecsTable";
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const product = getProductById(Number(params.id));
-
-  if (!product) {
-    notFound();
-  }
+  if (!product) notFound();
 
   return (
-    <div>
+    <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
       <Image
         src={product.image || "/placeholder.png"}
         alt={product.name}
-        width={400}
+        width={600}
         height={400}
-        className="rounded-md mb-4"
+        className="rounded-md mb-4 w-full h-auto"
       />
       <p className="mb-4">{product.description}</p>
       <p className="mb-4 font-semibold">${product.price}</p>
@@ -26,17 +23,14 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         href={product.affiliateLink}
         target="_blank"
         rel="noopener noreferrer"
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="inline-block bg-blue-600 text-white px-4 py-2 rounded"
       >
         Buy Now
       </a>
-
-      {product.specs && (
-        <div className="mt-8">
-          <h2 className="text-xl font-bold mb-2">Specifications</h2>
-          <SpecsTable specs={product.specs} />
-        </div>
-      )}
+      <div className="mt-8">
+        <h2 className="text-xl font-bold mb-2">Specifications</h2>
+        <SpecsTable specs={product.specs} />
+      </div>
     </div>
   );
 }
