@@ -1,4 +1,4 @@
-export interface Product {
+export type Product = {
   id: number;
   name: string;
   description: string;
@@ -6,14 +6,15 @@ export interface Product {
   image: string;
   affiliateLink: string;
   specs?: Record<string, string>;
-}
+};
 
-export interface BlogPost {
+export type BlogPost = {
+  id: number;
   slug: string;
   title: string;
-  author: string;
-  date: string;
+  excerpt: string;
   content: string;
-  image?: string;
+  cover: string;
+  date: string;
   tags: string[];
-}
+};
