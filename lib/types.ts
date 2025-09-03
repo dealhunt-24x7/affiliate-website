@@ -1,13 +1,3 @@
-export type Product = {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  affiliateLink: string;
-  specs?: Record<string, string>;
-};
-
 export type BlogPost = {
   id: number;
   slug: string;
@@ -17,4 +7,16 @@ export type BlogPost = {
   cover: string;
   date: string;
   tags: string[];
+  author: string;
+  image?: string;
+};
+
+export type Product = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  affiliateLink: string;
+  specs?: Record<string, string>;
 };
