@@ -3,17 +3,15 @@ import React from "react";
 
 interface CategoryPillsProps {
   categories: string[];
-  onSelect?: (category: string) => void;
 }
 
-const CategoryPills: React.FC<CategoryPillsProps> = ({ categories, onSelect }) => {
+const CategoryPills: React.FC<CategoryPillsProps> = ({ categories }) => {
   return (
-    <div className="flex flex-wrap gap-2">
-      {categories.map((cat, idx) => (
+    <div className="flex gap-2 overflow-x-auto no-scrollbar">
+      {categories.map((cat, i) => (
         <button
-          key={idx}
-          onClick={() => onSelect && onSelect(cat)}
-          className="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-sm"
+          key={i}
+          className="px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 whitespace-nowrap"
         >
           {cat}
         </button>
