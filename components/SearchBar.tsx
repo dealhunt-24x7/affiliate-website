@@ -1,31 +1,24 @@
 "use client";
+import React from "react";
 
-import { useState } from "react";
+interface SearchBarProps {
+  onSearch?: (query: string) => void;
+}
 
-export function SearchBar() {
-  const [query, setQuery] = useState("");
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Implement search logic here
-    console.log("Searching for:", query);
-  };
-
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   return (
-    <form onSubmit={handleSearch} className="flex items-center">
+    <div className="w-full flex">
       <input
         type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
         placeholder="Search products..."
-        className="border border-gray-300 rounded-l-md p-2 w-full"
+        className="flex-1 border px-4 py-2 rounded-l-lg"
+        onChange={(e) => onSearch && onSearch(e.target.value)}
       />
-      <button
-        type="submit"
-        className="bg-blue-500 text-white rounded-r-md p-2"
-      >
+      <button className="bg-blue-600 text-white px-4 py-2 rounded-r-lg">
         Search
       </button>
-    </form>
+    </div>
   );
-}
+};
+
+export default SearchBar;
