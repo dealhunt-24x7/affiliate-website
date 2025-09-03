@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef } from "react";
 import ProductCard from "@/components/ProductCard"; // Assuming this exists
 
