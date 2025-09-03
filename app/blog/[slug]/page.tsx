@@ -1,9 +1,9 @@
-import { getBlogPostBySlug, getAllBlogPosts } from "@/lib/blog";
+import { getBlogPostBySlug, getBlogPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
 export async function generateStaticParams() {
-  const posts = getAllBlogPosts();
+  const posts = getBlogPosts(); // ✅ Corrected
   return posts.map((post) => ({
     slug: post.slug,
   }));
