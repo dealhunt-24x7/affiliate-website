@@ -1,7 +1,7 @@
 import { getProductById } from "@/lib/products";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { SpecsTable } from "@/components/SpecsTable"; // make sure file name is exactly SpecsTable.tsx
+import { SpecsTable } from "@/components/SpecsTable";
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const product = getProductById(Number(params.id));
