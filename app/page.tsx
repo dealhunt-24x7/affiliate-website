@@ -1,20 +1,57 @@
-import React from "react";
+"use client";
+
 import CategoryPills from "@/components/CategoryPills";
 import HorizontalProductRow from "@/components/HorizontalProductRow";
-import FloatingButtons from "@/components/FloatingButtons";
-import { getProducts } from "@/lib/products";
 
-const Page = async () => {
-  const products = await getProducts();
+const categories = [
+  "Mobile",
+  "Laptop",
+  "Headphones",
+  "Watches",
+  "Electronic",
+  "Fashion",
+  "Men",
+  "Women",
+  "Kids",
+  "Footwear",
+  "Home appliance",
+  "Sports",
+  "Jwellery",
+  "Kitchen",
+  "Home decor",
+  "Study",
+  "Others",
+];
+
+function generateProducts(category: string) {
+  return Array.from({ length: 25 }).map((_, idx) => ({
+    id: idx + 1,
+    name: `${category} Product ${idx + 1}`,
+    description: `This is a sample ${category} product.`,
+    image: "/placeholder.png",
+  }));
+}
+
+export default function HomePage() {
+  const dealOfTheDay = generateProducts("Deal of the Day");
 
   return (
-    <div>
-      {/* Category Pills */}
+    <div className="px-4">
       <section className="mb-8">
-        <CategoryPills />
+        <CategoryPills categories={categories} />
       </section>
 
-      {/* Deal of the Day */}
-      <HorizontalProductRow products={products} />
+      <section className="mb-8">
+        <h2 className="mb-3 text-xl font-bold text-blue-600">Deal of the Day</h2>
+        <HorizontalProductRow products={dealOfTheDay} />
+      </section>
 
-      {/* Category-wise Products
+      {categories.map((cat, idx) => (
+        <section key={idx} className="mb-8">
+          <h2 className="mb-3 text-lg font-semibold text-gray-700">{cat}</h2>
+          <HorizontalProductRow products={generateProducts(cat)} />
+        </section>
+      ))}
+    </div>
+  );
+}
