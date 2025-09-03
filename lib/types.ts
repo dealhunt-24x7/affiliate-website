@@ -1,22 +1,23 @@
 export type Product = {
-  id: number
-  name: string
-  description: string
-  price: number
-  image: string
-  affiliateLink: string
-  specs?: Record<string, string>
-  rating?: number
-}
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  price: number;
+  rating: number;
+  specs: Record<string, string>;
+  image: string;
+  affiliateLink: string;
+};
 
 export type BlogPost = {
-  id: string
-  title: string
-  slug: string
-  excerpt: string
-  content: string
-  image: string
-  date: string
-  author: string
-  tags: string[]
-}
+  id: number;
+  title: string;
+  slug: string;
+  date: string;
+  author: string;
+  content: string;
+  image: string;
+  cover: string;
+  tags: string[];
+};
