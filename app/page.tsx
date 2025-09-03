@@ -1,11 +1,26 @@
-import CategoryPills from "@/components/CategoryPills";
+"use client";
+import React from "react";
 import ProductCard from "@/components/ProductCard";
+import HorizontalProductRow from "@/components/HorizontalProductRow";
+import CategoryPills from "@/components/CategoryPills";
 
-const categories = ["Electronics", "Fashion", "Home", "Sports", "Books"];
+const categories = ["Mobiles", "Laptops", "Headphones", "Watches", "Shoes"];
 
-const featuredProducts = [
-  { name: "Smartphone", description: "Latest 5G phone", image: "/images/phone.jpg", rating: 5 },
-  { name: "Running Shoes", description: "Comfortable & durable", image: "/images/shoes.jpg", rating: 4 },
+const products = [
+  {
+    id: 1,
+    name: "iPhone 15",
+    description: "Latest Apple iPhone with A17 chip",
+    image: "/iphone.jpg",
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "MacBook Pro",
+    description: "Apple M3 Pro chip, 14-inch Retina Display",
+    image: "/macbook.jpg",
+    rating: 5,
+  },
 ];
 
 export default function HomePage() {
@@ -16,15 +31,15 @@ export default function HomePage() {
         <CategoryPills categories={categories} />
       </section>
 
-      {/* Featured Products */}
-      <section>
-        <h2 className="text-xl font-bold mb-4">Featured Products</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {featuredProducts.map((p, idx) => (
-            <ProductCard key={idx} name={p.name} description={p.description} image={p.image} rating={p.rating} />
-          ))}
-        </div>
-      </section>
+      {/* Featured Row */}
+      <HorizontalProductRow title="Featured Deals" products={products} />
+
+      {/* Example of Single ProductCard */}
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+        {products.map((p) => (
+          <ProductCard key={p.id} {...p} />
+        ))}
+      </div>
     </main>
   );
 }
