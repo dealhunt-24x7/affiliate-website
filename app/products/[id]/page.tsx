@@ -1,7 +1,7 @@
 import { getProductById } from "@/lib/products";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { SpecsTable } from "../../../components/SpecsTable";
+import { SpecsTable } from "@/components/SpecsTable";
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const product = getProductById(Number(params.id));
@@ -12,18 +12,18 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">{product?.name}</h1>
+      <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
       <Image
-        src={product?.image || "/placeholder.png"}
-        alt={product?.name || "Product"}
+        src={product.image || "/placeholder.png"}
+        alt={product.name}
         width={400}
         height={400}
         className="rounded-md mb-4"
       />
-      <p className="mb-4">{product?.description}</p>
-      <p className="mb-4 font-semibold">${product?.price}</p>
+      <p className="mb-4">{product.description}</p>
+      <p className="mb-4 font-semibold">${product.price}</p>
       <a
-        href={product?.affiliateLink}
+        href={product.affiliateLink}
         target="_blank"
         rel="noopener noreferrer"
         className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -31,7 +31,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         Buy Now
       </a>
 
-      {product?.specs && (
+      {product.specs && (
         <div className="mt-8">
           <h2 className="text-xl font-bold mb-2">Specifications</h2>
           <SpecsTable specs={product.specs} />
