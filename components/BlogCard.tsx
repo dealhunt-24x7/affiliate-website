@@ -3,15 +3,21 @@ import { BlogPost } from "@/lib/types";
 
 export function BlogCard({ post }: { post: BlogPost }) {
   return (
-    <div className="border rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-      <img src={post.cover} alt={post.title} className="w-full h-40 object-cover" />
-      <div className="p-4">
-        <h3 className="text-lg font-semibold">{post.title}</h3>
-        <p className="text-sm text-gray-600 mb-2">{post.excerpt}</p>
-        <Link href={`/blog/${post.slug}`} className="text-blue-600 hover:underline">
-          Read More →
-        </Link>
-      </div>
+    <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition">
+      <Link href={`/blog/${post.slug}`}>
+        <h2 className="text-xl font-bold mb-2">{post.title}</h2>
+        {post.image && (
+          <img
+            src={post.image}
+            alt={post.title}
+            className="rounded mb-2 w-full h-48 object-cover"
+          />
+        )}
+        <p className="text-sm text-gray-600 mb-2">
+          By {post.author} • {new Date(post.date).toLocaleDateString()}
+        </p>
+        <p className="text-gray-700">{post.content.slice(0, 100)}...</p>
+      </Link>
     </div>
   );
 }
