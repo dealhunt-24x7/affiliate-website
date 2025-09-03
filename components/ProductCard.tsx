@@ -1,33 +1,36 @@
-import Link from "next/link";
 import { Star } from "lucide-react";
-import { Product } from "@/lib/types";
 
-export default function ProductCard({ product }: { product: Product }) {
-  const ratingStars = Array.from({ length: 5 }).map((_, i) => i < Math.round(product.rating));
+interface ProductCardProps {
+  name: string;
+  description: string;
+  image: string;
+  rating: number;
+}
 
+export default function ProductCard({ name, description, image, rating }: ProductCardProps) {
   return (
-    <div className="w-56 shrink-0 rounded-xl border bg-white shadow-sm hover:shadow-md">
+    <div className="border rounded-lg shadow hover:shadow-lg transition bg-white">
       <img
-        src={product.images[0] || "/images/sample-1.jpg"}
-        alt={product.name}
-        className="h-40 w-full rounded-t-xl object-cover"
+        src={image}
+        alt={name}
+        className="w-full h-48 object-cover rounded-t-lg"
       />
-      <div className="p-3">
-        <div className="line-clamp-2 text-sm font-medium">{product.name}</div>
-        <div className="mt-1 flex items-center gap-1">
-          {ratingStars.map((filled, i) => (
-            <Star key={i} size={14} className={filled ? "fill-yellow-400 text-yellow-400" : "text-gray-300"} />
+      <div className="p-4">
+        <h3 className="font-semibold text-gray-800 truncate">{name}</h3>
+        <p className="text-sm text-gray-500 mb-2 truncate">{description}</p>
+        <div className="flex items-center space-x-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star
+              key={i}
+              className={`h-4 w-4 ${
+                i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+              }`}
+            />
           ))}
-          <span className="ml-1 text-xs text-gray-500">({product.reviewsCount})</span>
         </div>
-        <div className="mt-3">
-          <Link
-            href={`/compare?ids=${product.id}`}
-            className="inline-flex w-full items-center justify-center rounded-md border px-3 py-1.5 text-sm hover:bg-gray-50"
-          >
-            Compare
-          </Link>
-        </div>
+        <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+          Compare
+        </button>
       </div>
     </div>
   );
