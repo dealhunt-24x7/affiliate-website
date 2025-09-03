@@ -3,18 +3,19 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  rating: number;
-  image: string;
+  image?: string;
   affiliateLink: string;
+  category?: string;
+  specs?: Record<string, string>; // ✅ Added specs property
 }
 
-export interface BlogPost {
+export interface Blog {
   id: number;
   title: string;
   slug: string;
-  excerpt: string;
   content: string;
-  cover: string;
-  tags: string[];
+  excerpt: string;
   date: string;
+  author: string;
+  image?: string;
 }
