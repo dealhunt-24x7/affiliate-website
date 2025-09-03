@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 export function SearchBar() {
@@ -5,6 +7,7 @@ export function SearchBar() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    // Implement search logic here
     console.log("Searching for:", query);
   };
 
@@ -17,7 +20,10 @@ export function SearchBar() {
         placeholder="Search products..."
         className="border border-gray-300 rounded-l-md p-2 w-full"
       />
-      <button type="submit" className="bg-blue-500 text-white rounded-r-md p-2">
+      <button
+        type="submit"
+        className="bg-blue-500 text-white rounded-r-md p-2"
+      >
         Search
       </button>
     </form>
