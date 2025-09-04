@@ -1,12 +1,11 @@
 "use client";
 
 import React from "react";
-import { BaseProduct } from "@/types/product";
+import { Product } from "@/types/product";
 
-// 👇 Bas id ko hata diya (Omit)
-type Props = Omit<BaseProduct, "id">;
+type Props = Product;
 
-const ProductCard: React.FC<Props> = ({ name, description, image }) => {
+const ProductCard: React.FC<Props> = ({ id, name, description, image }) => {
   return (
     <div className="border rounded-lg p-4 bg-white shadow hover:shadow-lg transition">
       <img
