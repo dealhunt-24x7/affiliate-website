@@ -1,27 +1,23 @@
 "use client";
 
 import React from "react";
-import ProductCard from "./ProductCard";
 import { BaseProduct } from "@/types/product";
 
-interface Props {
-  products: BaseProduct[];
-  title: string;
-}
+// 👇 Bas id ko hata diya (Omit)
+type Props = Omit<BaseProduct, "id">;
 
-const HorizontalProductRow: React.FC<Props> = ({ products, title }) => {
+const ProductCard: React.FC<Props> = ({ name, description, image }) => {
   return (
-    <section className="mb-8">
-      <h2 className="text-xl font-bold mb-3">{title}</h2>
-      <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-        {products.slice(0, 25).map((p, idx) => (
-          <div key={p.id ?? idx} className="min-w-[220px]">
-            <ProductCard product={p} />
-          </div>
-        ))}
-      </div>
-    </section>
+    <div className="border rounded-lg p-4 bg-white shadow hover:shadow-lg transition">
+      <img
+        src={image}
+        alt={name}
+        className="w-full h-40 object-cover rounded mb-3"
+      />
+      <h3 className="font-bold text-sm">{name}</h3>
+      <p className="text-xs text-gray-500">{description}</p>
+    </div>
   );
 };
 
-export default HorizontalProductRow;
+export default ProductCard;
