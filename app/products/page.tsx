@@ -30,7 +30,6 @@ export default function ProductsPage() {
       <section className="mb-6">
         <CategoryPills categories={categories} />
       </section>
-
       {categories.map((cat, idx) => (
         <CategoryRow key={idx} category={cat} />
       ))}
