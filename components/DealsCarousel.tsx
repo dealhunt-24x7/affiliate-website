@@ -1,46 +1,43 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React from "react";
+import ProductCard from "./ProductCard";
 
-type DealItem = {
+export type DealItem = {
   id: number;
-  title: string;
+  name: string;
+  description: string;
   image: string;
 };
 
-export default function DealsCarousel({ items }: { items: DealItem[] }) {
-  const [index, setIndex] = useState(0);
-  const timer = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    timer.current = setInterval(() => {
-      setIndex((i) => (i + 1) % items.length);
-    }, 2500);
-    return () => {
-      if (timer.current) clearInterval(timer.current);
-    };
-  }, [items.length]);
-
-  return (
-    <div className="relative mx-3 overflow-hidden rounded-xl border">
-      <div className="flex w-full">
-        <div className="block w-full md:hidden">
-          <img
-            src={items[index]?.image}
-            alt={items[index]?.title}
-            className="h-56 w-full object-cover"
-          />
-          <div className="p-3 text-sm font-medium">{items[index]?.title}</div>
-        </div>
-        <div className="hidden w-full grid-cols-5 gap-3 p-3 md:grid">
-          {items.slice(0, 10).map((it) => (
-            <div key={it.id} className="rounded-lg border">
-              <img src={it.image} alt={it.title} className="h-36 w-full rounded-t-lg object-cover" />
-              <div className="px-2 py-2 text-sm">{it.title}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+interface Props {
+  items?: DealItem[];
 }
+
+const DealsCarousel: React.FC<Props> = ({
+  items = [
+    { id: 1, name: "Deal 1", description: "Special Offer!", image: "/placeholder.png" },
+    { id: 2, name: "Deal 2", description: "Limited Time!", image: "/placeholder.png" },
+    { id: 3, name: "Deal 3", description: "Hot Deal!", image: "/placeholder.png" },
+    { id: 4, name: "Deal 4", description: "Best Seller!", image: "/placeholder.png" },
+    { id: 5, name: "Deal 5", description: "Trending Now!", image: "/placeholder.png" },
+  ],
+}) => {
+  return (
+    <section className="mb-6">
+      <h2 className="text-lg font-bold mb-3">🔥 Deal of the Day</h2>
+      <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+        {items.map((item) => (
+          <ProductCard
+            key={item.id}
+            name={item.name}
+            description={item.description}
+            image={item.image}
+          />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default DealsCarousel;
