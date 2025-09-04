@@ -1,27 +1,24 @@
 "use client";
 
 import React from "react";
-import ProductCard from "./ProductCard";
-import { BaseProduct } from "@/types/product";
 
-interface Props {
-  products: BaseProduct[];
-  title: string;
-}
+type Props = {
+  categories: string[];
+};
 
-const HorizontalProductRow: React.FC<Props> = ({ products, title }) => {
+const CategoryPills: React.FC<Props> = ({ categories }) => {
   return (
-    <section className="mb-8">
-      <h2 className="text-xl font-bold mb-3">{title}</h2>
-      <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-        {products.slice(0, 25).map((p, idx) => (
-          <div key={p.id ?? idx} className="min-w-[220px]">
-            <ProductCard product={p} />
-          </div>
-        ))}
-      </div>
-    </section>
+    <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+      {categories.map((cat, idx) => (
+        <button
+          key={idx}
+          className="px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-sm font-medium"
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
   );
 };
 
-export default HorizontalProductRow;
+export default CategoryPills;
