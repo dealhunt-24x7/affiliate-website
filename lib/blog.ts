@@ -1,48 +1,38 @@
-import { BlogPost } from "./types";
+export type BlogPost = {
+  slug: string;
+  title: string;
+  author: string;
+  date: string;
+  image?: string;
+  content: string;
+  tags: string[];
+};
 
-const posts: BlogPost[] = [
+const blogPosts: BlogPost[] = [
   {
-    id: 1,
-    title: "Best Wireless Headphones Under $100",
-    slug: "best-wireless-headphones-under-100",
-    date: "2025-01-10",
-    author: "Team DealHunt",
-    content:
-      "In this guide, we compare the best budget wireless headphones. We looked at comfort, ANC, battery life and value.",
-    image: "/images/blog/headphones-hero.jpg",
-    cover: "/images/blog/headphones-cover.jpg",
-    tags: ["audio", "headphones", "budget"]
+    slug: "best-deals-september",
+    title: "Best Deals to Grab in September",
+    author: "Dealhunt Team",
+    date: "2025-09-01",
+    image: "/placeholder.png",
+    content: "Here are the hottest deals you can grab in September...",
+    tags: ["deals", "september", "shopping"],
   },
   {
-    id: 2,
-    title: "Smartwatch Buying Guide 2025",
-    slug: "smartwatch-buying-guide-2025",
-    date: "2025-01-15",
-    author: "Team DealHunt",
-    content:
-      "This guide explains key smartwatch features like GPS, battery life, health sensors and app ecosystem.",
-    image: "/images/blog/smartwatch-hero.jpg",
-    cover: "/images/blog/smartwatch-cover.jpg",
-    tags: ["wearables", "smartwatch"]
+    slug: "how-to-save-money-online",
+    title: "How to Save Money on Online Shopping",
+    author: "Dealhunt Experts",
+    date: "2025-08-20",
+    image: "/placeholder.png",
+    content: "Saving money online is easier than ever if you follow these tips...",
+    tags: ["shopping", "savings", "guide"],
   },
-  {
-    id: 3,
-    title: "Portable Speakers: What Matters Most",
-    slug: "portable-speakers-what-matters-most",
-    date: "2025-01-20",
-    author: "Team DealHunt",
-    content:
-      "We break down sound quality, waterproofing, battery and form factor to help you choose a great portable speaker.",
-    image: "/images/blog/speaker-hero.jpg",
-    cover: "/images/blog/speaker-cover.jpg",
-    tags: ["audio", "speakers", "guides"]
-  }
 ];
 
-export function getBlogPosts(): BlogPost[] {
-  return posts;
+export function getAllBlogPosts(): BlogPost[] {
+  return blogPosts;
 }
 
-export function getBlogPostBySlug(slug: string): BlogPost | null {
-  return posts.find((p) => p.slug === slug) ?? null;
+export function getBlogPostBySlug(slug: string): BlogPost | undefined {
+  return blogPosts.find((post) => post.slug === slug);
 }
