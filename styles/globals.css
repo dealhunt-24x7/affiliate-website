@@ -1,4 +1,9 @@
-/* globals.css */
+/* Tailwind Imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Styles */
 
 /* Body and Background */
 body {
