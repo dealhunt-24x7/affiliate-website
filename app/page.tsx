@@ -5,7 +5,6 @@ import CategoryRow from "@/components/CategoryRow";
 import ProductCard from "@/components/ProductCard";
 
 export default function HomePage() {
-  // Dummy products for Deal of the Day
   const dealProducts = Array.from({ length: 15 }).map((_, i) => ({
     id: i,
     name: `Deal Product ${i + 1}`,
@@ -35,7 +34,6 @@ export default function HomePage() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll effect
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -56,7 +54,6 @@ export default function HomePage() {
 
   return (
     <main className="px-4 md:px-8 py-6 bg-gray-50">
-      {/* Deal of the Day */}
       <section className="mb-10">
         <h2 className="text-2xl font-bold mb-4 text-blue-600">
           Deal of the Day
@@ -68,7 +65,6 @@ export default function HomePage() {
           {dealProducts.map((p) => (
             <ProductCard
               key={p.id}
-              id={p.id}
               name={p.name}
               description={p.description}
               image={p.image}
@@ -77,7 +73,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Categories */}
       {categories.map((cat, idx) => (
         <CategoryRow key={idx} category={cat} />
       ))}
