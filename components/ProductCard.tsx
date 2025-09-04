@@ -2,31 +2,34 @@
 
 import React from "react";
 
-export interface Product {
+export interface ProductCardProps {
   id: number;
   name: string;
   description: string;
   image: string;
+  rating?: number;
 }
 
-interface ProductCardProps {
-  product: Product;
-}
-
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  id,
+  name,
+  description,
+  image,
+  rating = 4,
+}) => {
   return (
-    <div className="min-w-[180px] max-w-[200px] rounded-xl border p-3 shadow-md bg-white">
+    <div
+      key={id}
+      className="w-48 bg-white shadow rounded-lg p-3 flex-shrink-0 hover:shadow-lg transition"
+    >
       <img
-        src={product.image}
-        alt={product.name}
-        className="h-32 w-full rounded-lg object-cover"
+        src={image}
+        alt={name}
+        className="w-full h-32 object-cover rounded"
       />
-      <h3 className="mt-2 text-sm font-semibold truncate">{product.name}</h3>
-      <p className="text-xs text-gray-500 truncate">{product.description}</p>
-
-      <button className="mt-2 w-full rounded-lg bg-blue-600 px-2 py-1 text-white text-xs hover:bg-blue-700">
-        Compare
-      </button>
+      <h3 className="mt-2 text-sm font-semibold truncate">{name}</h3>
+      <p className="text-xs text-gray-500 truncate">{description}</p>
+      <p className="text-yellow-500 text-xs mt-1">⭐ {rating}</p>
     </div>
   );
 };
