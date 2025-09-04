@@ -22,13 +22,17 @@ nav {
 }
 
 nav .brand {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 1px;
 }
 
 nav .tagline {
-  font-size: 0.875rem;
-  opacity: 0.8;
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 300;
+  opacity: 0.9;
 }
 
 /* Sidebar */
@@ -86,7 +90,7 @@ footer .social-icons a:hover {
   flex-wrap: nowrap;
 }
 
-/* Button */
+/* Buttons */
 button {
   background-color: #00c8ff;
   color: white;
@@ -101,6 +105,7 @@ button:hover {
   background-color: #009cc7;
 }
 
+/* Floating Buttons */
 .fab {
   position: fixed;
   bottom: 30px;
@@ -115,4 +120,40 @@ button:hover {
 
 .fab:hover {
   background-color: #009cc7;
+}
+
+.fab-home {
+  position: fixed;
+  bottom: 30px;
+  right: 90px; /* Cart ke left me */
+  border-radius: 50%;
+  padding: 15px;
+  background-color: #ff9800;
+  color: white;
+  font-size: 1.5rem;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.fab-home:hover {
+  background-color: #e68900;
+}
+
+/* Shop by Category (Round Placeholders) */
+.category-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.category-circle:hover {
+  background-color: #ddd;
 }
