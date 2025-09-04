@@ -1,33 +1,38 @@
-import SearchBar from "@/components/SearchBar";
+import { getProducts } from "@/lib/products";
+import CategoryPills from "@/components/CategoryPills";
 import FiltersSidebar from "@/components/FiltersSidebar";
 import SortBar from "@/components/SortBar";
+import SearchBar from "@/components/SearchBar";
 import ProductCard from "@/components/ProductCard";
 
-const products = [
-  { name: "Laptop", description: "Powerful gaming laptop", image: "/images/laptop.jpg", rating: 5 },
-  { name: "Headphones", description: "Noise-cancelling", image: "/images/headphones.jpg", rating: 4 },
-  { name: "Wrist Watch", description: "Stylish and modern", image: "/images/watch.jpg", rating: 5 },
-];
+export default async function ProductsPage() {
+  const products: any[] = await getProducts();
+  const categories = [
+    "Mobile","Laptop","Headphones","Watches","Electronic","Fashion","Men","Women","Kids",
+    "Footwear","Home appliance","Sports","Jwellery","Kitchen","Home decor","Study","Others"
+  ];
 
-export default function ProductsPage() {
   return (
-    <main className="p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
-      {/* Sidebar */}
-      <FiltersSidebar filters={["Under ₹1000", "Brand A", "Brand B"]} />
+    <div className="container mx-auto p-4">
+      <div className="mb-6">
+        <SearchBar />
+      </div>
 
-      {/* Products Section */}
-      <div className="lg:col-span-3">
-        <div className="flex flex-col gap-4">
-          <SearchBar />
+      <div className="mb-8">
+        <CategoryPills categories={categories} />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-6">
+        <FiltersSidebar />
+        <div>
           <SortBar />
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
-          {products.map((p, idx) => (
-            <ProductCard key={idx} name={p.name} description={p.description} image={p.image} rating={p.rating} />
-          ))}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
+            {products.map((p: any, idx: number) => (
+              <ProductCard key={p.id ?? idx} product={p} />
+            ))}
+          </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
