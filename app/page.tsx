@@ -3,9 +3,10 @@
 import React, { useEffect, useRef } from "react";
 import CategoryRow from "@/components/CategoryRow";
 import ProductCard from "@/components/ProductCard";
+import { Product } from "@/types/product";
 
 export default function HomePage() {
-  const dealProducts = Array.from({ length: 15 }).map((_, i) => ({
+  const dealProducts: Product[] = Array.from({ length: 15 }).map((_, i) => ({
     id: i,
     name: `Deal Product ${i + 1}`,
     description: "Best deal you can grab today!",
@@ -37,7 +38,6 @@ export default function HomePage() {
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-
     let scrollAmount = 0;
     const interval = setInterval(() => {
       if (el.scrollLeft >= el.scrollWidth - el.clientWidth) {
@@ -48,16 +48,13 @@ export default function HomePage() {
         el.scrollLeft += 2;
       }
     }, 30);
-
     return () => clearInterval(interval);
   }, []);
 
   return (
     <main className="px-4 md:px-8 py-6 bg-gray-50">
       <section className="mb-10">
-        <h2 className="text-2xl font-bold mb-4 text-blue-600">
-          Deal of the Day
-        </h2>
+        <h2 className="text-2xl font-bold mb-4 text-blue-600">Deal of the Day</h2>
         <div
           ref={scrollRef}
           className="flex gap-4 overflow-x-auto no-scrollbar pb-2"
@@ -65,6 +62,7 @@ export default function HomePage() {
           {dealProducts.map((p) => (
             <ProductCard
               key={p.id}
+              id={p.id}
               name={p.name}
               description={p.description}
               image={p.image}
@@ -72,7 +70,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
       {categories.map((cat, idx) => (
         <CategoryRow key={idx} category={cat} />
       ))}
