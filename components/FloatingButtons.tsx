@@ -1,19 +1,22 @@
 "use client";
+import { ShoppingCart, Home } from "lucide-react";
+import Link from "next/link";
 
-import React from "react";
-import { FaShoppingCart, FaHome } from "react-icons/fa";
-
-const FloatingButtons = () => {
+export default function FloatingButtons() {
   return (
-    <>
-      <button className="fab">
-        <FaHome />
-      </button>
-      <button className="fab mt-16">
-        <FaShoppingCart />
-      </button>
-    </>
+    <div className="fixed bottom-6 right-6 flex flex-col gap-4">
+      <Link
+        href="/"
+        className="fab flex items-center justify-center w-14 h-14 rounded-full bg-cyan-500 text-white shadow-lg"
+      >
+        <Home size={24} />
+      </Link>
+      <Link
+        href="/cart"
+        className="fab flex items-center justify-center w-14 h-14 rounded-full bg-blue-500 text-white shadow-lg"
+      >
+        <ShoppingCart size={24} />
+      </Link>
+    </div>
   );
-};
-
-export default FloatingButtons;
+}
