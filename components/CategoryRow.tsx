@@ -2,39 +2,26 @@
 
 import React from "react";
 import ProductCard from "./ProductCard";
+import { BaseProduct } from "@/types/product";
 
 interface Props {
-  category: string;
-  products?: { id: number; name: string; description: string; image: string }[];
+  products: BaseProduct[];
+  title: string;
 }
 
-const CategoryRow: React.FC<Props> = ({ category, products = [] }) => {
+const HorizontalProductRow: React.FC<Props> = ({ products, title }) => {
   return (
-    <section className="mb-6">
-      <h2 className="text-lg font-bold mb-3">{category}</h2>
+    <section className="mb-8">
+      <h2 className="text-xl font-bold mb-3">{title}</h2>
       <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-        {products.length > 0
-          ? products.map((p) => (
-              <ProductCard
-                key={p.id}
-                id={p.id}
-                name={p.name}
-                description={p.description}
-                image={p.image}
-              />
-            ))
-          : Array.from({ length: 25 }).map((_, idx) => (
-              <ProductCard
-                key={idx}
-                id={idx}
-                name={`Placeholder ${idx + 1}`}
-                description="Coming soon..."
-                image="/placeholder.png"
-              />
-            ))}
+        {products.slice(0, 25).map((p, idx) => (
+          <div key={p.id ?? idx} className="min-w-[220px]">
+            <ProductCard product={p} />
+          </div>
+        ))}
       </div>
     </section>
   );
 };
 
-export default CategoryRow;
+export default HorizontalProductRow;
