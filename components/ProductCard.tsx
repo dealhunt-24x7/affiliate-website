@@ -3,7 +3,7 @@
 import React from "react";
 
 export interface Product {
-  id?: number;
+  id: number;
   name: string;
   description: string;
   image: string;
@@ -15,15 +15,16 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <div className="border rounded-lg p-3 w-48 flex-shrink-0 bg-white shadow hover:shadow-md transition">
+    <div className="min-w-[180px] max-w-[200px] rounded-xl border p-3 shadow-md bg-white">
       <img
         src={product.image}
         alt={product.name}
-        className="w-full h-32 object-cover rounded"
+        className="h-32 w-full rounded-lg object-cover"
       />
-      <h3 className="text-sm font-semibold mt-2">{product.name}</h3>
-      <p className="text-xs text-gray-500">{product.description}</p>
-      <button className="mt-2 w-full bg-blue-500 text-white text-sm py-1 rounded hover:bg-blue-600">
+      <h3 className="mt-2 text-sm font-semibold truncate">{product.name}</h3>
+      <p className="text-xs text-gray-500 truncate">{product.description}</p>
+
+      <button className="mt-2 w-full rounded-lg bg-blue-600 px-2 py-1 text-white text-xs hover:bg-blue-700">
         Compare
       </button>
     </div>
