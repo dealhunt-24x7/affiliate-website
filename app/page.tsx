@@ -2,18 +2,17 @@
 
 import React, { useEffect, useRef } from "react";
 import CategoryRow from "@/components/CategoryRow";
-import ProductCard, { Product } from "@/components/ProductCard";
+import ProductCard from "@/components/ProductCard";
 
 export default function HomePage() {
-  // Dummy products
-  const dealProducts: Product[] = Array.from({ length: 15 }).map((_, i) => ({
+  // Dummy products for Deal of the Day
+  const dealProducts = Array.from({ length: 15 }).map((_, i) => ({
     id: i,
     name: `Deal Product ${i + 1}`,
     description: "Best deal you can grab today!",
     image: "/placeholder.png",
   }));
 
-  // Categories list
   const categories = [
     "Mobile",
     "Laptop",
@@ -27,7 +26,7 @@ export default function HomePage() {
     "Footwear",
     "Home appliance",
     "Sports",
-    "Jwellery",
+    "Jewellery",
     "Kitchen",
     "Home decor",
     "Study",
@@ -36,12 +35,12 @@ export default function HomePage() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll for deal of the day
+  // Auto-scroll effect
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    let scrollAmount = 0;
 
+    let scrollAmount = 0;
     const interval = setInterval(() => {
       if (el.scrollLeft >= el.scrollWidth - el.clientWidth) {
         scrollAmount = 0;
@@ -67,12 +66,18 @@ export default function HomePage() {
           className="flex gap-4 overflow-x-auto no-scrollbar pb-2"
         >
           {dealProducts.map((p) => (
-            <ProductCard key={p.id} product={p} />
+            <ProductCard
+              key={p.id}
+              id={p.id}
+              name={p.name}
+              description={p.description}
+              image={p.image}
+            />
           ))}
         </div>
       </section>
 
-      {/* Category wise rows */}
+      {/* Categories */}
       {categories.map((cat, idx) => (
         <CategoryRow key={idx} category={cat} />
       ))}
