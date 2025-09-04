@@ -1,71 +1,86 @@
 "use client";
 
-import React from "react";
-import Header from "@/components/Header";
-import SearchBar from "@/components/SearchBar";
-import CategoryPills from "@/components/CategoryPills";
-import DealsCarousel from "@/components/DealsCarousel";
-import HorizontalProductRow from "@/components/HorizontalProductRow";
-import Footer from "@/components/Footer";
-import FloatingButtons from "@/components/FloatingButtons";
+import React, { useEffect, useRef } from "react";
+import CategoryRow from "@/components/CategoryRow";
+import ProductCard from "@/components/ProductCard";
 
-const categories = [
-  "Mobile",
-  "Laptop",
-  "Headphones",
-  "Watches",
-  "Electronic",
-  "Fashion",
-  "Men",
-  "Women",
-  "Kids",
-  "Footwear",
-  "Home appliance",
-  "Sports",
-  "Jwellery",
-  "Kitchen",
-  "Home decor",
-  "Study",
-  "Others",
-];
+export default function HomePage() {
+  // Dummy products
+  const dealProducts = Array.from({ length: 15 }).map((_, i) => ({
+    id: i,
+    name: `Deal Product ${i + 1}`,
+    description: "Best deal you can grab today!",
+    image: "/placeholder.png",
+  }));
 
-export default function Page() {
+  // Categories list
+  const categories = [
+    "Mobile",
+    "Laptop",
+    "Headphones",
+    "Watches",
+    "Electronic",
+    "Fashion",
+    "Men",
+    "Women",
+    "Kids",
+    "Footwear",
+    "Home appliance",
+    "Sports",
+    "Jwellery",
+    "Kitchen",
+    "Home decor",
+    "Study",
+    "Others",
+  ];
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll for deal of the day
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    let scrollAmount = 0;
+
+    const interval = setInterval(() => {
+      if (el.scrollLeft >= el.scrollWidth - el.clientWidth) {
+        scrollAmount = 0;
+        el.scrollLeft = 0;
+      } else {
+        scrollAmount += 2;
+        el.scrollLeft += 2;
+      }
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="bg-gray-50 min-h-screen flex flex-col">
-      {/* Header */}
-      <Header />
-
-      {/* Search Bar */}
-      <div className="px-4 mt-3">
-        <SearchBar />
-      </div>
-
-      {/* Categories Pills */}
-      <section className="px-4 mt-4">
-        <CategoryPills categories={categories} />
-      </section>
-
+    <main className="px-4 md:px-8 py-6 bg-gray-50">
       {/* Deal of the Day */}
-      <section className="mt-6 px-4">
-        <h2 className="text-2xl font-bold mb-3">Deal of the Day</h2>
-        <DealsCarousel />
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold mb-4 text-blue-600">
+          Deal of the Day
+        </h2>
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto no-scrollbar pb-2"
+        >
+          {dealProducts.map((p) => (
+            <ProductCard
+              key={p.id}
+              name={p.name}
+              description={p.description}
+              image={p.image}
+            />
+          ))}
+        </div>
       </section>
 
-      {/* Category Rows */}
-      <section className="mt-10 px-4 space-y-8">
-        {categories.map((cat, idx) => (
-          <div key={idx}>
-            <h3 className="text-xl font-semibold mb-3">{cat}</h3>
-            <HorizontalProductRow category={cat} />
-          </div>
-        ))}
-      </section>
-
-      {/* Footer */}
-      <Footer />
-
-      {/* Floating Cart & Home */}
-      <FloatingButtons />
-    </div>
+      {/* Category wise rows */}
+      {categories.map((cat, idx) => (
+        <CategoryRow key={idx} category={cat} />
+      ))}
+    </main>
   );
 }
