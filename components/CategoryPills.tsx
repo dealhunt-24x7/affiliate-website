@@ -3,32 +3,19 @@
 import React from "react";
 
 interface Props {
-  categories?: string[];
+  categories: string[];
 }
 
-const CategoryPills: React.FC<Props> = ({ categories = [] }) => {
-  const defaultCategories = [
-    "Electronics",
-    "Fashion",
-    "Home",
-    "Beauty",
-    "Toys",
-    "Sports",
-    "Books",
-    "Grocery",
-  ];
-
-  const allCategories = categories.length > 0 ? categories : defaultCategories;
-
+const CategoryPills: React.FC<Props> = ({ categories }) => {
   return (
-    <div className="flex gap-3 overflow-x-auto no-scrollbar pb-3">
-      {allCategories.map((cat, idx) => (
-        <span
+    <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2">
+      {categories.map((cat, idx) => (
+        <button
           key={idx}
-          className="px-4 py-2 text-sm bg-gray-200 rounded-full cursor-pointer hover:bg-gray-300 whitespace-nowrap"
+          className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition"
         >
           {cat}
-        </span>
+        </button>
       ))}
     </div>
   );
