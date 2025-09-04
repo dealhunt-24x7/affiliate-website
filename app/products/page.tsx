@@ -27,12 +27,10 @@ const categories = [
 export default function ProductsPage() {
   return (
     <div className="p-4">
-      {/* Search + Category Pills */}
       <section className="mb-6">
         <CategoryPills categories={categories} />
       </section>
 
-      {/* Category Rows */}
       {categories.map((cat, idx) => (
         <CategoryRow key={idx} category={cat} />
       ))}
