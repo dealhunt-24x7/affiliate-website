@@ -2,34 +2,24 @@
 
 import React from "react";
 import ProductCard from "./ProductCard";
+import { Product } from "@/types/product";
 
-export type DealItem = {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-};
+const items: Product[] = Array.from({ length: 10 }).map((_, i) => ({
+  id: i,
+  name: `Deal ${i + 1}`,
+  description: "Hot deal you don’t want to miss!",
+  image: "/placeholder.png",
+}));
 
-interface Props {
-  items?: DealItem[];
-}
-
-const DealsCarousel: React.FC<Props> = ({
-  items = [
-    { id: 1, name: "Deal 1", description: "Special Offer!", image: "/placeholder.png" },
-    { id: 2, name: "Deal 2", description: "Limited Time!", image: "/placeholder.png" },
-    { id: 3, name: "Deal 3", description: "Hot Deal!", image: "/placeholder.png" },
-    { id: 4, name: "Deal 4", description: "Best Seller!", image: "/placeholder.png" },
-    { id: 5, name: "Deal 5", description: "Trending Now!", image: "/placeholder.png" },
-  ],
-}) => {
+const DealsCarousel: React.FC = () => {
   return (
-    <section className="mb-6">
-      <h2 className="text-lg font-bold mb-3">🔥 Deal of the Day</h2>
+    <section className="mb-10">
+      <h2 className="text-2xl font-bold mb-4 text-blue-600">Hot Deals</h2>
       <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
         {items.map((item) => (
           <ProductCard
             key={item.id}
+            id={item.id}
             name={item.name}
             description={item.description}
             image={item.image}
