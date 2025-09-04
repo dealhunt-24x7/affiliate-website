@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { BlogPost } from "@/lib/types";
+import { BlogPost } from "@/lib/blog";
 
 export function BlogCard({ post }: { post: BlogPost }) {
   return (
-    <article className="border p-4 rounded-lg shadow-sm">
+    <article className="border p-4 rounded-lg shadow-sm bg-white hover:shadow-md transition">
       <img
-        src={post.cover}
+        src={post.image || "/placeholder.png"}
         alt={post.title}
         className="w-full h-48 object-cover rounded-md mb-4"
       />
