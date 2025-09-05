@@ -17,6 +17,17 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       />
       <h3 className="font-semibold text-sm truncate">{product.name}</h3>
       <p className="text-xs text-gray-500 line-clamp-2">{product.description}</p>
+      <div className="mt-2 text-sm font-medium text-green-600">
+        ${product.price.toFixed(2)}
+      </div>
+      <a
+        href={product.affiliateLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-2 text-center bg-blue-600 text-white text-xs px-3 py-1 rounded hover:bg-blue-700 transition"
+      >
+        View Deal
+      </a>
     </div>
   );
 };
