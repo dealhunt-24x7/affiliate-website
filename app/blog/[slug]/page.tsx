@@ -1,5 +1,5 @@
 export const dynamic = "force-dynamic";
-.
+
 import { getBlogPostBySlug } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import Image from "next/image";
