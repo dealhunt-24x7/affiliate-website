@@ -9,7 +9,7 @@ interface Product {
 }
 
 const products: Product[] = Array.from({ length: 25 }, (_, i) => ({
-  id: i + 1,  // ✅ Added ID field
+  id: i + 1,
   name: `Product ${i + 1}`,
   description: `This is product ${i + 1}`,
   image: "https://via.placeholder.com/150",
