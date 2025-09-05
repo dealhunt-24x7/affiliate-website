@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ProductCard from "./ProductCard";
+import ProductCard from "@/components/ProductCard";
 import { Product } from "@/types/product";
 
 type Props = {
@@ -9,11 +9,16 @@ type Props = {
 };
 
 const CategoryRow: React.FC<Props> = ({ category }) => {
-  const products: Product[] = Array.from({ length: 10 }).map((_, i) => ({
+  const products: Product[] = Array.from({ length: 5 }).map((_, i) => ({
     id: i,
     name: `${category} Product ${i + 1}`,
     description: `Top ${category} deal you can grab today!`,
     image: "https://via.placeholder.com/300x200",
+    price: 49.99 + i,
+    rating: 4.0 + (i % 2) * 0.5,
+    affiliateLink: "https://example.com",
+    slug: `${category}-product-${i + 1}`,
+    specs: {},
   }));
 
   return (
@@ -21,13 +26,7 @@ const CategoryRow: React.FC<Props> = ({ category }) => {
       <h2 className="text-lg font-bold mb-4">{category}</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {products.map((p) => (
-          <ProductCard
-            key={p.id}
-            id={p.id}
-            name={p.name}
-            description={p.description}
-            image={p.image}
-          />
+          <ProductCard key={p.id} product={p} />
         ))}
       </div>
     </section>
