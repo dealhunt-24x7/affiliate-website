@@ -16,6 +16,7 @@ export type BlogPost = {
   slug: string;
   date: string;
   author: string;
+  excerpt: string;
   content: string;
   image: string;
   cover: string;
