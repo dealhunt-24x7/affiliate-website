@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 
 import { getProducts } from "@/lib/products";
 import { CompareTable } from "@/components/CompareTable";
