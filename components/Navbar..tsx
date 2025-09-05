@@ -22,10 +22,12 @@ export default function Navbar() {
 
         {/* Brand & Tagline */}
         <div className="text-center">
-          <h1 className="text-2xl font-extrabold text-white tracking-wide">
-            Deal<span className="text-yellow-300">Hunt</span>
+          <h1 className="text-3xl font-extrabold tracking-wide bg-gradient-to-r from-yellow-300 via-white to-yellow-200 bg-clip-text text-transparent drop-shadow-sm">
+            Deal<span className="text-white">Hunt</span>
           </h1>
-          <p className="text-sm text-white/80 italic">Best Deals Everyday!</p>
+          <p className="text-sm italic text-yellow-100 drop-shadow-md">
+            Best Deals Everyday!
+          </p>
         </div>
 
         {/* Right: Profile */}
