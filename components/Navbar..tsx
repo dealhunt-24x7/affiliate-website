@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, User, Search } from "lucide-react";
+import Sidebar from "./Sidebar";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,15 +13,12 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="bg-gradient-to-r from-cyan-400 to-blue-500 shadow-md">
-      {/* Top Navbar */}
+    <header className="bg-gradient-to-r from-cyan-400 to-blue-500 shadow-md relative">
       <div className="flex items-center justify-between px-4 py-3">
-        {/* Left: Hamburger */}
-        <button onClick={() => setMenuOpen(!menuOpen)} className="text-white">
+        <button onClick={() => setMenuOpen(true)} className="text-white">
           <Menu size={26} />
         </button>
 
-        {/* Brand & Tagline */}
         <div className="text-center">
           <h1 className="text-3xl font-extrabold tracking-wide bg-gradient-to-r from-yellow-300 via-white to-yellow-200 bg-clip-text text-transparent drop-shadow-sm">
             Deal<span className="text-white">Hunt</span>
@@ -30,13 +28,11 @@ export default function Navbar() {
           </p>
         </div>
 
-        {/* Right: Profile */}
         <Link href="/profile" className="text-white">
           <User size={26} />
         </Link>
       </div>
 
-      {/* Search Bar */}
       <div className="px-4 pb-3">
         <div className="flex items-center bg-white rounded-full shadow px-3 py-2">
           <Search className="text-gray-500" size={20} />
@@ -48,32 +44,16 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Shop by Category */}
       <div className="flex gap-4 overflow-x-auto px-4 pb-3 no-scrollbar">
         {categories.map((cat) => (
-          <div
-            key={cat}
-            className="flex flex-col items-center min-w-[60px]"
-          >
+          <div key={cat} className="flex flex-col items-center min-w-[60px]">
             <div className="w-12 h-12 rounded-full bg-white shadow-md" />
             <span className="text-xs mt-1 text-white">{cat}</span>
           </div>
         ))}
       </div>
 
-      {/* Side Menu */}
-      {menuOpen && (
-        <aside className="absolute top-0 left-0 w-64 h-full bg-white shadow-lg p-5 z-50">
-          <h2 className="text-lg font-bold mb-4">Menu</h2>
-          <nav className="flex flex-col gap-3">
-            <Link href="/">Home</Link>
-            <Link href="/deals">Deals</Link>
-            <Link href="/categories">Categories</Link>
-            <Link href="/blog">Blog</Link>
-            <Link href="/contact">Contact</Link>
-          </nav>
-        </aside>
-      )}
+      <Sidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
     </header>
   );
 }
