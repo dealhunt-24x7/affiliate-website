@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { BlogPost } from "@/lib/blog";
+Ruimport Link from "next/link";
+import { BlogPost } from "@/lib/types";
 
 export function BlogCard({ post }: { post: BlogPost }) {
   return (
