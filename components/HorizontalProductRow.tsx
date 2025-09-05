@@ -1,36 +1,31 @@
 "use client";
+
+import React from "react";
 import ProductCard from "./ProductCard";
+import { Product } from "@/types/product";
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-}
+type Props = {
+  category: string;
+};
 
-const products: Product[] = Array.from({ length: 25 }, (_, i) => ({
-  id: i + 1,
-  name: `Product ${i + 1}`,
-  description: `This is product ${i + 1}`,
-  image: "https://via.placeholder.com/150",
-}));
+const CategoryRow: React.FC<Props> = ({ category }) => {
+  const products: Product[] = Array.from({ length: 10 }).map((_, i) => ({
+    id: i,
+    name: `${category} Product ${i + 1}`,
+    description: `Top ${category} deal you can grab today!`,
+    image: "https://via.placeholder.com/300x200",
+  }));
 
-export default function HorizontalProductRow({ title }: { title: string }) {
   return (
-    <section className="my-6">
-      <h2 className="text-lg font-bold mb-3 px-2">{title}</h2>
-      <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2 px-2">
+    <section className="mb-10">
+      <h2 className="text-lg font-bold mb-4">{category}</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {products.map((p) => (
-          <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
-            <ProductCard
-              id={p.id}
-              name={p.name}
-              description={p.description}
-              image={p.image}
-            />
-          </div>
+          <ProductCard key={p.id} product={p} />
         ))}
       </div>
     </section>
   );
-}
+};
+
+export default CategoryRow;
