@@ -1,87 +1,42 @@
-"use client";
 export const dynamic = "force-dynamic";
 
-import React, { useEffect, useRef } from "react";
-import CategoryRow from "@/components/CategoryRow";
-import ProductCard from "@/components/ProductCard";
-import { Product } from "@/types/product";
+import DealOfTheDay from "@/components/DealOfTheDay";
+import ShopByCategory from "@/components/ShopByCategory";
+import FeaturedProducts from "@/components/FeaturedProducts"; 
+import BlogHighlights from "@/components/BlogHighlights";
 
 export default function HomePage() {
-  const dealProducts: Product[] = Array.from({ length: 15 }).map((_, i) => ({
-    id: i,
-    name: `Deal Product ${i + 1}`,
-    description: "Best deal you can grab today!",
-    image: "/placeholder.png",
-  }));
-
-  const categories = [
-    "Mobile",
-    "Laptop",
-    "Headphones",
-    "Watches",
-    "Electronic",
-    "Fashion",
-    "Men",
-    "Women",
-    "Kids",
-    "Footwear",
-    "Home appliance",
-    "Sports",
-    "Jewellery",
-    "Kitchen",
-    "Home decor",
-    "Study",
-    "Others",
-  ];
-
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    let scrollAmount = 0;
-    const interval = setInterval(() => {
-      if (el.scrollLeft >= el.scrollWidth - el.clientWidth) {
-        scrollAmount = 0;
-        el.scrollLeft = 0;
-      } else {
-        scrollAmount += 2;
-        el.scrollLeft += 2;
-      }
-    }, 30);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <main className="px-4 md:px-8 py-6 bg-gray-50">
-      {/* ✅ TEST LINE */}
-      <h1 className="text-4xl font-bold text-red-600 mb-6">
-        HELLO FROM NEW DEPLOY 🚀
-      </h1>
-
-      <section className="mb-10">
-        <h2 className="text-2xl font-bold mb-4 text-blue-600">
-          Deal of the Day
-        </h2>
-        <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto no-scrollbar pb-2"
-        >
-          {dealProducts.map((p) => (
-            <ProductCard
-              key={p.id}
-              id={p.id}
-              name={p.name}
-              description={p.description}
-              image={p.image}
-            />
-          ))}
-        </div>
+      {/* Hero / Brand Intro */}
+      <section className="text-center mb-10">
+        <h1 className="text-4xl font-bold text-blue-600">DealHunt</h1>
+        <p className="text-gray-600 italic">Best Deals Everyday!</p>
       </section>
 
-      {categories.map((cat, idx) => (
-        <CategoryRow key={idx} category={cat} />
-      ))}
+      {/* Deal of the Day */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold mb-4 text-blue-600">Deal of the Day</h2>
+        <DealOfTheDay />
+      </section>
+
+      {/* Shop by Category */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold mb-4 text-blue-600">Shop by Category</h2>
+        <ShopByCategory />
+      </section>
+
+      {/* Featured Products */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold mb-4 text-blue-600">Featured Products</h2>
+        <FeaturedProducts />
+      </section>
+
+      {/* Blog Highlights */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold mb-4 text-blue-600">From Our Blog</h2>
+        <BlogHighlights />
+      </section>
     </main>
   );
 }
