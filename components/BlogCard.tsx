@@ -1,4 +1,4 @@
-Ruimport Link from "next/link";
+export Link from "next/link";
 import { BlogPost } from "@/lib/types";
 
 export function BlogCard({ post }: { post: BlogPost }) {
