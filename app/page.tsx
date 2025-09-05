@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 
 import React, { useEffect, useRef } from "react";
 import CategoryRow from "@/components/CategoryRow";
