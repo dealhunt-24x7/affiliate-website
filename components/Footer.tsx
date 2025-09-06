@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { Globe, Youtube, Facebook, Instagram, Twitter } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -36,11 +39,37 @@ export default function Footer() {
         {/* Column 4 */}
         <div>
           <h3 className="font-bold mb-3">Follow Us</h3>
-          <div className="flex gap-4 text-xl">
-            <a href="#">🌐</a>
-            <a href="#">📘</a>
-            <a href="#">🐦</a>
-            <a href="#">📸</a>
+          <div className="flex gap-3">
+            <a
+              href="#"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all duration-300 shadow-lg"
+            >
+              <Globe size={18} />
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all duration-300 shadow-lg"
+            >
+              <Youtube size={18} />
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all duration-300 shadow-lg"
+            >
+              <Facebook size={18} />
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all duration-300 shadow-lg"
+            >
+              <Instagram size={18} />
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all duration-300 shadow-lg"
+            >
+              <Twitter size={18} />
+            </a>
           </div>
         </div>
       </div>
