@@ -1,28 +1,30 @@
 "use client";
 
-import { ArrowUp, MessageCircle } from "lucide-react";
+import { MessageCircle, ShoppingCart } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function FloatingButton() {
-  const scrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-
   return (
-    <div className="fixed right-4 bottom-4 z-40 flex flex-col gap-3">
-      <a
-        href="https://wa.me/0000000000"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="w-12 h-12 rounded-full bg-green-500 shadow flex items-center justify-center text-white"
-        aria-label="Contact on WhatsApp"
+    <div className="fixed bottom-5 right-5 flex flex-col gap-3 z-50">
+      {/* WhatsApp/Chat Button */}
+      <motion.a
+        whileHover={{ scale: 1.1, rotate: 5 }}
+        whileTap={{ scale: 0.9 }}
+        href="#"
+        className="w-14 h-14 flex items-center justify-center rounded-full shadow-xl bg-green-500 hover:bg-green-600 text-white transition-all duration-300"
       >
-        <MessageCircle size={22} />
-      </a>
-      <button
-        onClick={scrollTop}
-        className="w-12 h-12 rounded-full bg-blue-600 shadow flex items-center justify-center text-white"
-        aria-label="Scroll to top"
+        <MessageCircle size={24} />
+      </motion.a>
+
+      {/* Cart Button */}
+      <motion.a
+        whileHover={{ scale: 1.1, rotate: -5 }}
+        whileTap={{ scale: 0.9 }}
+        href="#"
+        className="w-14 h-14 flex items-center justify-center rounded-full shadow-xl bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300"
       >
-        <ArrowUp size={22} />
-      </button>
+        <ShoppingCart size={24} />
+      </motion.a>
     </div>
   );
 }
