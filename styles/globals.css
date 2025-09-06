@@ -5,11 +5,11 @@
 
 /* Body and Background */
 body {
-  background-color: #000; /* Black background */
+  background-color: #f5f5f5; /* Light gray background */
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  color: #fff; /* White text */
+  color: #111; /* Dark text */
 }
 
 /* Navbar */
@@ -41,8 +41,8 @@ nav .tagline {
 
 /* Sidebar */
 #side-menu {
-  background-color: #111;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  background-color: #fff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Footer */
@@ -146,17 +146,17 @@ footer .social-icons a:hover {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-color: #222;
+  background-color: #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0.5rem;
   cursor: pointer;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.4);
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
   font-size: 0.8rem;
   font-weight: 500;
-  color: #fff;
+  color: #111;
 }
 .category-circle:hover {
-  background-color: #444;
+  background-color: #bbb;
 }
