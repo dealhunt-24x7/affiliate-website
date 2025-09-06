@@ -21,16 +21,16 @@ export default function DealsCarousel() {
   const current = items[index];
 
   return (
-    <section className="p-4 bg-orange-500">
+    <section className="p-4 bg-orange-600">
       <h2 className="text-xl font-bold mb-3 text-white">Deal of the Day</h2>
-      <div className="relative border border-orange-300 rounded-lg shadow-md p-4 flex flex-col items-center bg-black text-white">
+      <div className="relative border border-yellow-500 rounded-lg shadow-md p-4 flex flex-col items-center bg-black">
         <img
           src={current.image}
           alt={current.name}
-          className="w-64 h-40 object-cover rounded mb-2"
+          className="w-64 h-40 object-cover rounded mb-2 border-2 border-red-600"
         />
-        <h3 className="text-lg font-semibold text-gold">{current.name}</h3>
-        <p className="text-sm text-gray-300">{current.description}</p>
+        <h3 className="text-lg font-semibold text-red-500">{current.name}</h3>
+        <p className="text-sm text-yellow-400">{current.description}</p>
       </div>
     </section>
   );
