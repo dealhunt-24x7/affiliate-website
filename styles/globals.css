@@ -91,7 +91,7 @@ footer .social-icons a:hover {
 }
 
 /* Buttons */
-button {
+.btn {
   background-color: #00c8ff;
   color: white;
   border: none;
@@ -101,7 +101,7 @@ button {
   font-size: 1rem;
 }
 
-button:hover {
+.btn:hover {
   background-color: #009cc7;
 }
 
