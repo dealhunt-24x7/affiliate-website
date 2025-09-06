@@ -3,23 +3,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Styles */
-
 /* Body and Background */
 body {
-  background-color: #f5f5f5;
+  background-color: #000; /* Black background */
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  color: #111;
+  color: #fff; /* White text */
 }
 
 /* Navbar */
 nav {
-  background: linear-gradient(90deg, #b71c1c 0%, #d32f2f 100%);
-  color: white;
+  background: #000; /* Black header */
+  color: #fff;
   padding: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
 }
 
 nav .brand {
@@ -27,27 +25,30 @@ nav .brand {
   font-weight: bold;
   font-family: 'Poppins', sans-serif;
   letter-spacing: 1px;
-  color: #ffcc00; /* Golden text */
+  color: #ffcc00; /* Golden "Deal" */
+}
+
+nav .brand span {
+  color: #b71c1c; /* Red "Hunt" */
 }
 
 nav .tagline {
   font-size: 1rem;
   font-style: italic;
   font-weight: 300;
-  opacity: 0.9;
   color: #ffcc00; /* Golden tagline */
 }
 
 /* Sidebar */
 #side-menu {
-  background-color: #ffffff;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #111;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* Footer */
 footer {
-  background-color: #101010;
-  color: white;
+  background-color: #000;
+  color: #fff;
   padding: 2rem;
 }
 
@@ -55,26 +56,27 @@ footer .social-icons a {
   color: #ffcc00; /* Golden icons */
   margin: 0 10px;
   font-size: 1.5rem;
+  transition: color 0.3s;
 }
 
 footer .social-icons a:hover {
-  color: #d32f2f; /* Red hover */
+  color: #b71c1c; /* Red hover */
 }
 
 /* Category Pills */
 .category-pill {
   display: inline-block;
-  background-color: #b71c1c;
-  color: white;
+  background-color: #ff9800; /* Orange */
+  color: #111;
   padding: 0.5rem 1rem;
   margin: 0.5rem;
   border-radius: 25px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .category-pill:hover {
-  background-color: #d32f2f;
+  background-color: #e68900;
 }
 
 /* Horizontal Scroll */
@@ -83,11 +85,9 @@ footer .social-icons a:hover {
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
 }
-
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
-
 .scrollable-products {
   display: flex;
   gap: 15px;
@@ -96,7 +96,7 @@ footer .social-icons a:hover {
 
 /* Buttons */
 .btn {
-  background-color: #ffcc00;
+  background-color: #ffcc00; /* Golden */
   color: #111;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -105,7 +105,6 @@ footer .social-icons a:hover {
   font-size: 1rem;
   font-weight: 600;
 }
-
 .btn:hover {
   background-color: #e6b800;
 }
@@ -120,27 +119,26 @@ footer .social-icons a:hover {
   background-color: #ffcc00;
   color: #111;
   font-size: 1.5rem;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+  transition: background 0.3s;
 }
-
 .fab:hover {
   background-color: #e6b800;
 }
-
 .fab-home {
   position: fixed;
   bottom: 30px;
   right: 90px;
   border-radius: 50%;
   padding: 15px;
-  background-color: #b71c1c;
-  color: white;
+  background-color: #ff9800;
+  color: #111;
   font-size: 1.5rem;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+  transition: background 0.3s;
 }
-
 .fab-home:hover {
-  background-color: #d32f2f;
+  background-color: #e68900;
 }
 
 /* Shop by Category (Round Placeholders) */
@@ -148,17 +146,17 @@ footer .social-icons a:hover {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-color: #eee;
+  background-color: #222;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0.5rem;
   cursor: pointer;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.4);
   font-size: 0.8rem;
   font-weight: 500;
+  color: #fff;
 }
-
 .category-circle:hover {
-  background-color: #ddd;
+  background-color: #444;
 }
