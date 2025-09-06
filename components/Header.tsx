@@ -16,11 +16,12 @@ export default function Header() {
 
   return (
     <header className="bg-blue-600 shadow-md sticky top-0 z-50">
+      {/* Top Bar */}
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setOpen(!open)}
-            className="text-white"
+            className="text-white focus:outline-none"
             aria-label="Open menu"
           >
             <Menu size={26} />
@@ -39,6 +40,7 @@ export default function Header() {
         </Link>
       </div>
 
+      {/* Search Bar */}
       <div className="px-4 pb-2 md:pb-3">
         <div className="flex items-center bg-white rounded-md shadow px-3 py-2 w-full md:w-[60%] md:mx-auto">
           <Search className="text-gray-500" size={18} />
@@ -50,13 +52,17 @@ export default function Header() {
         </div>
       </div>
 
+      {/* Categories with Round Placeholders */}
       <div className="overflow-x-auto bg-blue-600 scrollbar-hide">
         <div className="flex gap-4 px-4 py-2">
           {categories.map((cat, i) => (
             <div
               key={i}
-              className="flex flex-col items-center min-w-[60px] cursor-pointer text-white"
+              className="flex flex-col items-center min-w-[70px] cursor-pointer text-white"
             >
+              <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-1 text-sm font-medium">
+                {cat.charAt(0)}
+              </div>
               <span className="text-xs whitespace-nowrap">{cat}</span>
             </div>
           ))}
