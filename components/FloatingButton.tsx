@@ -11,7 +11,7 @@ export default function FloatingButton() {
         whileHover={{ scale: 1.1, rotate: -5 }}
         whileTap={{ scale: 0.9 }}
         href="/"
-        className="w-14 h-14 flex items-center justify-center rounded-full shadow-xl bg-gradient-to-r from-orange-400 to-orange-600 text-white transition-all duration-300"
+        className="w-14 h-14 flex items-center justify-center rounded-full shadow-xl bg-yellow-500 hover:bg-yellow-600 text-black transition-all duration-300"
       >
         <Home size={24} />
       </motion.a>
@@ -21,7 +21,7 @@ export default function FloatingButton() {
         whileHover={{ scale: 1.1, rotate: 5 }}
         whileTap={{ scale: 0.9 }}
         href="/cart"
-        className="w-14 h-14 flex items-center justify-center rounded-full shadow-xl bg-gradient-to-r from-cyan-400 to-blue-600 text-white transition-all duration-300"
+        className="w-14 h-14 flex items-center justify-center rounded-full shadow-xl bg-yellow-500 hover:bg-yellow-600 text-black transition-all duration-300"
       >
         <ShoppingCart size={24} />
       </motion.a>
