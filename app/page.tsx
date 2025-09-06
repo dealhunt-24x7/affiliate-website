@@ -27,9 +27,11 @@ const CATEGORIES = [
 
 export default function HomePage() {
   return (
-    <main className="px-4 md:px-8 py-6 bg-gray-50">
+    <main className="px-4 md:px-8 py-6 bg-gray-200">
       <section className="mb-10">
-        <h2 className="text-2xl font-bold mb-4 text-blue-600">Deal of the Day</h2>
+        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
+          Deal of the Day
+        </h2>
         <DealOfTheDay />
       </section>
 
@@ -38,7 +40,9 @@ export default function HomePage() {
       ))}
 
       <section className="mb-10">
-        <h2 className="text-2xl font-bold mb-4 text-blue-600">From Our Blog</h2>
+        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
+          From Our Blog
+        </h2>
         <BlogHighlights />
       </section>
 
