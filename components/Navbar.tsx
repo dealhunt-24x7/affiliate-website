@@ -1,23 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
-import { HiOutlineMenu, HiX } from "react-icons/hi";
+import Link from "next/link";
+import { useState } from "react";
+import { Menu, User, Search } from "lucide-react";
 
-const categories = [
+const CATEGORIES = [
   "Mobile",
   "Laptop",
   "Headphones",
   "Watches",
-  "Electronic",
-  "Fashion",
+  "Electronics",
   "Men",
   "Women",
   "Kids",
+  "Fashion",
   "Footwear",
-  "Home appliance",
+  "Home appliances",
   "Sports",
-  "Jewellery",
+  "Jwellery",
   "Kitchen",
   "Home decor",
   "Study",
@@ -25,81 +25,71 @@ const categories = [
 ];
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <>
-      {/* Top Navbar */}
-      <nav className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          {/* Brand + Tagline */}
-          <div className="flex flex-col">
-            <span className="text-2xl font-extrabold tracking-wide">
-              Deal<span className="text-yellow-300">Hunt</span>
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-cyan-500 to-blue-600 shadow">
+      <div className="flex items-center justify-between px-4 py-3">
+        <button onClick={() => setOpen(!open)} aria-label="Open menu" className="text-white">
+          <Menu size={26} />
+        </button>
+
+        <div className="text-center">
+          <Link href="/" className="block">
+            <span className="text-3xl font-extrabold tracking-wide bg-gradient-to-r from-yellow-300 via-white to-yellow-200 bg-clip-text text-transparent drop-shadow-sm">
+              Deal<span className="text-white">Hunt</span>
             </span>
-            <span className="text-xs italic">Best Deals Everyday!</span>
-          </div>
-
-          {/* Search Bar */}
-          <div className="hidden md:flex flex-1 px-6">
-            <input
-              type="text"
-              placeholder="Search deals, products..."
-              className="w-full px-3 py-2 rounded-lg text-black text-sm focus:outline-none focus:ring-2 focus:ring-yellow-300"
-            />
-          </div>
-
-          {/* Icons */}
-          <div className="flex items-center gap-4">
-            <FaUserCircle size={26} className="cursor-pointer" />
-            <button
-              className="md:hidden text-2xl"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              {menuOpen ? <HiX /> : <HiOutlineMenu />}
-            </button>
-          </div>
+          </Link>
+          <span className="text-sm italic text-yellow-100 block -mt-1">Best Deals Everyday!</span>
         </div>
 
-        {/* Mobile Search */}
-        <div className="px-4 pb-3 md:hidden">
+        <Link href="/profile" aria-label="Profile" className="text-white">
+          <User size={26} />
+        </Link>
+      </div>
+
+      <div className="px-4 pb-3">
+        <div className="flex items-center bg-white rounded-full shadow px-3 py-2">
+          <Search className="text-gray-500" size={18} />
           <input
             type="text"
-            placeholder="Search deals..."
-            className="w-full px-3 py-2 rounded-lg text-black text-sm focus:outline-none focus:ring-2 focus:ring-yellow-300"
+            placeholder="Search products..."
+            className="flex-1 ml-2 outline-none text-sm"
           />
         </div>
-
-        {/* Mobile Dropdown */}
-        {menuOpen && (
-          <div className="bg-white text-black px-4 py-3 md:hidden">
-            <ul className="space-y-2">
-              <li className="hover:text-blue-600 cursor-pointer">Home</li>
-              <li className="hover:text-blue-600 cursor-pointer">Deals</li>
-              <li className="hover:text-blue-600 cursor-pointer">Categories</li>
-              <li className="hover:text-blue-600 cursor-pointer">About Us</li>
-              <li className="hover:text-blue-600 cursor-pointer">Contact</li>
-            </ul>
-          </div>
-        )}
-      </nav>
-
-      {/* Shop by Category */}
-      <div className="w-full overflow-x-auto bg-gray-100 py-3 shadow-inner">
-        <div className="flex space-x-4 px-4 min-w-max">
-          {categories.map((cat, idx) => (
-            <div
-              key={idx}
-              className="flex flex-col items-center text-xs text-gray-700 cursor-pointer hover:text-blue-600"
-            >
-              <div className="w-12 h-12 rounded-full bg-white shadow flex items-center justify-center mb-1">
-                <span className="text-sm font-bold">{cat[0]}</span>
-              </div>
-              {cat}
-            </div>
-          ))}
-        </div>
       </div>
-    </>
+
+      <div className="flex gap-4 overflow-x-auto px-4 pb-3 scrollbar-hide">
+        {CATEGORIES.map((c) => (
+          <Link key={c} href={`/products?category=${encodeURIComponent(c)}`} className="flex flex-col items-center min-w-[64px]">
+            <div className="w-12 h-12 rounded-full bg-white shadow-md" />
+            <span className="text-[11px] mt-1 text-white whitespace-nowrap">{c}</span>
+          </Link>
+        ))}
+      </div>
+
+      {open && (
+        <aside className="fixed inset-0 z-50">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
+          <div className="absolute left-0 top-0 h-full w-72 max-w-[85%] bg-white shadow-2xl p-5">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-lg font-bold">Menu</div>
+              <button className="rounded-md border px-3 py-1.5 text-sm" onClick={() => setOpen(false)}>
+                Close
+              </button>
+            </div>
+            <nav className="flex flex-col gap-3">
+              <Link href="/" onClick={() => setOpen(false)}>Home</Link>
+              <Link href="/products?openFilters=true" onClick={() => setOpen(false)}>Filter</Link>
+              <Link href="/products" onClick={() => setOpen(false)}>All Categories</Link>
+              <Link href="/blog" onClick={() => setOpen(false)}>Blog</Link>
+              <Link href="/comparison" onClick={() => setOpen(false)}>Comparison</Link>
+              <Link href="/contact" onClick={() => setOpen(false)}>Contact</Link>
+              <Link href="/settings" onClick={() => setOpen(false)}>Settings</Link>
+            </nav>
+          </div>
+        </aside>
+      )}
+    </header>
   );
 }
