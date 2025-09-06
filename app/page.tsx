@@ -27,7 +27,7 @@ const CATEGORIES = [
 
 export default function HomePage() {
   return (
-    <main className="px-4 md:px-8 py-6">
+     <main className="px-4 md:px-8 py-6 min-h-screen bg-[#808080]">
       <section className="mb-10">
         <h2 className="text-2xl font-bold mb-4 text-yellow-400">
           Deal of the Day
