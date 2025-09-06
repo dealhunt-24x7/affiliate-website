@@ -9,22 +9,26 @@ type Props = {
 
 const ProductCard: React.FC<Props> = ({ product }) => {
   return (
-    <div className="border rounded-lg p-3 bg-white shadow-sm hover:shadow-md transition flex flex-col">
+    <div className="border rounded-lg p-3 bg-black shadow-md hover:shadow-lg transition flex flex-col">
       <img
         src={product.image}
         alt={product.name}
         className="w-full h-32 object-cover rounded mb-2"
       />
-      <h3 className="font-semibold text-sm truncate">{product.name}</h3>
-      <p className="text-xs text-gray-500 line-clamp-2">{product.description}</p>
-      <div className="mt-2 text-sm font-medium text-green-600">
+      <h3 className="font-semibold text-sm truncate text-yellow-500">
+        {product.name}
+      </h3>
+      <p className="text-xs text-gray-300 line-clamp-2">
+        {product.description}
+      </p>
+      <div className="mt-2 text-sm font-medium text-yellow-500">
         ${product.price.toFixed(2)}
       </div>
       <a
         href={product.affiliateLink}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-2 text-center bg-blue-600 text-white text-xs px-3 py-1 rounded hover:bg-blue-700 transition"
+        className="mt-2 text-center bg-yellow-500 text-black text-xs px-3 py-1 rounded hover:bg-yellow-600 transition"
       >
         View Deal
       </a>
