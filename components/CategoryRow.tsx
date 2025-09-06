@@ -20,7 +20,7 @@ export default function CategoryRow({ category }: Props) {
 
   return (
     <section className="mb-10">
-      <h2 className="text-lg font-bold mb-3 text-blue-600">{category}</h2>
+      <h2 className="text-lg font-bold mb-3 text-yellow-400">{category}</h2>
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
         {products.map((p) => (
           <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
