@@ -20,10 +20,10 @@ export default function Header() {
       <div className="flex items-center justify-between px-4 py-3">
         {/* Left: Menu + Brand */}
         <div className="flex items-center gap-3">
-          {/* Mobile Menu Button */}
+          {/* Menu Button (always visible) */}
           <button
             onClick={() => setOpen(!open)}
-            className="text-white md:hidden"
+            className="text-white"
             aria-label="Open menu"
           >
             <Menu size={26} />
