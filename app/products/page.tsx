@@ -2,7 +2,6 @@
 export const dynamic = "force-dynamic";
 
 import React from "react";
-import CategoryPills from "@/components/CategoryPills";
 import CategoryRow from "@/components/CategoryRow";
 
 const categories = [
@@ -28,9 +27,6 @@ const categories = [
 export default function ProductsPage() {
   return (
     <div className="p-4">
-      <section className="mb-6">
-        <CategoryPills categories={categories} />
-      </section>
       {categories.map((cat, idx) => (
         <CategoryRow key={idx} category={cat} />
       ))}
