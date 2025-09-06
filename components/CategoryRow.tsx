@@ -27,7 +27,7 @@ const CategoryRow: React.FC<Props> = ({ category }) => {
       <div className="flex space-x-4 overflow-x-auto scrollbar-hide">
         {products.map((p) => (
           <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
-            <ProductCard {...p} />
+            <ProductCard product={p} />
           </div>
         ))}
       </div>
