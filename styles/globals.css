@@ -5,7 +5,7 @@
 
 /* Body and Background */
 body {
-  background-color: #808080; /* Gray background */
+  background-color: #808080; !important; /* Gray background */
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
