@@ -3,7 +3,25 @@
 import React from "react";
 import CategoryRow from "@/components/CategoryRow";
 
-const categories = ["Mobile", "Laptop", "Headphones", "Fashion"];
+const categories = [
+  "Mobile",
+  "Laptop",
+  "Headphones",
+  "Watches",
+  "Electronics",
+  "Men",
+  "Women",
+  "Kids",
+  "Fashion",
+  "Footwear",
+  "Home appliances",
+  "Sports",
+  "Jwellery",
+  "Kitchen",
+  "Home decor",
+  "Study",
+  "Others"
+];
 
 export default function ShopByCategory() {
   return (
