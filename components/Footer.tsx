@@ -42,33 +42,33 @@ export default function Footer() {
           <div className="flex gap-3">
             <a
               href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 transition-all duration-300 shadow-lg"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-transparent border border-yellow-400 text-yellow-400 hover:text-red-600 hover:border-red-600 transition-all duration-300 shadow-lg"
             >
-              <Globe size={18} className="text-black" />
+              <Globe size={18} />
             </a>
             <a
               href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 transition-all duration-300 shadow-lg"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-transparent border border-yellow-400 text-yellow-400 hover:text-red-600 hover:border-red-600 transition-all duration-300 shadow-lg"
             >
-              <Youtube size={18} className="text-black" />
+              <Youtube size={18} />
             </a>
             <a
               href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 transition-all duration-300 shadow-lg"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-transparent border border-yellow-400 text-yellow-400 hover:text-red-600 hover:border-red-600 transition-all duration-300 shadow-lg"
             >
-              <Facebook size={18} className="text-black" />
+              <Facebook size={18} />
             </a>
             <a
               href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 transition-all duration-300 shadow-lg"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-transparent border border-yellow-400 text-yellow-400 hover:text-red-600 hover:border-red-600 transition-all duration-300 shadow-lg"
             >
-              <Instagram size={18} className="text-black" />
+              <Instagram size={18} />
             </a>
             <a
               href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 transition-all duration-300 shadow-lg"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-transparent border border-yellow-400 text-yellow-400 hover:text-red-600 hover:border-red-600 transition-all duration-300 shadow-lg"
             >
-              <Twitter size={18} className="text-black" />
+              <Twitter size={18} />
             </a>
           </div>
         </div>
