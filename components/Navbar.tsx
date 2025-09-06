@@ -29,7 +29,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-cyan-500 to-blue-600 shadow">
-      {/* Top row: menu, brand, profile */}
+      {/* 🔹 Top Bar */}
       <div className="flex items-center justify-between px-4 py-3">
         <button
           onClick={() => setOpen(!open)}
@@ -55,35 +55,37 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* Search bar */}
+      {/* 🔹 Searchbar */}
       <div className="px-4 pb-3">
-        <div className="flex items-center bg-white rounded-full shadow px-3 py-2">
+        <div className="flex items-center bg-white rounded-full shadow px-3 py-2 w-full">
           <Search className="text-gray-500" size={18} />
           <input
             type="text"
-            placeholder="Search products..."
-            className="flex-1 ml-2 outline-none text-sm"
+            placeholder="Search for products, brands and more"
+            className="flex-1 ml-2 outline-none text-sm text-gray-700 placeholder-gray-400"
           />
         </div>
       </div>
 
-      {/* Category row with round pills */}
-      <div className="flex gap-4 overflow-x-auto px-4 pb-3 no-scrollbar">
+      {/* 🔹 Categories strip */}
+      <div className="flex gap-4 overflow-x-auto px-4 pb-3 scrollbar-hide bg-white shadow-inner">
         {CATEGORIES.map((c) => (
           <Link
             key={c}
             href={`/products?category=${encodeURIComponent(c)}`}
             className="flex flex-col items-center min-w-[72px]"
           >
-            <div className="category-circle bg-white">{c[0]}</div>
-            <span className="text-[11px] mt-1 text-white whitespace-nowrap">
+            <div className="w-14 h-14 rounded-full bg-gray-100 shadow-md flex items-center justify-center text-gray-600 font-medium">
+              {c[0]}
+            </div>
+            <span className="text-[12px] mt-1 text-gray-700 whitespace-nowrap">
               {c}
             </span>
           </Link>
         ))}
       </div>
 
-      {/* Sidebar menu */}
+      {/* 🔹 Sidebar Menu */}
       {open && (
         <aside className="fixed inset-0 z-50">
           <div
@@ -104,10 +106,7 @@ export default function Navbar() {
               <Link href="/" onClick={() => setOpen(false)}>
                 Home
               </Link>
-              <Link
-                href="/products?openFilters=true"
-                onClick={() => setOpen(false)}
-              >
+              <Link href="/products?openFilters=true" onClick={() => setOpen(false)}>
                 Filter
               </Link>
               <Link href="/products" onClick={() => setOpen(false)}>
