@@ -43,6 +43,38 @@ export default function DealOfTheDay() {
     setIndex((prev) => (prev + 1) % products.length);
   };
 
+  // swipe gestures for mobile
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    let startX = 0;
+    let endX = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      startX = e.touches[0].clientX;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      endX = e.touches[0].clientX;
+    };
+
+    const handleTouchEnd = () => {
+      if (startX - endX > 50) nextSlide(); // swipe left → next
+      if (endX - startX > 50) prevSlide(); // swipe right → prev
+    };
+
+    el.addEventListener("touchstart", handleTouchStart);
+    el.addEventListener("touchmove", handleTouchMove);
+    el.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      el.removeEventListener("touchstart", handleTouchStart);
+      el.removeEventListener("touchmove", handleTouchMove);
+      el.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, []);
+
   return (
     <section className="bg-white border-t border-b border-gray-200 group relative">
       <div className="flex justify-between items-center px-4 py-2">
