@@ -16,11 +16,11 @@ const CATEGORIES = [
   { name: "Kids", image: "/images/categories/kids.png" },
   { name: "Fashion", image: "/images/categories/fashion.png" },
   { name: "Footwear", image: "/images/categories/footwear.png" },
-  { name: "Home appliances", image: "/images/categories/appliances.png" },
+  { name: "Home appliances", image: "/images/categories/home-appliances.png" },
   { name: "Sports", image: "/images/categories/sports.png" },
-  { name: "Jwellery", image: "/images/categories/jewellery.png" },
+  { name: "Jwellery", image: "/images/categories/jwellery.png" },
   { name: "Kitchen", image: "/images/categories/kitchen.png" },
-  { name: "Home decor", image: "/images/categories/decor.png" },
+  { name: "Home decor", image: "/images/categories/home-decor.png" },
   { name: "Study", image: "/images/categories/study.png" },
   { name: "Others", image: "/images/categories/others.png" },
 ];
@@ -28,6 +28,7 @@ const CATEGORIES = [
 export default function HomePage() {
   return (
     <main className="px-4 md:px-8 py-6 min-h-screen bg-[#808080]">
+      {/* Deal of the Day */}
       <section className="mb-10">
         <h2 className="text-2xl font-bold mb-4 text-yellow-400">
           Deal of the Day
@@ -35,10 +36,12 @@ export default function HomePage() {
         <DealOfTheDay />
       </section>
 
-      {CATEGORIES.map((c) => (
-        <CategoryRow key={c.name} category={c} />
+      {/* Categories with images */}
+      {CATEGORIES.map((c, idx) => (
+        <CategoryRow key={idx} category={c} />
       ))}
 
+      {/* Blog Section */}
       <section className="mb-10">
         <h2 className="text-2xl font-bold mb-4 text-yellow-400">
           From Our Blog
@@ -46,6 +49,7 @@ export default function HomePage() {
         <BlogHighlights />
       </section>
 
+      {/* Floating Buttons */}
       <FloatingButton />
     </main>
   );
