@@ -1,11 +1,6 @@
-export const dynamic = "force-dynamic";
-
-import DealOfTheDay from "@/components/DealOfTheDay";
 import CategoryRow from "@/components/CategoryRow";
-import BlogHighlights from "@/components/BlogHighlights";
-import FloatingButton from "@/components/FloatingButton";
 
-const CATEGORIES = [
+const categories = [
   { name: "Mobile", image: "/images/categories/mobile.png" },
   { name: "Laptop", image: "/images/categories/laptop.png" },
   { name: "Headphones", image: "/images/categories/headphones.png" },
@@ -25,32 +20,12 @@ const CATEGORIES = [
   { name: "Others", image: "/images/categories/others.png" },
 ];
 
-export default function HomePage() {
+export default function ProductsPage() {
   return (
-    <main className="px-4 md:px-8 py-6 min-h-screen bg-[#808080]">
-      {/* Deal of the Day */}
-      <section className="mb-10">
-        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
-          Deal of the Day
-        </h2>
-        <DealOfTheDay />
-      </section>
-
-      {/* Categories with images */}
-      {CATEGORIES.map((c, idx) => (
-        <CategoryRow key={idx} category={c} />
+    <div className="p-4">
+      {categories.map((cat, idx) => (
+        <CategoryRow key={idx} category={cat} />
       ))}
-
-      {/* Blog Section */}
-      <section className="mb-10">
-        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
-          From Our Blog
-        </h2>
-        <BlogHighlights />
-      </section>
-
-      {/* Floating Buttons */}
-      <FloatingButton />
-    </main>
+    </div>
   );
 }
