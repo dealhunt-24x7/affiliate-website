@@ -1,6 +1,10 @@
 "use client";
+export const dynamic = "force-dynamic";
 
+import DealOfTheDay from "@/components/DealOfTheDay";
 import CategoryRow from "@/components/CategoryRow";
+import BlogHighlights from "@/components/BlogHighlights";
+import FloatingButton from "@/components/FloatingButton";
 
 const categories = [
   { name: "Mobile", image: "/images/categories/mobile.png" },
@@ -22,12 +26,28 @@ const categories = [
   { name: "Others", image: "/images/categories/others.png" },
 ];
 
-export default function ProductsPage() {
+export default function HomePage() {
   return (
-    <div className="p-4">
-      {categories.map((cat, idx) => (
-        <CategoryRow key={idx} category={cat} />
+    <main className="px-4 md:px-8 py-6 min-h-screen bg-gray-50 text-gray-800">
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
+          Deal of the Day
+        </h2>
+        <DealOfTheDay />
+      </section>
+
+      {categories.map((c, idx) => (
+        <CategoryRow key={idx} category={c} />
       ))}
-    </div>
+
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
+          From Our Blog
+        </h2>
+        <BlogHighlights />
+      </section>
+
+      <FloatingButton />
+    </main>
   );
 }
