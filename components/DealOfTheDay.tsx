@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Product } from "@/types/product";
 import ProductCard from "./ProductCard";
 
 export default function DealOfTheDay() {
-  const base: Product[] = Array.from({ length: 15 }).map((_, i) => ({
+  const products: Product[] = Array.from({ length: 8 }).map((_, i) => ({
     id: i + 1,
     name: `Deal Product ${i + 1}`,
     description: "Best deal you can grab today!",
@@ -17,42 +17,30 @@ export default function DealOfTheDay() {
     affiliateLink: "#",
   }));
 
-  const items = [...base, ...base];
-  const trackRef = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const el = trackRef.current;
-    if (!el) return;
-    let raf = 0;
-    let speed = 0.5;
-
-    const step = () => {
-      el.scrollLeft += speed;
-      if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft = 0;
-      raf = requestAnimationFrame(step);
-    };
-
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, []);
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % products.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [products.length]);
 
   return (
-    <section className="bg-orange-600 py-4">
-      <h2 className="text-xl font-bold mb-3 text-center text-white">
-        Deal of the Day
-      </h2>
-      <div
-        ref={trackRef}
-        className="flex overflow-x-auto gap-4 pb-2 scrollbar-hide px-4"
-      >
-        {items.map((p, idx) => (
-          <div
-            key={`${p.id}-${idx}`}
-            className="min-w-[240px] max-w-[240px] bg-black border border-yellow-500 rounded-lg shadow-lg"
-          >
-            <ProductCard product={p} />
-          </div>
-        ))}
+    <section className="bg-orange-600 h-[75px] flex items-center justify-center relative">
+      <div className="w-full max-w-xs overflow-hidden">
+        <div
+          className="flex transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${index * 100}%)` }}
+        >
+          {products.map((p) => (
+            <div key={p.id} className="min-w-full px-2">
+              <div className="bg-black border border-yellow-500 rounded-md shadow">
+                <ProductCard product={p} />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
