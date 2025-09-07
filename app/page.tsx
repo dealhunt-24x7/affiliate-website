@@ -6,28 +6,28 @@ import BlogHighlights from "@/components/BlogHighlights";
 import FloatingButton from "@/components/FloatingButton";
 
 const CATEGORIES = [
-  "Mobile",
-  "Laptop",
-  "Headphones",
-  "Watches",
-  "Electronics",
-  "Men",
-  "Women",
-  "Kids",
-  "Fashion",
-  "Footwear",
-  "Home appliances",
-  "Sports",
-  "Jwellery",
-  "Kitchen",
-  "Home decor",
-  "Study",
-  "Others",
+  { name: "Mobile", image: "/images/categories/mobile.png" },
+  { name: "Laptop", image: "/images/categories/laptop.png" },
+  { name: "Headphones", image: "/images/categories/headphones.png" },
+  { name: "Watches", image: "/images/categories/watch.png" },
+  { name: "Electronics", image: "/images/categories/electronics.png" },
+  { name: "Men", image: "/images/categories/men.png" },
+  { name: "Women", image: "/images/categories/women.png" },
+  { name: "Kids", image: "/images/categories/kids.png" },
+  { name: "Fashion", image: "/images/categories/fashion.png" },
+  { name: "Footwear", image: "/images/categories/footwear.png" },
+  { name: "Home appliances", image: "/images/categories/appliances.png" },
+  { name: "Sports", image: "/images/categories/sports.png" },
+  { name: "Jwellery", image: "/images/categories/jewellery.png" },
+  { name: "Kitchen", image: "/images/categories/kitchen.png" },
+  { name: "Home decor", image: "/images/categories/decor.png" },
+  { name: "Study", image: "/images/categories/study.png" },
+  { name: "Others", image: "/images/categories/others.png" },
 ];
 
 export default function HomePage() {
   return (
-     <main className="px-4 md:px-8 py-6 min-h-screen bg-[#808080]">
+    <main className="px-4 md:px-8 py-6 min-h-screen bg-[#808080]">
       <section className="mb-10">
         <h2 className="text-2xl font-bold mb-4 text-yellow-400">
           Deal of the Day
@@ -36,7 +36,7 @@ export default function HomePage() {
       </section>
 
       {CATEGORIES.map((c) => (
-        <CategoryRow key={c} category={c} />
+        <CategoryRow key={c.name} category={c} />
       ))}
 
       <section className="mb-10">
