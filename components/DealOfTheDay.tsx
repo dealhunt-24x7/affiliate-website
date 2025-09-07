@@ -32,17 +32,17 @@ export default function DealOfTheDay() {
       {/* Header row with title + timer */}
       <div className="flex justify-between items-center px-4 py-2">
         <h2 className="text-lg font-bold text-gray-800">Deal of the Day</h2>
-        <DealTimer duration={6 * 60 * 60} /> {/* 6 hours countdown */}
+        <DealTimer duration={6 * 60 * 60} />
       </div>
 
       {/* Scrolling deals */}
-      <div className="w-full h-[75px] overflow-hidden">
+      <div className="w-full h-[75px] overflow-hidden px-2">
         <div
           className="flex transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
         >
           {products.map((p) => (
-            <div key={p.id} className="min-w-full">
+            <div key={p.id} className="min-w-full h-[75px]">
               <ProductCard product={p} />
             </div>
           ))}
