@@ -22,18 +22,18 @@ export default function DealOfTheDay() {
   const [index, setIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % products.length);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [products.length]);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [translate, setTranslate] = useState(0);
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.style.transform = `translateX(-${index * 100}%)`;
+    if (containerRef.current && !isDragging) {
+      containerRef.current.style.transition = "transform 0.5s ease-in-out";
+      containerRef.current.style.transform = `translateX(-${
+        index * 100
+      }%)`;
     }
-  }, [index]);
+  }, [index, isDragging]);
 
   const prevSlide = () => {
     setIndex((prev) => (prev - 1 + products.length) % products.length);
@@ -43,25 +43,49 @@ export default function DealOfTheDay() {
     setIndex((prev) => (prev + 1) % products.length);
   };
 
-  // swipe gestures for mobile
+  // Auto scroll
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % products.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [products.length]);
+
+  // Swipe gestures with drag effect
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
-    let startX = 0;
-    let endX = 0;
-
     const handleTouchStart = (e: TouchEvent) => {
-      startX = e.touches[0].clientX;
+      setIsDragging(true);
+      setStartX(e.touches[0].clientX);
+      setTranslate(0);
+      el.style.transition = "none";
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      endX = e.touches[0].clientX;
+      if (!isDragging) return;
+      const currentX = e.touches[0].clientX;
+      const deltaX = currentX - startX;
+      setTranslate(deltaX);
+      el.style.transform = `translateX(calc(-${
+        index * 100
+      }% + ${deltaX}px))`;
     };
 
     const handleTouchEnd = () => {
-      if (startX - endX > 50) nextSlide(); // swipe left → next
-      if (endX - startX > 50) prevSlide(); // swipe right → prev
+      setIsDragging(false);
+      if (Math.abs(translate) > 50) {
+        if (translate < 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      } else {
+        el.style.transition = "transform 0.5s ease-in-out";
+        el.style.transform = `translateX(-${index * 100}%)`;
+      }
+      setTranslate(0);
     };
 
     el.addEventListener("touchstart", handleTouchStart);
@@ -73,7 +97,7 @@ export default function DealOfTheDay() {
       el.removeEventListener("touchmove", handleTouchMove);
       el.removeEventListener("touchend", handleTouchEnd);
     };
-  }, []);
+  }, [index, isDragging, translate]);
 
   return (
     <section className="bg-white border-t border-b border-gray-200 group relative">
@@ -83,10 +107,7 @@ export default function DealOfTheDay() {
       </div>
 
       <div className="relative w-full h-[75px] overflow-hidden">
-        <div
-          ref={containerRef}
-          className="flex transition-transform duration-700 ease-in-out"
-        >
+        <div ref={containerRef} className="flex">
           {products.map((p) => (
             <div key={p.id} className="min-w-full">
               <ProductCard product={p} />
