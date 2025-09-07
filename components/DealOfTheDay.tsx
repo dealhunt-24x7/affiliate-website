@@ -27,17 +27,24 @@ export default function DealOfTheDay() {
   }, [products.length]);
 
   return (
-    <section className="bg-white flex items-center justify-center border-t border-b border-gray-200">
-      <div className="w-full max-w-md h-[45px] overflow-hidden">
+    <section className="bg-white flex items-center justify-center border-b border-gray-200">
+      {/* Height = 75% of header (example header ~100px → here ~75px) */}
+      <div className="w-full h-[75px] overflow-hidden">
         <div
           className="flex transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
         >
           {products.map((p) => (
-            <div key={p.id} className="min-w-full">
-              <div className="bg-black rounded-md shadow border border-yellow-500 h-full flex items-center justify-center">
-                <ProductCard product={p} />
-              </div>
+            <div
+              key={p.id}
+              className="min-w-full flex items-center justify-center"
+            >
+              {/* Direct stretched placeholders, no outer box */}
+              <img
+                src={p.image}
+                alt={p.name}
+                className="h-[75px] w-full object-cover rounded-md"
+              />
             </div>
           ))}
         </div>
