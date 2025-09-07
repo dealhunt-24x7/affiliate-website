@@ -3,12 +3,12 @@
 import { Product } from "@/types/product";
 import ProductCard from "./ProductCard";
 
-type Props = {
-  category: {
-    name: string;
-    image: string;
-  };
+type Category = {
+  name: string;
+  image: string;
 };
+
+type Props = { category: Category };
 
 export default function CategoryRow({ category }: Props) {
   const products: Product[] = Array.from({ length: 25 }).map((_, i) => ({
@@ -25,15 +25,17 @@ export default function CategoryRow({ category }: Props) {
 
   return (
     <section className="mb-10">
+      {/* Category heading with image */}
       <div className="flex items-center gap-3 mb-3">
         <img
           src={category.image}
           alt={category.name}
-          className="w-10 h-10 object-cover rounded-full border border-yellow-400"
+          className="w-12 h-12 object-cover rounded-full border border-yellow-400"
         />
         <h2 className="text-lg font-bold text-yellow-400">{category.name}</h2>
       </div>
 
+      {/* Product list */}
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
         {products.map((p) => (
           <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
