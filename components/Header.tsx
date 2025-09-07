@@ -7,18 +7,24 @@ import { Menu, Search, User } from "lucide-react";
 export default function Header() {
   const [open, setOpen] = useState(false);
 
-  // Ab categories me image bhi add kiya
   const categories = [
     { name: "Mobiles", image: "/images/categories/mobile.png" },
     { name: "Laptops", image: "/images/categories/laptop.png" },
-    { name: "Electronics", image: "/images/categories/electronics.png" },
-    { name: "Fashion", image: "/images/categories/fashion.png" },
-    { name: "Home", image: "/images/categories/home.png" },
-    { name: "Beauty", image: "/images/categories/beauty.png" },
-    { name: "Toys", image: "/images/categories/toys.png" },
-    { name: "Sports", image: "/images/categories/sports.png" },
+    { name: "Headphones", image: "/images/categories/headphones.png" },
     { name: "Watches", image: "/images/categories/watch.png" },
+    { name: "Electronics", image: "/images/categories/electronics.png" },
+    { name: "Men", image: "/images/categories/men.png" },
+    { name: "Women", image: "/images/categories/women.png" },
+    { name: "Kids", image: "/images/categories/kids.png" },
+    { name: "Fashion", image: "/images/categories/fashion.png" },
     { name: "Footwear", image: "/images/categories/footwear.png" },
+    { name: "Home appliances", image: "/images/categories/home-appliances.png" },
+    { name: "Sports", image: "/images/categories/sports.png" },
+    { name: "Jwellery", image: "/images/categories/jwellery.png" },
+    { name: "Kitchen", image: "/images/categories/kitchen.png" },
+    { name: "Home decor", image: "/images/categories/home-decor.png" },
+    { name: "Study", image: "/images/categories/study.png" },
+    { name: "Others", image: "/images/categories/others.png" },
   ];
 
   return (
