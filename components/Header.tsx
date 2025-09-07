@@ -8,10 +8,23 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   const categories = [
-    "Mobiles", "Laptops", "Electronics", "Fashion", "Home",
-    "Beauty", "Toys", "Sports", "Furniture", "Grocery",
-    "Books", "Stationery", "Appliances", "Watches",
-    "Footwear", "Travel", "Gaming"
+    { name: "Mobiles", image: "/images/categories/mobile.png" },
+    { name: "Laptops", image: "/images/categories/laptop.png" },
+    { name: "Electronics", image: "/images/categories/electronics.png" },
+    { name: "Fashion", image: "/images/categories/fashion.png" },
+    { name: "Home", image: "/images/categories/home.png" },
+    { name: "Beauty", image: "/images/categories/beauty.png" },
+    { name: "Toys", image: "/images/categories/toys.png" },
+    { name: "Sports", image: "/images/categories/sports.png" },
+    { name: "Furniture", image: "/images/categories/furniture.png" },
+    { name: "Grocery", image: "/images/categories/grocery.png" },
+    { name: "Books", image: "/images/categories/books.png" },
+    { name: "Stationery", image: "/images/categories/stationery.png" },
+    { name: "Appliances", image: "/images/categories/appliances.png" },
+    { name: "Watches", image: "/images/categories/watches.png" },
+    { name: "Footwear", image: "/images/categories/footwear.png" },
+    { name: "Travel", image: "/images/categories/travel.png" },
+    { name: "Gaming", image: "/images/categories/gaming.png" },
   ];
 
   return (
@@ -53,7 +66,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Categories with Round Placeholders */}
+      {/* Categories with Round Images */}
       <div className="overflow-x-auto bg-black scrollbar-hide">
         <div className="flex gap-3 px-4 py-1.5">
           {categories.map((cat, i) => (
@@ -61,10 +74,18 @@ export default function Header() {
               key={i}
               className="flex flex-col items-center min-w-[65px] cursor-pointer text-white"
             >
-              <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center mb-1 text-xs font-medium text-white">
-                {cat.charAt(0)}
-              </div>
-              <span className="text-[11px] whitespace-nowrap">{cat}</span>
+              {cat.image ? (
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className="w-10 h-10 rounded-full object-cover mb-1 border border-gray-700"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center mb-1 text-xs font-medium text-white">
+                  {cat.name.charAt(0)}
+                </div>
+              )}
+              <span className="text-[11px] whitespace-nowrap">{cat.name}</span>
             </div>
           ))}
         </div>
