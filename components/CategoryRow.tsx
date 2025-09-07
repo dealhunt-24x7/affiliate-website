@@ -1,6 +1,7 @@
 "use client";
 
 import { Product } from "@/types/product";
+import ProductCard from "@/components/ProductCard";
 
 type Category = {
   name: string;
@@ -24,7 +25,6 @@ export default function CategoryRow({ category }: Props) {
 
   return (
     <section className="mb-10">
-      {/* Category Header with Image */}
       <div className="flex items-center gap-3 mb-3">
         <img
           src={category.image}
@@ -33,13 +33,10 @@ export default function CategoryRow({ category }: Props) {
         />
         <h2 className="text-lg font-bold text-yellow-400">{category.name}</h2>
       </div>
-
-      {/* Products Row */}
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
         {products.map((p) => (
           <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
-  
-            {/* <ProductCard product={p} /> */}
+            <ProductCard product={p} />
           </div>
         ))}
       </div>
