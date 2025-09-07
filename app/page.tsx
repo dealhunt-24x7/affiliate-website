@@ -1,3 +1,5 @@
+"use client";
+
 import CategoryRow from "@/components/CategoryRow";
 
 const categories = [
