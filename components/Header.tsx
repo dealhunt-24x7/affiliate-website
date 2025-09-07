@@ -7,6 +7,7 @@ import { Menu, Search, User } from "lucide-react";
 export default function Header() {
   const [open, setOpen] = useState(false);
 
+  // Ab categories me image bhi add kiya
   const categories = [
     { name: "Mobiles", image: "/images/categories/mobile.png" },
     { name: "Laptops", image: "/images/categories/laptop.png" },
@@ -16,15 +17,8 @@ export default function Header() {
     { name: "Beauty", image: "/images/categories/beauty.png" },
     { name: "Toys", image: "/images/categories/toys.png" },
     { name: "Sports", image: "/images/categories/sports.png" },
-    { name: "Furniture", image: "/images/categories/furniture.png" },
-    { name: "Grocery", image: "/images/categories/grocery.png" },
-    { name: "Books", image: "/images/categories/books.png" },
-    { name: "Stationery", image: "/images/categories/stationery.png" },
-    { name: "Appliances", image: "/images/categories/appliances.png" },
-    { name: "Watches", image: "/images/categories/watches.png" },
+    { name: "Watches", image: "/images/categories/watch.png" },
     { name: "Footwear", image: "/images/categories/footwear.png" },
-    { name: "Travel", image: "/images/categories/travel.png" },
-    { name: "Gaming", image: "/images/categories/gaming.png" },
   ];
 
   return (
@@ -66,7 +60,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Categories with Round Images */}
+      {/* Categories strip with images */}
       <div className="overflow-x-auto bg-black scrollbar-hide">
         <div className="flex gap-3 px-4 py-1.5">
           {categories.map((cat, i) => (
@@ -74,17 +68,13 @@ export default function Header() {
               key={i}
               className="flex flex-col items-center min-w-[65px] cursor-pointer text-white"
             >
-              {cat.image ? (
+              <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mb-1 overflow-hidden">
                 <img
                   src={cat.image}
                   alt={cat.name}
-                  className="w-10 h-10 rounded-full object-cover mb-1 border border-gray-700"
+                  className="w-full h-full object-cover"
                 />
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center mb-1 text-xs font-medium text-white">
-                  {cat.name.charAt(0)}
-                </div>
-              )}
+              </div>
               <span className="text-[11px] whitespace-nowrap">{cat.name}</span>
             </div>
           ))}
