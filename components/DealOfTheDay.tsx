@@ -21,7 +21,6 @@ export default function DealOfTheDay() {
 
   const [index, setIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [translate, setTranslate] = useState(0);
@@ -29,9 +28,7 @@ export default function DealOfTheDay() {
   useEffect(() => {
     if (containerRef.current && !isDragging) {
       containerRef.current.style.transition = "transform 0.5s ease-in-out";
-      containerRef.current.style.transform = `translateX(-${
-        index * 100
-      }%)`;
+      containerRef.current.style.transform = `translateX(-${index * 100}%)`;
     }
   }, [index, isDragging]);
 
@@ -43,7 +40,6 @@ export default function DealOfTheDay() {
     setIndex((prev) => (prev + 1) % products.length);
   };
 
-  // Auto scroll
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % products.length);
@@ -51,7 +47,6 @@ export default function DealOfTheDay() {
     return () => clearInterval(timer);
   }, [products.length]);
 
-  // Swipe gestures with drag effect
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -68,19 +63,14 @@ export default function DealOfTheDay() {
       const currentX = e.touches[0].clientX;
       const deltaX = currentX - startX;
       setTranslate(deltaX);
-      el.style.transform = `translateX(calc(-${
-        index * 100
-      }% + ${deltaX}px))`;
+      el.style.transform = `translateX(calc(-${index * 100}% + ${deltaX}px))`;
     };
 
     const handleTouchEnd = () => {
       setIsDragging(false);
       if (Math.abs(translate) > 50) {
-        if (translate < 0) {
-          nextSlide();
-        } else {
-          prevSlide();
-        }
+        if (translate < 0) nextSlide();
+        else prevSlide();
       } else {
         el.style.transition = "transform 0.5s ease-in-out";
         el.style.transform = `translateX(-${index * 100}%)`;
@@ -105,7 +95,6 @@ export default function DealOfTheDay() {
         <h2 className="text-lg font-bold text-gray-800">Deal of the Day</h2>
         <DealTimer duration={6 * 60 * 60} />
       </div>
-
       <div className="relative w-full h-[75px] overflow-hidden">
         <div ref={containerRef} className="flex">
           {products.map((p) => (
@@ -114,7 +103,6 @@ export default function DealOfTheDay() {
             </div>
           ))}
         </div>
-
         <button
           onClick={prevSlide}
           className="absolute left-2 top-1/2 -translate-y-1/2 bg-white text-black p-1.5 rounded-full shadow-md hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition"
