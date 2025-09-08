@@ -100,7 +100,7 @@ export default function DealOfTheDay() {
   }, [index, isDragging, translate]);
 
   return (
-    <section className="bg-white border-t border-b border-gray-200 group relative">
+    <section className="bg-[#B9BBB6] border-t border-b border-gray-200">
       <div className="flex justify-between items-center px-4 py-2">
         <h2 className="text-lg font-bold text-gray-800">Deal of the Day</h2>
         <DealTimer duration={6 * 60 * 60} />
