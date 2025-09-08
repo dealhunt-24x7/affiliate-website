@@ -31,7 +31,12 @@ export default function CategoryRow({ category }: Props) {
           alt={category.name}
           className="w-10 h-10 rounded-full object-cover"
         />
-        <h2 className="text-lg font-bold text-yellow-400">{category.name}</h2>
+        {/* Heading color updated */}
+        <h2 className="text-lg font-bold text-red-600">{category.name}</h2>
+        {/* Options: 
+            - text-red-600  (Glossy Red)
+            - text-black    (Black)
+        */}
       </div>
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
         {products.map((p) => (
