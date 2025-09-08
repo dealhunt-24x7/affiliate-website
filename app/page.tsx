@@ -29,23 +29,17 @@ const categories = [
 export default function HomePage() {
   return (
     <main className="px-4 md:px-8 min-h-screen bg-[#B9BBB6] text-gray-800">
-      {/* Thin white separator below header */}
       <div className="h-[1px] bg-white"></div>
-
-      {/* Single compact deal strip */}
       <DealOfTheDay />
-
       {categories.map((c, idx) => (
         <CategoryRow key={idx} category={c} />
       ))}
-
       <section className="mb-10">
         <h2 className="text-2xl font-bold mb-4 text-yellow-400">
           From Our Blog
         </h2>
         <BlogHighlights />
       </section>
-
       <FloatingButton />
     </main>
   );
