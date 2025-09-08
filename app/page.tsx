@@ -28,7 +28,7 @@ const categories = [
 
 export default function HomePage() {
   return (
-    <main className="px-4 md:px-8 min-h-screen bg-gray-50 text-gray-800">
+    <main className="px-4 md:px-8 min-h-screen bg-[#B9BBB6] text-gray-800">
       {/* Thin white separator below header */}
       <div className="h-[1px] bg-white"></div>
 
