@@ -9,6 +9,9 @@ export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
+  // Demo state: Normally this will come from auth (e.g., NextAuth, Firebase)
+  const [profilePic, setProfilePic] = useState<string | null>(null);
+
   const categories = [
     { name: "Mobiles", slug: "mobile", image: "/images/categories/mobile.png" },
     { name: "Laptops", slug: "laptop", image: "/images/categories/laptop.png" },
@@ -31,7 +34,6 @@ export default function Header() {
 
   return (
     <header className="bg-black shadow-md sticky top-0 z-50">
-      {/* Top Bar */}
       <div className="flex items-center justify-between px-4 py-2 relative">
         <div className="flex items-center gap-3">
           <button
@@ -56,15 +58,30 @@ export default function Header() {
         <div className="relative">
           <button
             onClick={() => setProfileOpen(!profileOpen)}
-            className="text-white focus:outline-none"
+            className="focus:outline-none"
           >
-            <User size={24} />
+            {profilePic ? (
+              <img
+                src={profilePic}
+                alt="Profile"
+                className="w-8 h-8 rounded-full border-2 border-yellow-400 object-cover"
+              />
+            ) : (
+              <User size={24} className="text-white" />
+            )}
           </button>
+
           {profileOpen && (
-            <div className="absolute right-0 mt-2 w-44 bg-white rounded-md shadow-lg overflow-hidden z-50">
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-50">
               <Link href="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login / Signup</Link>
               <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</Link>
               <Link href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile Settings</Link>
+              <button
+                onClick={() => setProfilePic(null)}
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Remove Profile Picture
+              </button>
               <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
             </div>
           )}
