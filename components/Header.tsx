@@ -8,28 +8,27 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   const categories = [
-    { name: "Mobiles", image: "/images/categories/mobile.png" },
-    { name: "Laptops", image: "/images/categories/laptop.png" },
-    { name: "Headphones", image: "/images/categories/headphones.png" },
-    { name: "Watches", image: "/images/categories/watch.png" },
-    { name: "Electronics", image: "/images/categories/electronics.png" },
-    { name: "Men", image: "/images/categories/men.png" },
-    { name: "Women", image: "/images/categories/women.png" },
-    { name: "Kids", image: "/images/categories/kids.png" },
-    { name: "Fashion", image: "/images/categories/fashion.png" },
-    { name: "Footwear", image: "/images/categories/footwear.png" },
-    { name: "Home appliances", image: "/images/categories/home-appliances.png" },
-    { name: "Sports", image: "/images/categories/sports.png" },
-    { name: "Jwellery", image: "/images/categories/jwellery.png" },
-    { name: "Kitchen", image: "/images/categories/kitchen.png" },
-    { name: "Home decor", image: "/images/categories/home-decor.png" },
-    { name: "Study", image: "/images/categories/study.png" },
-    { name: "Others", image: "/images/categories/others.png" },
+    { name: "Mobiles", slug: "mobile", image: "/images/categories/mobile.png" },
+    { name: "Laptops", slug: "laptop", image: "/images/categories/laptop.png" },
+    { name: "Headphones", slug: "headphones", image: "/images/categories/headphones.png" },
+    { name: "Watches", slug: "watches", image: "/images/categories/watch.png" },
+    { name: "Electronics", slug: "electronics", image: "/images/categories/electronics.png" },
+    { name: "Men", slug: "men", image: "/images/categories/men.png" },
+    { name: "Women", slug: "women", image: "/images/categories/women.png" },
+    { name: "Kids", slug: "kids", image: "/images/categories/kids.png" },
+    { name: "Fashion", slug: "fashion", image: "/images/categories/fashion.png" },
+    { name: "Footwear", slug: "footwear", image: "/images/categories/footwear.png" },
+    { name: "Home appliances", slug: "home-appliances", image: "/images/categories/home-appliances.png" },
+    { name: "Sports", slug: "sports", image: "/images/categories/sports.png" },
+    { name: "Jwellery", slug: "jwellery", image: "/images/categories/jwellery.png" },
+    { name: "Kitchen", slug: "kitchen", image: "/images/categories/kitchen.png" },
+    { name: "Home decor", slug: "home-decor", image: "/images/categories/home-decor.png" },
+    { name: "Study", slug: "study", image: "/images/categories/study.png" },
+    { name: "Others", slug: "others", image: "/images/categories/others.png" },
   ];
 
   return (
     <header className="bg-black shadow-md sticky top-0 z-50">
-      {/* Top Bar */}
       <div className="flex items-center justify-between px-4 py-2">
         <div className="flex items-center gap-3">
           <button
@@ -54,7 +53,6 @@ export default function Header() {
         </Link>
       </div>
 
-      {/* Search Bar */}
       <div className="px-4 pb-1.5 md:pb-2.5">
         <div className="flex items-center bg-white rounded-md shadow px-3 py-1.5 w-full md:w-[60%] md:mx-auto">
           <Search className="text-gray-500" size={16} />
@@ -66,12 +64,12 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Categories strip with images */}
       <div className="overflow-x-auto bg-black scrollbar-hide">
         <div className="flex gap-3 px-4 py-1.5">
           {categories.map((cat, i) => (
-            <div
+            <Link
               key={i}
+              href={`/products/${cat.slug}`}
               className="flex flex-col items-center min-w-[65px] cursor-pointer text-white"
             >
               <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mb-1 overflow-hidden">
@@ -82,7 +80,7 @@ export default function Header() {
                 />
               </div>
               <span className="text-[11px] whitespace-nowrap">{cat.name}</span>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
