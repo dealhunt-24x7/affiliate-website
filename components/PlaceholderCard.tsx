@@ -1,22 +1,37 @@
 "use client";
 
 import React from "react";
+import { Product } from "@/types/product";
 
-const PlaceholderCard: React.FC = () => {
+type Props = { product: Product };
+
+const ProductCard: React.FC<Props> = ({ product }) => {
   return (
-    <div className="border border-red-600 rounded-lg p-3 bg-black shadow-md flex flex-col items-center justify-center h-48 hover:shadow-lg transition">
-      {/* Dummy image box */}
-      <div className="w-20 h-20 bg-gradient-to-br from-red-500 to-red-700 rounded-full mb-3 shadow-md"></div>
-
-      {/* Dummy text line */}
-      <div className="w-24 h-3 bg-red-500 rounded mb-2"></div>
-
-      {/* View Deal button */}
-      <button className="mt-2 text-center bg-red-600 text-white text-xs px-3 py-1 rounded-full hover:bg-red-700 transition">
+    <div className="border rounded-lg p-3 bg-white shadow-md hover:shadow-lg transition flex flex-col">
+      <img
+        src={product.image}
+        alt={product.name}
+        className="w-full h-32 object-cover rounded mb-2"
+      />
+      <h3 className="font-semibold text-sm truncate text-yellow-500">
+        {product.name}
+      </h3>
+      <p className="text-xs text-gray-700 line-clamp-2">
+        {product.description}
+      </p>
+      <div className="mt-2 text-sm font-medium text-yellow-500">
+        ${product.price.toFixed(2)}
+      </div>
+      <a
+        href={product.affiliateLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-2 text-center bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600 transition"
+      >
         View Deal
-      </button>
+      </a>
     </div>
   );
 };
 
-export default PlaceholderCard;
+export default ProductCard;
