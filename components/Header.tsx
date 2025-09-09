@@ -5,11 +5,7 @@ import Link from "next/link";
 import { Menu, Search, User } from "lucide-react";
 import Sidebar from "./Sidebar";
 
-interface HeaderProps {
-  onCategorySelect?: (slug: string) => void;
-}
-
-export default function Header({ onCategorySelect }: HeaderProps) {
+export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [profilePic, setProfilePic] = useState<string | null>(null);
@@ -17,25 +13,57 @@ export default function Header({ onCategorySelect }: HeaderProps) {
   const categories = [
     { name: "Mobiles", slug: "mobile", image: "/images/categories/mobile.png" },
     { name: "Laptops", slug: "laptop", image: "/images/categories/laptop.png" },
-    { name: "Headphones", slug: "headphones", image: "/images/categories/headphones.png" },
+    {
+      name: "Headphones",
+      slug: "headphones",
+      image: "/images/categories/headphones.png",
+    },
     { name: "Watches", slug: "watches", image: "/images/categories/watch.png" },
-    { name: "Electronics", slug: "electronics", image: "/images/categories/electronics.png" },
+    {
+      name: "Electronics",
+      slug: "electronics",
+      image: "/images/categories/electronics.png",
+    },
     { name: "Men", slug: "men", image: "/images/categories/men.png" },
     { name: "Women", slug: "women", image: "/images/categories/women.png" },
     { name: "Kids", slug: "kids", image: "/images/categories/kids.png" },
     { name: "Fashion", slug: "fashion", image: "/images/categories/fashion.png" },
-    { name: "Footwear", slug: "footwear", image: "/images/categories/footwear.png" },
-    { name: "Home appliances", slug: "home-appliances", image: "/images/categories/home-appliances.png" },
+    {
+      name: "Footwear",
+      slug: "footwear",
+      image: "/images/categories/footwear.png",
+    },
+    {
+      name: "Home appliances",
+      slug: "home-appliances",
+      image: "/images/categories/home-appliances.png",
+    },
     { name: "Sports", slug: "sports", image: "/images/categories/sports.png" },
-    { name: "Jwellery", slug: "jwellery", image: "/images/categories/jwellery.png" },
+    {
+      name: "Jwellery",
+      slug: "jwellery",
+      image: "/images/categories/jwellery.png",
+    },
     { name: "Kitchen", slug: "kitchen", image: "/images/categories/kitchen.png" },
-    { name: "Home decor", slug: "home-decor", image: "/images/categories/home-decor.png" },
+    {
+      name: "Home decor",
+      slug: "home-decor",
+      image: "/images/categories/home-decor.png",
+    },
     { name: "Study", slug: "study", image: "/images/categories/study.png" },
     { name: "Others", slug: "others", image: "/images/categories/others.png" },
   ];
 
+  const handleCategoryClick = (slug: string) => {
+    const target = document.getElementById(slug);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <header className="bg-black shadow-md sticky top-0 z-50">
+      {/* Top row */}
       <div className="flex items-center justify-between px-4 py-2 relative">
         <div className="flex items-center gap-3">
           <button
@@ -75,16 +103,33 @@ export default function Header({ onCategorySelect }: HeaderProps) {
 
           {profileOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-50">
-              <Link href="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login / Signup</Link>
-              <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</Link>
-              <Link href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile Settings</Link>
+              <Link
+                href="/login"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Login / Signup
+              </Link>
+              <Link
+                href="/profile"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Edit Profile
+              </Link>
+              <Link
+                href="/settings"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Profile Settings
+              </Link>
               <button
                 onClick={() => setProfilePic(null)}
                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 Remove Profile Picture
               </button>
-              <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+              <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                Logout
+              </button>
             </div>
           )}
         </div>
@@ -108,11 +153,15 @@ export default function Header({ onCategorySelect }: HeaderProps) {
           {categories.map((cat, i) => (
             <button
               key={i}
-              onClick={() => onCategorySelect?.(cat.slug)}
+              onClick={() => handleCategoryClick(cat.slug)}
               className="flex flex-col items-center min-w-[65px] cursor-pointer text-white"
             >
               <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mb-1 overflow-hidden">
-                <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span className="text-[11px] whitespace-nowrap">{cat.name}</span>
             </button>
