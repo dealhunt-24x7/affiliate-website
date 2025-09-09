@@ -6,7 +6,6 @@ import DealOfTheDay from "@/components/DealOfTheDay";
 import CategoryRow from "@/components/CategoryRow";
 import BlogHighlights from "@/components/BlogHighlights";
 import FloatingButton from "@/components/FloatingButton";
-import Header from "@/components/Header";
 
 const categories = [
   { name: "Mobile", slug: "mobile", image: "/images/categories/mobile.png" },
@@ -31,17 +30,9 @@ const categories = [
 export default function HomePage() {
   const rowRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const handleCategorySelect = (slug: string) => {
-    const el = rowRefs.current[slug];
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
   return (
     <main className="px-4 md:px-8 min-h-screen bg-[#B9BBB6] text-gray-800">
       <div className="h-[1px] bg-white"></div>
-      <Header onCategorySelect={handleCategorySelect} />
 
       <DealOfTheDay />
 
