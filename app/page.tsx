@@ -1,10 +1,11 @@
 "use client";
+export const dynamic = "force-dynamic";
+
 import { useRef } from "react";
 import DealOfTheDay from "@/components/DealOfTheDay";
 import CategoryRow from "@/components/CategoryRow";
 import BlogHighlights from "@/components/BlogHighlights";
 import FloatingButton from "@/components/FloatingButton";
-import Header from "@/components/Header";
 
 const categories = [
   { name: "Mobile", slug: "mobile", image: "/images/categories/mobile.png" },
@@ -29,35 +30,26 @@ const categories = [
 export default function HomePage() {
   const rowRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const handleCategorySelect = (slug: string) => {
-    const element = rowRefs.current[slug];
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
   return (
     <main className="px-4 md:px-8 min-h-screen bg-[#B9BBB6] text-gray-800">
       <div className="h-[1px] bg-white"></div>
-
-      <Header onCategorySelect={handleCategorySelect} />
-
       <DealOfTheDay />
-
       {categories.map((c, idx) => (
         <div
           key={idx}
-          ref={(el) => (rowRefs.current[c.slug] = el)}
+          ref={(el) => {
+            if (el) rowRefs.current[c.slug] = el;
+          }}
         >
           <CategoryRow category={c} />
         </div>
       ))}
-
       <section className="mb-10">
-        <h2 className="text-2xl font-bold mb-4 text-yellow-400">From Our Blog</h2>
+        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
+          From Our Blog
+        </h2>
         <BlogHighlights />
       </section>
-
       <FloatingButton />
     </main>
   );
