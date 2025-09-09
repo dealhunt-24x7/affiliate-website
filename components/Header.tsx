@@ -1,15 +1,16 @@
 "use client";
-
 import { useState } from "react";
-import Link from "next/link";
 import { Menu, Search, User } from "lucide-react";
+import Sidebar from "./Sidebar";
 
 interface HeaderProps {
   onCategorySelect?: (slug: string) => void;
 }
 
 export default function Header({ onCategorySelect }: HeaderProps) {
-  const [open, setOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [profilePic, setProfilePic] = useState<string | null>(null);
 
   const categories = [
     { name: "Mobiles", slug: "mobile", image: "/images/categories/mobile.png" },
@@ -33,30 +34,62 @@ export default function Header({ onCategorySelect }: HeaderProps) {
 
   return (
     <header className="bg-black shadow-md sticky top-0 z-50">
-      <div className="flex items-center justify-between px-4 py-2">
+      <div className="flex items-center justify-between px-4 py-2 relative">
+        {/* Left Side */}
         <div className="flex items-center gap-3">
           <button
-            onClick={() => setOpen(!open)}
+            onClick={() => setSidebarOpen(true)}
             className="text-white focus:outline-none"
             aria-label="Open menu"
           >
             <Menu size={24} />
           </button>
           <div className="flex flex-col">
-            <Link href="/" className="text-xl font-extrabold">
+            <span className="text-xl font-extrabold cursor-pointer text-white">
               <span className="text-red-600">Deal</span>
               <span className="text-yellow-400">Hunt</span>
-            </Link>
+            </span>
             <span className="text-[10px] italic -mt-1 text-yellow-400">
               Best Deals Everyday!
             </span>
           </div>
         </div>
-        <Link href="/profile" aria-label="Profile" className="text-white">
-          <User size={24} />
-        </Link>
+
+        {/* Profile dropdown */}
+        <div className="relative">
+          <button
+            onClick={() => setProfileOpen(!profileOpen)}
+            className="focus:outline-none"
+          >
+            {profilePic ? (
+              <img
+                src={profilePic}
+                alt="Profile"
+                className="w-8 h-8 rounded-full border-2 border-yellow-400 object-cover"
+              />
+            ) : (
+              <User size={24} className="text-white" />
+            )}
+          </button>
+
+          {profileOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-50">
+              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login / Signup</button>
+              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</button>
+              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile Settings</button>
+              <button
+                onClick={() => setProfilePic(null)}
+                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Remove Profile Picture
+              </button>
+              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+            </div>
+          )}
+        </div>
       </div>
 
+      {/* Search Bar */}
       <div className="px-4 pb-1.5 md:pb-2.5">
         <div className="flex items-center bg-white rounded-md shadow px-3 py-1.5 w-full md:w-[60%] md:mx-auto">
           <Search className="text-gray-500" size={16} />
@@ -73,6 +106,7 @@ export default function Header({ onCategorySelect }: HeaderProps) {
         </div>
       </div>
 
+      {/* Categories strip */}
       <div className="overflow-x-auto bg-black scrollbar-hide">
         <div className="flex gap-3 px-4 py-1.5">
           {categories.map((cat, i) => (
@@ -93,6 +127,9 @@ export default function Header({ onCategorySelect }: HeaderProps) {
           ))}
         </div>
       </div>
+
+      {/* Sidebar */}
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
     </header>
   );
 }
