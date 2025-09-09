@@ -1,5 +1,7 @@
 "use client";
+
 import { useState } from "react";
+import Link from "next/link";
 import { Menu, Search, User } from "lucide-react";
 import Sidebar from "./Sidebar";
 
@@ -35,7 +37,6 @@ export default function Header({ onCategorySelect }: HeaderProps) {
   return (
     <header className="bg-black shadow-md sticky top-0 z-50">
       <div className="flex items-center justify-between px-4 py-2 relative">
-        {/* Left Side */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setSidebarOpen(true)}
@@ -45,10 +46,10 @@ export default function Header({ onCategorySelect }: HeaderProps) {
             <Menu size={24} />
           </button>
           <div className="flex flex-col">
-            <span className="text-xl font-extrabold cursor-pointer text-white">
+            <Link href="/" className="text-xl font-extrabold">
               <span className="text-red-600">Deal</span>
               <span className="text-yellow-400">Hunt</span>
-            </span>
+            </Link>
             <span className="text-[10px] italic -mt-1 text-yellow-400">
               Best Deals Everyday!
             </span>
@@ -74,16 +75,16 @@ export default function Header({ onCategorySelect }: HeaderProps) {
 
           {profileOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-50">
-              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login / Signup</button>
-              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</button>
-              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile Settings</button>
+              <Link href="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login / Signup</Link>
+              <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</Link>
+              <Link href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile Settings</Link>
               <button
                 onClick={() => setProfilePic(null)}
-                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 Remove Profile Picture
               </button>
-              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+              <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
             </div>
           )}
         </div>
@@ -97,11 +98,6 @@ export default function Header({ onCategorySelect }: HeaderProps) {
             type="text"
             placeholder="Search for Products, Brands and More"
             className="flex-1 ml-2 outline-none text-sm text-black"
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && onCategorySelect) {
-                onCategorySelect((e.target as HTMLInputElement).value.toLowerCase());
-              }
-            }}
           />
         </div>
       </div>
@@ -112,15 +108,11 @@ export default function Header({ onCategorySelect }: HeaderProps) {
           {categories.map((cat, i) => (
             <button
               key={i}
-              onClick={() => onCategorySelect && onCategorySelect(cat.slug)}
+              onClick={() => onCategorySelect?.(cat.slug)}
               className="flex flex-col items-center min-w-[65px] cursor-pointer text-white"
             >
               <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mb-1 overflow-hidden">
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="w-full h-full object-cover"
-                />
+                <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
               </div>
               <span className="text-[11px] whitespace-nowrap">{cat.name}</span>
             </button>
