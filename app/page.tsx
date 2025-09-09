@@ -1,7 +1,7 @@
 "use client";
 export const dynamic = "force-dynamic";
 
-import { useRef } from "react";
+import { useRef, useImperativeHandle, forwardRef } from "react";
 import DealOfTheDay from "@/components/DealOfTheDay";
 import CategoryRow from "@/components/CategoryRow";
 import BlogHighlights from "@/components/BlogHighlights";
@@ -27,8 +27,18 @@ const categories = [
   { name: "Others", slug: "others", image: "/images/categories/others.png" },
 ];
 
-export default function HomePage() {
+const HomePage = forwardRef((props, ref) => {
   const rowRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  // Expose scroll function to parent (layout)
+  useImperativeHandle(ref, () => ({
+    scrollToCategory: (slug: string) => {
+      const el = rowRefs.current[slug];
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    },
+  }));
 
   return (
     <main className="px-4 md:px-8 min-h-screen bg-[#B9BBB6] text-gray-800">
@@ -53,4 +63,7 @@ export default function HomePage() {
       <FloatingButton />
     </main>
   );
-}
+});
+
+HomePage.displayName = "HomePage";
+export default HomePage;
