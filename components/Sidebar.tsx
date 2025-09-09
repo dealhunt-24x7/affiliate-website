@@ -20,10 +20,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
       }`}
     >
       {/* Overlay */}
-      <div
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
-      ></div>
+      <div className="absolute inset-0 bg-black/50" onClick={onClose}></div>
 
       {/* Sidebar panel */}
       <div className="relative w-72 h-full bg-black shadow-xl flex flex-col">
