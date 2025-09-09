@@ -2,23 +2,51 @@
 
 import React from "react";
 
-type Props = {
-  categories: string[];
-};
+interface Category {
+  name: string;
+  slug: string;
+  image: string;
+}
 
-const CategoryPills: React.FC<Props> = ({ categories }) => {
+interface Props {
+  categories: Category[];
+}
+
+export default function CategoryPills({ categories }: Props) {
+  const scrollToCategory = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const headerOffset = 90; // header ki approx height (px) -> apke header ke hisaab se adjust karo
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
-      {categories.map((cat, idx) => (
-        <span
-          key={idx}
-          className="px-4 py-2 text-sm bg-blue-100 text-blue-600 rounded-full cursor-pointer hover:bg-blue-200 whitespace-nowrap"
-        >
-          {cat}
-        </span>
-      ))}
+    <div className="overflow-x-auto bg-black scrollbar-hide">
+      <div className="flex gap-3 px-4 py-1.5">
+        {categories.map((cat) => (
+          <button
+            key={cat.slug}
+            onClick={() => scrollToCategory(cat.slug)}
+            className="flex flex-col items-center min-w-[65px] cursor-pointer text-white"
+          >
+            <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mb-1 overflow-hidden">
+              <img
+                src={cat.image}
+                alt={cat.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <span className="text-[11px] whitespace-nowrap">{cat.name}</span>
+          </button>
+        ))}
+      </div>
     </div>
   );
-};
-
-export default CategoryPills;
+}
