@@ -1,24 +1,24 @@
-"use client";
+import "../styles/globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
-import { useState } from "react";
-import CategoryRow from "@/components/CategoryRow";
+export const metadata = {
+  title: "Dealhunt - Best Deals, Every Day",
+  description: "Find trending deals, compare products, and save more with Dealhunt.",
+};
 
-const categories = [
-  { name: "Mobile", slug: "mobile", image: "/images/categories/mobile.png" },
-  { name: "Laptop", slug: "laptop", image: "/images/categories/laptop.png" },
-  // ... baki categories
-];
-
-export default function HomePage({ selectedCategory }: { selectedCategory: string | null }) {
-  const visibleCategories = selectedCategory
-    ? categories.filter((cat) => cat.slug === selectedCategory)
-    : categories;
-
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div className="p-4">
-      {visibleCategories.map((cat, idx) => (
-        <CategoryRow key={idx} category={cat} />
-      ))}
-    </div>
+    <html lang="en">
+      <body className="bg-[#B9BBB6] text-gray-800">
+        <Header />
+        <main className="min-h-screen">{children}</main>
+        <Footer />
+      </body>
+    </html>
   );
 }
