@@ -13,43 +13,19 @@ export default function Header() {
   const categories = [
     { name: "Mobiles", slug: "mobile", image: "/images/categories/mobile.png" },
     { name: "Laptops", slug: "laptop", image: "/images/categories/laptop.png" },
-    {
-      name: "Headphones",
-      slug: "headphones",
-      image: "/images/categories/headphones.png",
-    },
+    { name: "Headphones", slug: "headphones", image: "/images/categories/headphones.png" },
     { name: "Watches", slug: "watches", image: "/images/categories/watch.png" },
-    {
-      name: "Electronics",
-      slug: "electronics",
-      image: "/images/categories/electronics.png",
-    },
+    { name: "Electronics", slug: "electronics", image: "/images/categories/electronics.png" },
     { name: "Men", slug: "men", image: "/images/categories/men.png" },
     { name: "Women", slug: "women", image: "/images/categories/women.png" },
     { name: "Kids", slug: "kids", image: "/images/categories/kids.png" },
     { name: "Fashion", slug: "fashion", image: "/images/categories/fashion.png" },
-    {
-      name: "Footwear",
-      slug: "footwear",
-      image: "/images/categories/footwear.png",
-    },
-    {
-      name: "Home appliances",
-      slug: "home-appliances",
-      image: "/images/categories/home-appliances.png",
-    },
+    { name: "Footwear", slug: "footwear", image: "/images/categories/footwear.png" },
+    { name: "Home appliances", slug: "home-appliances", image: "/images/categories/home-appliances.png" },
     { name: "Sports", slug: "sports", image: "/images/categories/sports.png" },
-    {
-      name: "Jwellery",
-      slug: "jwellery",
-      image: "/images/categories/jwellery.png",
-    },
+    { name: "Jwellery", slug: "jwellery", image: "/images/categories/jwellery.png" },
     { name: "Kitchen", slug: "kitchen", image: "/images/categories/kitchen.png" },
-    {
-      name: "Home decor",
-      slug: "home-decor",
-      image: "/images/categories/home-decor.png",
-    },
+    { name: "Home decor", slug: "home-decor", image: "/images/categories/home-decor.png" },
     { name: "Study", slug: "study", image: "/images/categories/study.png" },
     { name: "Others", slug: "others", image: "/images/categories/others.png" },
   ];
@@ -57,13 +33,19 @@ export default function Header() {
   const handleCategoryClick = (slug: string) => {
     const target = document.getElementById(slug);
     if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      const headerOffset = 80;
+      const elementPosition = target.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
     }
   };
 
   return (
     <header className="bg-black shadow-md sticky top-0 z-50">
-      {/* Top row */}
       <div className="flex items-center justify-between px-4 py-2 relative">
         <div className="flex items-center gap-3">
           <button
@@ -84,7 +66,6 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Profile dropdown */}
         <div className="relative">
           <button
             onClick={() => setProfileOpen(!profileOpen)}
@@ -103,22 +84,13 @@ export default function Header() {
 
           {profileOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-50">
-              <Link
-                href="/login"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
+              <Link href="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 Login / Signup
               </Link>
-              <Link
-                href="/profile"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
+              <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 Edit Profile
               </Link>
-              <Link
-                href="/settings"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
+              <Link href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 Profile Settings
               </Link>
               <button
@@ -135,7 +107,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Search Bar */}
       <div className="px-4 pb-1.5 md:pb-2.5">
         <div className="flex items-center bg-white rounded-md shadow px-3 py-1.5 w-full md:w-[60%] md:mx-auto">
           <Search className="text-gray-500" size={16} />
@@ -147,7 +118,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Categories strip */}
       <div className="overflow-x-auto bg-black scrollbar-hide">
         <div className="flex gap-3 px-4 py-1.5">
           {categories.map((cat, i) => (
@@ -169,7 +139,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Sidebar */}
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
     </header>
   );
