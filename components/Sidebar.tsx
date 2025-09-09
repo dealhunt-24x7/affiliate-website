@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { X } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
 interface SidebarProps {
   open: boolean;
@@ -9,80 +10,141 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ open, onClose }: SidebarProps) {
-  if (!open) return null;
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [ordersOpen, setOrdersOpen] = useState(false);
 
   return (
-    <>
+    <div
+      className={`fixed inset-0 z-50 transition-transform duration-300 ${
+        open ? "translate-x-0" : "-translate-x-full"
+      }`}
+    >
       {/* Overlay */}
       <div
-        className="fixed inset-0 bg-black/50 z-40"
+        className="absolute inset-0 bg-black/50"
         onClick={onClose}
       ></div>
 
-      {/* Sidebar */}
-      <div className="fixed top-0 left-0 h-full w-72 bg-white shadow-lg z-50 transform transition-transform duration-300">
-        {/* Header with close */}
-        <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-lg font-bold">Menu</h2>
-          <button onClick={onClose}>
-            <X size={24} />
+      {/* Sidebar panel */}
+      <div className="relative w-72 h-full bg-white shadow-xl flex flex-col">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b">
+          <h2 className="text-lg font-semibold">Menu</h2>
+          <button onClick={onClose} className="p-1 rounded hover:bg-gray-100">
+            <X size={22} />
           </button>
         </div>
 
-        {/* Menu items */}
-        <nav className="p-4 space-y-3">
-          <Link href="/" className="block text-gray-700 hover:text-black">
-            Home
-          </Link>
+        {/* Menu */}
+        <nav className="flex-1 overflow-y-auto">
+          <ul className="space-y-1 px-3 py-2 text-gray-800">
+            <li>
+              <Link href="/" className="block px-3 py-2 rounded hover:bg-gray-100">
+                Home
+              </Link>
+            </li>
 
-          {/* Filters */}
-          <div>
-            <p className="font-semibold text-gray-800">Filters</p>
-            <ul className="ml-3 space-y-1 text-gray-600">
-              <li>Price High to Low</li>
-              <li>Price Low to High</li>
-              <li>Newest First</li>
-              <li>By Partner:</li>
-              <ul className="ml-3 list-disc text-sm">
-                <li>Amazon</li>
-                <li>Flipkart</li>
-                <li>Myntra</li>
-                <li>Meesho</li>
-                <li>Nykaa</li>
-                <li>Ajio</li>
-              </ul>
-            </ul>
-          </div>
+            {/* Filters */}
+            <li>
+              <button
+                onClick={() => setFilterOpen(!filterOpen)}
+                className="w-full flex justify-between items-center px-3 py-2 rounded hover:bg-gray-100"
+              >
+                <span>Filters</span>
+                <span>{filterOpen ? "−" : "+"}</span>
+              </button>
+              {filterOpen && (
+                <ul className="pl-6 space-y-1 text-sm text-gray-700">
+                  <li>
+                    <Link href="?sort=high-to-low" className="block py-1 hover:underline">
+                      Price High → Low
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="?sort=low-to-high" className="block py-1 hover:underline">
+                      Price Low → High
+                    </Link>
+                  </li>
+                  <li className="py-1 font-semibold">By Partners</li>
+                  {["Amazon", "Flipkart", "Myntra", "Meesho", "Nykaa", "Ajio"].map((p) => (
+                    <li key={p}>
+                      <Link href={`/partner/${p.toLowerCase()}`} className="block py-1 hover:underline">
+                        {p}
+                      </Link>
+                    </li>
+                  ))}
+                  <li>
+                    <Link href="?sort=newest" className="block py-1 hover:underline">
+                      Newest First
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
 
-          {/* Orders */}
-          <div>
-            <p className="font-semibold text-gray-800">Orders</p>
-            <ul className="ml-3 space-y-1 text-gray-600">
-              <li>My Orders</li>
-              <li>Track Order</li>
-            </ul>
-          </div>
+            {/* Orders */}
+            <li>
+              <button
+                onClick={() => setOrdersOpen(!ordersOpen)}
+                className="w-full flex justify-between items-center px-3 py-2 rounded hover:bg-gray-100"
+              >
+                <span>Orders</span>
+                <span>{ordersOpen ? "−" : "+"}</span>
+              </button>
+              {ordersOpen && (
+                <ul className="pl-6 space-y-1 text-sm text-gray-700">
+                  <li>
+                    <Link href="/orders" className="block py-1 hover:underline">
+                      My Orders
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/order-tracking" className="block py-1 hover:underline">
+                      Order Tracking
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
 
-          <Link href="/refer" className="block text-gray-700 hover:text-black">
-            Refer & Earn
-          </Link>
-          <Link href="/wallet" className="block text-gray-700 hover:text-black">
-            Wallet
-          </Link>
-          <Link
-            href="/notifications"
-            className="block text-gray-700 hover:text-black"
-          >
-            Notifications
-          </Link>
-          <Link href="/settings" className="block text-gray-700 hover:text-black">
-            Settings
-          </Link>
-          <Link href="/donate" className="block text-gray-700 hover:text-black">
-            Donate Your Savings
-          </Link>
+            <li>
+              <Link href="/refer" className="block px-3 py-2 rounded hover:bg-gray-100">
+                Refer & Earn
+              </Link>
+            </li>
+            <li>
+              <Link href="/wallet" className="block px-3 py-2 rounded hover:bg-gray-100">
+                Wallet
+              </Link>
+            </li>
+            <li>
+              <Link href="/categories" className="block px-3 py-2 rounded hover:bg-gray-100">
+                All Categories
+              </Link>
+            </li>
+            <li>
+              <Link href="/notifications" className="block px-3 py-2 rounded hover:bg-gray-100">
+                Notifications
+              </Link>
+            </li>
+            <li>
+              <Link href="/settings" className="block px-3 py-2 rounded hover:bg-gray-100">
+                Settings
+              </Link>
+            </li>
+            <li>
+              <Link href="/donate" className="block px-3 py-2 rounded hover:bg-gray-100">
+                Donate Your Savings
+              </Link>
+            </li>
+          </ul>
         </nav>
+
+        {/* Footer */}
+        <div className="px-4 py-3 border-t text-xs text-gray-500">
+          © {new Date().getFullYear()} DealHunt
+        </div>
       </div>
-    </>
+    </div>
   );
 }
