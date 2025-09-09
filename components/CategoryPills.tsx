@@ -16,7 +16,7 @@ export default function CategoryPills({ categories }: Props) {
   const scrollToCategory = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      const headerOffset = 90; // header ki approx height (px) -> apke header ke hisaab se adjust karo
+      const headerOffset = 100;
       const elementPosition = el.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - headerOffset;
 
