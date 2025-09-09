@@ -1,7 +1,6 @@
 import "../styles/globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useRef } from "react";
 
 export const metadata = {
   title: "Dealhunt - Best Deals, Every Day",
