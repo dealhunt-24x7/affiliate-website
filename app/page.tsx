@@ -1,7 +1,10 @@
 "use client";
-
-import { useState } from "react";
+import { useRef } from "react";
+import DealOfTheDay from "@/components/DealOfTheDay";
 import CategoryRow from "@/components/CategoryRow";
+import BlogHighlights from "@/components/BlogHighlights";
+import FloatingButton from "@/components/FloatingButton";
+import Header from "@/components/Header";
 
 const categories = [
   { name: "Mobile", slug: "mobile", image: "/images/categories/mobile.png" },
@@ -24,26 +27,38 @@ const categories = [
 ];
 
 export default function HomePage() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const rowRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const visibleCategories = selectedCategory
-    ? categories.filter((cat) => cat.slug === selectedCategory)
-    : categories;
+  const handleCategorySelect = (slug: string) => {
+    const element = rowRefs.current[slug];
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
-    <div className="p-4">
-      {visibleCategories.map((cat, idx) => (
-        <CategoryRow key={idx} category={cat} />
+    <main className="px-4 md:px-8 min-h-screen bg-[#B9BBB6] text-gray-800">
+      <div className="h-[1px] bg-white"></div>
+
+      <Header onCategorySelect={handleCategorySelect} />
+
+      <DealOfTheDay />
+
+      {categories.map((c, idx) => (
+        <div
+          key={idx}
+          ref={(el) => (rowRefs.current[c.slug] = el)}
+        >
+          <CategoryRow category={c} />
+        </div>
       ))}
 
-      {selectedCategory && (
-        <button
-          onClick={() => setSelectedCategory(null)}
-          className="mt-6 px-4 py-2 bg-gray-200 rounded-md text-sm"
-        >
-          Show All Categories
-        </button>
-      )}
-    </div>
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold mb-4 text-yellow-400">From Our Blog</h2>
+        <BlogHighlights />
+      </section>
+
+      <FloatingButton />
+    </main>
   );
 }
