@@ -4,10 +4,15 @@ import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Dealhunt - Best Deals, Every Day",
-  description: "Find trending deals, compare products, and save more with Dealhunt.",
+  description:
+    "Find trending deals, compare products, and save more with Dealhunt.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className="bg-[#B9BBB6] text-gray-800">
