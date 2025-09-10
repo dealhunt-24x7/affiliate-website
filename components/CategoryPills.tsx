@@ -13,13 +13,19 @@ interface Props {
 export default function CategoryPills({ categories }: Props) {
   const scrollToCategory = (id: string) => {
     const el = document.getElementById(id);
+    if (!el) return;
+
     const header = document.querySelector("header");
-    if (el) {
-      const headerHeight = header ? header.clientHeight : 0;
-      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-      const offsetPosition = elementPosition - headerHeight - 10;
-      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-    }
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+
+    const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+    // Add safe offset so element is fully visible below header
+    const offsetPosition = elementPosition - headerHeight - 20;
+
+    window.scrollTo({
+      top: offsetPosition > 0 ? offsetPosition : 0,
+      behavior: "smooth",
+    });
   };
 
   return (
