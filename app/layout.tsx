@@ -1,6 +1,9 @@
 // app/layout.tsx
 import type { Metadata } from "next";
-import "./../styles/globals.css"; // ✅ FIXED PATH (relative to app/ folder)
+import "./../styles/globals.css"; // ✅ Correct path
+
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "DealHunt - Best Deals Everyday",
@@ -14,8 +17,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-[#B9BBB6] text-gray-800">
-        {children}
+      <body className="bg-[#B9BBB6] text-gray-800 flex flex-col min-h-screen">
+        {/* ✅ Header at top */}
+        <Header />
+
+        {/* ✅ Main Content */}
+        <main className="flex-1">{children}</main>
+
+        {/* ✅ Footer at bottom */}
+        <Footer />
       </body>
     </html>
   );
