@@ -43,7 +43,7 @@ export default function Header() {
     }
   };
 
-  // ✅ Profile dropdown close on outside click
+  // ✅ Close profile dropdown when clicked outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
@@ -54,13 +54,20 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // ✅ Dummy search suggestions
+  // ✅ Improved search suggestions
   useEffect(() => {
-    if (searchQuery.length > 1) {
-      const allProducts = ["iPhone 14", "Samsung S23", "Macbook Air", "Nike Shoes", "Kitchen Mixer"];
+    if (searchQuery.trim().length > 0) {
+      const allProducts = [
+        "iPhone 14", "iPhone 15", "Samsung S23", "Samsung A54",
+        "Macbook Air", "Macbook Pro", "Dell Laptop", "HP Pavilion",
+        "Nike Shoes", "Adidas Sneakers", "Kitchen Mixer", "Washing Machine",
+        "Bluetooth Headphones", "Smart Watch", "Gold Necklace"
+      ];
+
       const matches = allProducts.filter((p) =>
         p.toLowerCase().includes(searchQuery.toLowerCase())
       );
+
       setSuggestions(matches);
     } else {
       setSuggestions([]);
@@ -71,9 +78,8 @@ export default function Header() {
     if (query.trim() === "") return;
     if (suggestions.length > 0) {
       console.log("Navigate to results page with:", query);
-      // Yaha aap API search results page open karwa sakte ho
+      // Future: redirect to custom results page
     } else {
-      // Redirect to Amazon if no match
       window.open(`https://www.amazon.in/s?k=${encodeURIComponent(query)}`, "_blank");
     }
     setSearchQuery("");
@@ -82,7 +88,7 @@ export default function Header() {
 
   return (
     <header className="bg-black shadow-md sticky top-0 z-50">
-      {/* Top row */}
+      {/* Top Row */}
       <div className="flex items-center justify-between px-4 py-2 relative">
         {/* Left: Menu + Logo */}
         <div className="flex items-center gap-3">
@@ -136,7 +142,6 @@ export default function Header() {
                 onClick={() => {
                   console.log("Logout clicked");
                   setProfileOpen(false);
-                  // Future: clear user session here
                 }}
                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
@@ -162,22 +167,31 @@ export default function Header() {
         </div>
 
         {/* Suggestions dropdown */}
-        {suggestions.length > 0 && (
-          <div className="absolute bg-white shadow-md rounded-md mt-1 w-full md:w-[60%] md:mx-auto max-h-56 overflow-y-auto">
-            {suggestions.map((s, i) => (
+        {searchQuery.length > 0 && (
+          <div className="absolute bg-white shadow-md rounded-md mt-1 w-full md:w-[60%] md:mx-auto max-h-56 overflow-y-auto z-50">
+            {suggestions.length > 0 ? (
+              suggestions.map((s, i) => (
+                <button
+                  key={i}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+                  onClick={() => handleSearch(s)}
+                >
+                  {s}
+                </button>
+              ))
+            ) : (
               <button
-                key={i}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
-                onClick={() => handleSearch(s)}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-gray-500"
+                onClick={() => handleSearch(searchQuery)}
               >
-                {s}
+                🔎 Search on Amazon for "{searchQuery}"
               </button>
-            ))}
+            )}
           </div>
         )}
       </div>
 
-      {/* Categories strip */}
+      {/* Categories Strip */}
       <div className="overflow-x-auto bg-black scrollbar-hide">
         <div className="flex gap-3 px-4 py-1.5">
           {categories.map((cat) => (
