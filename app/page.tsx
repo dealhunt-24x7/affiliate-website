@@ -32,15 +32,12 @@ export default function HomePage() {
 
   return (
     <main className="px-4 md:px-8 min-h-screen bg-[#B9BBB6] text-gray-800">
-      <div className="h-[1px] bg-white"></div>
       <DealOfTheDay />
 
-      {categories.map((c, idx) => (
+      {categories.map((c) => (
         <div
-          key={idx}
-          ref={(el) => {
-            rowRefs.current[c.slug] = el;
-          }}
+          key={c.slug}
+          ref={(el) => { rowRefs.current[c.slug] = el; }}
           id={c.slug}
         >
           <CategoryRow category={c} />
