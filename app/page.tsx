@@ -6,47 +6,24 @@ import DealOfTheDay from "@/components/DealOfTheDay";
 import CategoryRow from "@/components/CategoryRow";
 import BlogHighlights from "@/components/BlogHighlights";
 import FloatingButton from "@/components/FloatingButton";
+import CategoryPills from "@/components/CategoryPills";
 
 const categories = [
   { name: "Mobile", slug: "mobile", image: "/images/categories/mobile.png" },
   { name: "Laptop", slug: "laptop", image: "/images/categories/laptop.png" },
-  {
-    name: "Headphones",
-    slug: "headphones",
-    image: "/images/categories/headphones.png",
-  },
+  { name: "Headphones", slug: "headphones", image: "/images/categories/headphones.png" },
   { name: "Watches", slug: "watches", image: "/images/categories/watch.png" },
-  {
-    name: "Electronics",
-    slug: "electronics",
-    image: "/images/categories/electronics.png",
-  },
+  { name: "Electronics", slug: "electronics", image: "/images/categories/electronics.png" },
   { name: "Men", slug: "men", image: "/images/categories/men.png" },
   { name: "Women", slug: "women", image: "/images/categories/women.png" },
   { name: "Kids", slug: "kids", image: "/images/categories/kids.png" },
   { name: "Fashion", slug: "fashion", image: "/images/categories/fashion.png" },
-  {
-    name: "Footwear",
-    slug: "footwear",
-    image: "/images/categories/footwear.png",
-  },
-  {
-    name: "Home appliances",
-    slug: "home-appliances",
-    image: "/images/categories/home-appliances.png",
-  },
+  { name: "Footwear", slug: "footwear", image: "/images/categories/footwear.png" },
+  { name: "Home appliances", slug: "home-appliances", image: "/images/categories/home-appliances.png" },
   { name: "Sports", slug: "sports", image: "/images/categories/sports.png" },
-  {
-    name: "Jwellery",
-    slug: "jwellery",
-    image: "/images/categories/jwellery.png",
-  },
+  { name: "Jwellery", slug: "jwellery", image: "/images/categories/jwellery.png" },
   { name: "Kitchen", slug: "kitchen", image: "/images/categories/kitchen.png" },
-  {
-    name: "Home decor",
-    slug: "home-decor",
-    image: "/images/categories/home-decor.png",
-  },
+  { name: "Home decor", slug: "home-decor", image: "/images/categories/home-decor.png" },
   { name: "Study", slug: "study", image: "/images/categories/study.png" },
   { name: "Others", slug: "others", image: "/images/categories/others.png" },
 ];
@@ -54,8 +31,24 @@ const categories = [
 export default function HomePage() {
   const rowRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
+  const handleScrollToCategory = (slug: string) => {
+    const el = rowRefs.current[slug];
+    if (el) {
+      const header = document.querySelector("header");
+      const headerHeight = header ? header.getBoundingClientRect().height : 0;
+      const elementTop = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: elementTop - headerHeight - 20, // ✅ exact offset fix
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <main className="px-4 md:px-8 min-h-screen bg-[#B9BBB6] text-gray-800">
+      {/* ✅ Category Pills bar on top */}
+      <CategoryPills onCategorySelect={handleScrollToCategory} />
+
       <div className="h-[1px] bg-white"></div>
       <DealOfTheDay />
 
