@@ -15,17 +15,20 @@ export default function CategoryPills({ categories }: Props) {
     const el = document.getElementById(id);
     if (!el) return;
 
-    const header = document.querySelector("header");
-    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    // Step 1: Scroll into view normally
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
 
-    const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-    // Add safe offset so element is fully visible below header
-    const offsetPosition = elementPosition - headerHeight - 20;
-
-    window.scrollTo({
-      top: offsetPosition > 0 ? offsetPosition : 0,
-      behavior: "smooth",
-    });
+    // Step 2: Adjust position after small delay
+    setTimeout(() => {
+      const header = document.querySelector("header");
+      const headerHeight = header ? header.getBoundingClientRect().height : 0;
+      const currentScroll = window.scrollY;
+      // adjust scroll with smooth behavior
+      window.scrollTo({
+        top: currentScroll - headerHeight - 10, // safe margin
+        behavior: "smooth",
+      });
+    }, 400); // wait for initial scroll animation to finish
   };
 
   return (
