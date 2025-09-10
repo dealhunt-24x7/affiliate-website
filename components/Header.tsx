@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Menu, Search, User } from "lucide-react";
 import Sidebar from "./Sidebar";
@@ -9,6 +9,9 @@ export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [profilePic, setProfilePic] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const profileRef = useRef<HTMLDivElement | null>(null);
 
   const categories = [
     { name: "Mobiles", slug: "mobile", image: "/images/categories/mobile.png" },
@@ -33,11 +36,48 @@ export default function Header() {
   const handleCategoryClick = (slug: string) => {
     const target = document.getElementById(slug);
     const header = document.querySelector("header");
-    const headerHeight = header ? header.getBoundingClientRect().height : 64; // ✅ dynamic height fallback
+    const headerHeight = header ? header.getBoundingClientRect().height : 64;
     if (target) {
-      const y = target.getBoundingClientRect().top + window.scrollY - headerHeight - 8; // thoda gap
+      const y = target.getBoundingClientRect().top + window.scrollY - headerHeight - 8;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
+  };
+
+  // ✅ Profile dropdown close on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // ✅ Dummy search suggestions
+  useEffect(() => {
+    if (searchQuery.length > 1) {
+      const allProducts = ["iPhone 14", "Samsung S23", "Macbook Air", "Nike Shoes", "Kitchen Mixer"];
+      const matches = allProducts.filter((p) =>
+        p.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setSuggestions(matches);
+    } else {
+      setSuggestions([]);
+    }
+  }, [searchQuery]);
+
+  const handleSearch = (query: string) => {
+    if (query.trim() === "") return;
+    if (suggestions.length > 0) {
+      console.log("Navigate to results page with:", query);
+      // Yaha aap API search results page open karwa sakte ho
+    } else {
+      // Redirect to Amazon if no match
+      window.open(`https://www.amazon.in/s?k=${encodeURIComponent(query)}`, "_blank");
+    }
+    setSearchQuery("");
+    setSuggestions([]);
   };
 
   return (
@@ -65,11 +105,8 @@ export default function Header() {
         </div>
 
         {/* Right: Profile */}
-        <div className="relative">
-          <button
-            onClick={() => setProfileOpen(!profileOpen)}
-            className="focus:outline-none"
-          >
+        <div className="relative" ref={profileRef}>
+          <button onClick={() => setProfileOpen((prev) => !prev)} className="focus:outline-none">
             {profilePic ? (
               <img
                 src={profilePic}
@@ -83,16 +120,10 @@ export default function Header() {
 
           {profileOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-50">
-              <Link
-                href="/login"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
+              <Link href="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 Login / Signup
               </Link>
-              <Link
-                href="/settings"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
+              <Link href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 Profile Settings
               </Link>
               <button
@@ -101,7 +132,14 @@ export default function Header() {
               >
                 Remove Profile Picture
               </button>
-              <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              <button
+                onClick={() => {
+                  console.log("Logout clicked");
+                  setProfileOpen(false);
+                  // Future: clear user session here
+                }}
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
                 Logout
               </button>
             </div>
@@ -110,15 +148,33 @@ export default function Header() {
       </div>
 
       {/* Search Bar */}
-      <div className="px-4 pb-1.5 md:pb-2.5">
+      <div className="px-4 pb-1.5 md:pb-2.5 relative">
         <div className="flex items-center bg-white rounded-md shadow px-3 py-1.5 w-full md:w-[60%] md:mx-auto">
           <Search className="text-gray-500" size={16} />
           <input
             type="text"
             placeholder="Search for Products, Brands and More"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch(searchQuery)}
             className="flex-1 ml-2 outline-none text-sm text-black"
           />
         </div>
+
+        {/* Suggestions dropdown */}
+        {suggestions.length > 0 && (
+          <div className="absolute bg-white shadow-md rounded-md mt-1 w-full md:w-[60%] md:mx-auto max-h-56 overflow-y-auto">
+            {suggestions.map((s, i) => (
+              <button
+                key={i}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+                onClick={() => handleSearch(s)}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Categories strip */}
@@ -131,11 +187,7 @@ export default function Header() {
               className="flex flex-col items-center min-w-[65px] cursor-pointer text-white"
             >
               <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mb-1 overflow-hidden">
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="w-full h-full object-cover"
-                />
+                <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
               </div>
               <span className="text-[11px] whitespace-nowrap">{cat.name}</span>
             </button>
