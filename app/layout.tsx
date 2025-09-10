@@ -1,21 +1,25 @@
+import "@/styles/globals.css";
+import type { Metadata } from "next";
 import Header from "@/components/Header";
-import CategoryPills from "@/components/CategoryPills";
-import "./globals.css";
 
-const categories = [
-  { name: "Mobile", slug: "mobile" },
-  { name: "Laptop", slug: "laptop" },
-  { name: "Headphones", slug: "headphones" },
-  // ...baaki categories yaha bhi list honi chahiye
-];
+export const metadata: Metadata = {
+  title: "DealHunt",
+  description: "Find the best affiliate deals in one place",
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-[#B9BBB6] text-gray-800">
+        {/* Global Header */}
         <Header />
-        <CategoryPills categories={categories} />
-        {children}
+
+        {/* Main Content */}
+        <main className="min-h-screen">{children}</main>
       </body>
     </html>
   );
