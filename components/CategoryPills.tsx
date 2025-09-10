@@ -1,47 +1,36 @@
 "use client";
 
 interface CategoryPillsProps {
-  onCategorySelect: (slug: string) => void;
+  categories: { name: string; slug: string }[];
 }
 
-export default function CategoryPills({ onCategorySelect }: CategoryPillsProps) {
-  const categories = [
-    { name: "Mobiles", slug: "mobile", image: "/images/categories/mobile.png" },
-    { name: "Laptops", slug: "laptop", image: "/images/categories/laptop.png" },
-    { name: "Headphones", slug: "headphones", image: "/images/categories/headphones.png" },
-    { name: "Watches", slug: "watches", image: "/images/categories/watch.png" },
-    { name: "Electronics", slug: "electronics", image: "/images/categories/electronics.png" },
-    { name: "Men", slug: "men", image: "/images/categories/men.png" },
-    { name: "Women", slug: "women", image: "/images/categories/women.png" },
-    { name: "Kids", slug: "kids", image: "/images/categories/kids.png" },
-    { name: "Fashion", slug: "fashion", image: "/images/categories/fashion.png" },
-    { name: "Footwear", slug: "footwear", image: "/images/categories/footwear.png" },
-    { name: "Home appliances", slug: "home-appliances", image: "/images/categories/home-appliances.png" },
-    { name: "Sports", slug: "sports", image: "/images/categories/sports.png" },
-    { name: "Jwellery", slug: "jwellery", image: "/images/categories/jwellery.png" },
-    { name: "Kitchen", slug: "kitchen", image: "/images/categories/kitchen.png" },
-    { name: "Home decor", slug: "home-decor", image: "/images/categories/home-decor.png" },
-    { name: "Study", slug: "study", image: "/images/categories/study.png" },
-    { name: "Others", slug: "others", image: "/images/categories/others.png" },
-  ];
+export default function CategoryPills({ categories }: CategoryPillsProps) {
+  const handleScrollToCategory = (slug: string) => {
+    const target = document.getElementById(slug);
+    if (target) {
+      const header = document.querySelector("header");
+      const headerHeight = header ? header.getBoundingClientRect().height : 0;
+      const pills = document.querySelector(".category-pills"); // sticky pills height
+      const pillsHeight = pills ? pills.getBoundingClientRect().height : 0;
+
+      const top = target.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: top - headerHeight - pillsHeight - 10, // ✅ perfect offset
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
-    <div className="overflow-x-auto bg-black scrollbar-hide">
-      <div className="flex gap-3 px-4 py-1.5">
-        {categories.map((cat, i) => (
+    <div className="category-pills sticky top-[var(--header-height)] z-40 bg-white shadow-sm overflow-x-auto">
+      <div className="flex space-x-3 px-4 py-2">
+        {categories.map((c) => (
           <button
-            key={i}
-            onClick={() => onCategorySelect(cat.slug)}
-            className="flex flex-col items-center min-w-[65px] cursor-pointer text-white"
+            key={c.slug}
+            onClick={() => handleScrollToCategory(c.slug)}
+            className="px-3 py-1 text-sm rounded-full bg-gray-100 hover:bg-gray-200 whitespace-nowrap"
           >
-            <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mb-1 overflow-hidden">
-              <img
-                src={cat.image}
-                alt={cat.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <span className="text-[11px] whitespace-nowrap">{cat.name}</span>
+            {c.name}
           </button>
         ))}
       </div>
