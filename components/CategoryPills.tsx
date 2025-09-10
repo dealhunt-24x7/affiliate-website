@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 interface Category {
   name: string;
   slug: string;
@@ -15,15 +13,12 @@ interface Props {
 export default function CategoryPills({ categories }: Props) {
   const scrollToCategory = (id: string) => {
     const el = document.getElementById(id);
+    const header = document.querySelector("header");
     if (el) {
-      const headerOffset = 100;
+      const headerHeight = header ? header.clientHeight : 0;
       const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-      const offsetPosition = elementPosition - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+      const offsetPosition = elementPosition - headerHeight - 10;
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
     }
   };
 
@@ -37,11 +32,7 @@ export default function CategoryPills({ categories }: Props) {
             className="flex flex-col items-center min-w-[65px] cursor-pointer text-white"
           >
             <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mb-1 overflow-hidden">
-              <img
-                src={cat.image}
-                alt={cat.name}
-                className="w-full h-full object-cover"
-              />
+              <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
             </div>
             <span className="text-[11px] whitespace-nowrap">{cat.name}</span>
           </button>
