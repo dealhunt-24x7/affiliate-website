@@ -32,9 +32,10 @@ export default function Header() {
 
   const handleCategoryClick = (slug: string) => {
     const target = document.getElementById(slug);
+    const header = document.querySelector("header");
+    const headerHeight = header ? header.getBoundingClientRect().height : 64; // ✅ dynamic height fallback
     if (target) {
-      const headerHeight = 80; // fixed header ki height adjust
-      const y = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+      const y = target.getBoundingClientRect().top + window.scrollY - headerHeight - 8; // thoda gap
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
@@ -123,9 +124,9 @@ export default function Header() {
       {/* Categories strip */}
       <div className="overflow-x-auto bg-black scrollbar-hide">
         <div className="flex gap-3 px-4 py-1.5">
-          {categories.map((cat, i) => (
+          {categories.map((cat) => (
             <button
-              key={i}
+              key={cat.slug}
               onClick={() => handleCategoryClick(cat.slug)}
               className="flex flex-col items-center min-w-[65px] cursor-pointer text-white"
             >
