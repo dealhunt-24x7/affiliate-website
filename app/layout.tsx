@@ -1,24 +1,21 @@
-import "../styles/globals.css";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import CategoryPills from "@/components/CategoryPills";
+import "./globals.css";
 
-export const metadata = {
-  title: "Dealhunt - Best Deals, Every Day",
-  description:
-    "Find trending deals, compare products, and save more with Dealhunt.",
-};
+const categories = [
+  { name: "Mobile", slug: "mobile" },
+  { name: "Laptop", slug: "laptop" },
+  { name: "Headphones", slug: "headphones" },
+  // ...baaki categories yaha bhi list honi chahiye
+];
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-[#B9BBB6] text-gray-800">
+      <body>
         <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        <CategoryPills categories={categories} />
+        {children}
       </body>
     </html>
   );
