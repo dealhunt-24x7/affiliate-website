@@ -5,6 +5,7 @@ import { Product } from "@/types/product";
 import ProductCard from "./ProductCard";
 import DealTimer from "./DealTimer";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 export default function DealOfTheDay() {
   const products: Product[] = Array.from({ length: 8 }).map((_, i) => ({
@@ -91,10 +92,25 @@ export default function DealOfTheDay() {
 
   return (
     <section className="bg-[#B9BBB6] border-t border-b border-gray-200">
-      <div className="flex justify-between items-center px-4 py-2">
-        <h2 className="text-lg font-bold text-gray-800">Deal of the Day</h2>
+      {/* 🔥 Heading + View All Button */}
+      <div className="flex justify-between items-center px-4 py-3">
+        <h2 className="text-xl md:text-2xl font-extrabold bg-gradient-to-r from-red-600 via-yellow-500 to-orange-500 text-transparent bg-clip-text animate-pulse drop-shadow">
+          🔥 HOT DEALS
+        </h2>
+        <Link
+          href="/hot-deals"
+          className="px-4 py-1.5 bg-gradient-to-r from-red-500 to-orange-400 text-white text-sm font-semibold rounded-lg shadow hover:scale-105 transform transition duration-200"
+        >
+          View All
+        </Link>
+      </div>
+
+      {/* 🔥 Deal Timer */}
+      <div className="flex justify-center pb-2">
         <DealTimer duration={6 * 60 * 60} />
       </div>
+
+      {/* 🔥 Products Slider */}
       <div className="relative w-full h-[75px] overflow-hidden">
         <div ref={containerRef} className="flex">
           {products.map((p) => (
@@ -103,6 +119,8 @@ export default function DealOfTheDay() {
             </div>
           ))}
         </div>
+
+        {/* Prev / Next Buttons */}
         <button
           onClick={prevSlide}
           className="absolute left-2 top-1/2 -translate-y-1/2 bg-white text-black p-1.5 rounded-full shadow-md hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition"
