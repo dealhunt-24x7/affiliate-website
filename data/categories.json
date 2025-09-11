@@ -216,6 +216,17 @@
         "Haircare",
         "Best Offers"
       ]
+    },
+    {
+      "name": "🔥 Dummy Category",
+      "slug": "dummy-category",
+      "subcategories": [
+        "Dummy Item 1",
+        "Dummy Item 2",
+        "Dummy Item 3",
+        "Dummy Item 4",
+        "Dummy Item 5"
+      ]
     }
   ]
 }
