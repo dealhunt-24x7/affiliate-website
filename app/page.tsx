@@ -49,10 +49,15 @@ export default function HomePage() {
 
       {/* ✅ Blog Mini-Hero Section */}
       <section className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-400 text-white text-center py-10 px-4 rounded-2xl shadow-lg my-10">
-        <h2 className="text-3xl md:text-4xl font-extrabold">
+        {/* 🔥 Heading moved from highlights */}
+        <h2 className="text-2xl font-bold mb-2 text-white uppercase tracking-wide">
+          From Our Blog
+        </h2>
+
+        <h3 className="text-3xl md:text-4xl font-extrabold">
           From <span className="text-yellow-200">Cart</span> to{" "}
           <span className="text-green-200">Heart</span>
-        </h2>
+        </h3>
         <p className="mt-3 text-base md:text-lg max-w-2xl mx-auto text-white/90">
           Learn how to save money, shop smarter and donate your savings
           to make a difference!
@@ -65,11 +70,8 @@ export default function HomePage() {
         </Link>
       </section>
 
-      {/* ✅ Blog Highlights */}
+      {/* ✅ Blog Highlights (heading removed from here) */}
       <section className="mb-10">
-        <h2 className="text-2xl font-bold mb-4 text-yellow-400">
-          From Our Blog
-        </h2>
         <BlogHighlights />
       </section>
 
