@@ -1,21 +1,18 @@
 "use client";
+
+// ✅ Keep force-dynamic for SSR
 export const dynamic = "force-dynamic";
 
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
+// ❌ Removed: import dynamic from "next/dynamic";
 import DealOfTheDay from "@/components/DealOfTheDay";
+import CategoryRow from "@/components/CategoryRow";
 import BlogHighlights from "@/components/BlogHighlights";
 import FloatingButton from "@/components/FloatingButton";
 import Link from "next/link";
 
-const CategoryRow = dynamic(() => import("@/components/CategoryRow"), {
-  loading: () => <p className="text-center text-gray-400">Loading...</p>,
-  ssr: false,
-});
-
 export default function HomePage() {
   const [categories, setCategories] = useState<any[]>([]);
-  const [visibleCount, setVisibleCount] = useState(5);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -31,26 +28,12 @@ export default function HomePage() {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
-        setVisibleCount((prev) => (prev < categories.length ? prev + 3 : prev));
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [categories]);
-
   return (
     <main className="px-4 md:px-8 min-h-screen bg-[#B9BBB6] text-gray-800">
       <DealOfTheDay />
 
       {categories.length > 0 ? (
-        categories.slice(0, visibleCount).map((c) => (
-          <div key={c.slug} id={c.slug}>
-            <CategoryRow category={c} />
-          </div>
-        ))
+        categories.map((c) => <CategoryRow key={c.slug} category={c} />)
       ) : (
         <p className="text-center text-gray-500 my-10">Loading categories...</p>
       )}
