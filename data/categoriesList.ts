@@ -9,11 +9,11 @@ export const categories = [
   { name: "Kids", slug: "kids", image: "/images/categories/kids.png" },
   { name: "Fashion", slug: "fashion", image: "/images/categories/fashion.png" },
   { name: "Footwear", slug: "footwear", image: "/images/categories/footwear.png" },
-  { name: "Home Appliances", slug: "home-appliances", image: "/images/categories/home-appliances.png" },
+  { name: "Home appliances", slug: "home-appliances", image: "/images/categories/home-appliances.png" },
   { name: "Sports", slug: "sports", image: "/images/categories/sports.png" },
   { name: "Jewellery", slug: "jewellery", image: "/images/categories/jewellery.png" },
   { name: "Kitchen", slug: "kitchen", image: "/images/categories/kitchen.png" },
-  { name: "Home Decor", slug: "home-decor", image: "/images/categories/home-decor.png" },
+  { name: "Home decor", slug: "home-decor", image: "/images/categories/home-decor.png" },
   { name: "Study", slug: "study", image: "/images/categories/study.png" },
   { name: "Others", slug: "others", image: "/images/categories/others.png" },
 ];
