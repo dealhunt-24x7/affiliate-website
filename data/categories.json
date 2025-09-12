@@ -3,6 +3,7 @@
     {
       "name": "Mobile",
       "slug": "mobile",
+      "image": "/images/categories/mobile.jpg",
       "subcategories": [
         "Smartphones",
         "5G Phones",
@@ -19,6 +20,7 @@
     {
       "name": "Laptop",
       "slug": "laptop",
+      "image": "/images/categories/laptop.jpg",
       "subcategories": [
         "Gaming Laptops",
         "Student Laptops",
@@ -35,6 +37,7 @@
     {
       "name": "Headphones",
       "slug": "headphones",
+      "image": "/images/categories/headphones.jpg",
       "subcategories": [
         "Wireless Earbuds",
         "Over-Ear Headphones",
@@ -51,6 +54,7 @@
     {
       "name": "Watches",
       "slug": "watches",
+      "image": "/images/categories/watches.jpg",
       "subcategories": [
         "Smartwatches",
         "Analog Watches",
@@ -67,6 +71,7 @@
     {
       "name": "Electronics",
       "slug": "electronics",
+      "image": "/images/categories/electronics.jpg",
       "subcategories": [
         "Televisions",
         "Speakers",
@@ -83,6 +88,7 @@
     {
       "name": "Men",
       "slug": "men",
+      "image": "/images/categories/men.jpg",
       "subcategories": [
         "Shirts",
         "T-Shirts",
@@ -99,6 +105,7 @@
     {
       "name": "Women",
       "slug": "women",
+      "image": "/images/categories/women.jpg",
       "subcategories": [
         "Dresses",
         "Tops",
@@ -115,6 +122,7 @@
     {
       "name": "Kids",
       "slug": "kids",
+      "image": "/images/categories/kids.jpg",
       "subcategories": [
         "Boys Clothing",
         "Girls Clothing",
@@ -131,6 +139,7 @@
     {
       "name": "Fashion",
       "slug": "fashion",
+      "image": "/images/categories/fashion.jpg",
       "subcategories": [
         "Trendy Clothing",
         "Streetwear",
@@ -147,6 +156,7 @@
     {
       "name": "Footwear",
       "slug": "footwear",
+      "image": "/images/categories/footwear.jpg",
       "subcategories": [
         "Sneakers",
         "Running Shoes",
@@ -163,6 +173,7 @@
     {
       "name": "Home Appliances",
       "slug": "home-appliances",
+      "image": "/images/categories/home-appliances.jpg",
       "subcategories": [
         "Refrigerators",
         "Washing Machines",
@@ -179,6 +190,7 @@
     {
       "name": "Sports",
       "slug": "sports",
+      "image": "/images/categories/sports.jpg",
       "subcategories": [
         "Cricket",
         "Football",
@@ -195,6 +207,7 @@
     {
       "name": "Jewellery",
       "slug": "jewellery",
+      "image": "/images/categories/jewellery.jpg",
       "subcategories": [
         "Gold Jewellery",
         "Silver Jewellery",
@@ -211,6 +224,7 @@
     {
       "name": "Kitchen",
       "slug": "kitchen",
+      "image": "/images/categories/kitchen.jpg",
       "subcategories": [
         "Cookware",
         "Gas Stoves",
@@ -227,6 +241,7 @@
     {
       "name": "Home Decor",
       "slug": "home-decor",
+      "image": "/images/categories/home-decor.jpg",
       "subcategories": [
         "Wall Clocks",
         "Wall Art",
@@ -243,6 +258,7 @@
     {
       "name": "Study",
       "slug": "study",
+      "image": "/images/categories/study.jpg",
       "subcategories": [
         "Desks",
         "Chairs",
@@ -259,6 +275,7 @@
     {
       "name": "Others",
       "slug": "others",
+      "image": "/images/categories/others.jpg",
       "subcategories": [
         "Gift Items",
         "Pet Supplies",
