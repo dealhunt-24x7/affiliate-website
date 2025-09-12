@@ -39,13 +39,237 @@
         "Wireless Earbuds",
         "Over-Ear Headphones",
         "Gaming Headsets",
-        "Noise Cancelling Headphones",
+        "Noise Cancelling",
         "Sports Earphones",
         "Budget Headphones",
         "Premium Headphones",
         "DJ Headphones",
         "Travel Headphones",
-        "Cases & Accessories"
+        "Accessories"
+      ]
+    },
+    {
+      "name": "Watches",
+      "slug": "watches",
+      "subcategories": [
+        "Smartwatches",
+        "Analog Watches",
+        "Digital Watches",
+        "Fitness Bands",
+        "Luxury Watches",
+        "Casual Watches",
+        "Sports Watches",
+        "Diving Watches",
+        "Couple Watches",
+        "Kids Watches"
+      ]
+    },
+    {
+      "name": "Electronics",
+      "slug": "electronics",
+      "subcategories": [
+        "Televisions",
+        "Speakers",
+        "Home Theatres",
+        "Monitors",
+        "Cameras",
+        "Drones",
+        "Power Banks",
+        "Chargers & Cables",
+        "Storage Devices",
+        "Smart Home Devices"
+      ]
+    },
+    {
+      "name": "Men",
+      "slug": "men",
+      "subcategories": [
+        "Shirts",
+        "T-Shirts",
+        "Jeans",
+        "Trousers",
+        "Shoes",
+        "Jackets",
+        "Sunglasses",
+        "Watches",
+        "Wallets",
+        "Accessories"
+      ]
+    },
+    {
+      "name": "Women",
+      "slug": "women",
+      "subcategories": [
+        "Dresses",
+        "Tops",
+        "Jeans",
+        "Kurtis",
+        "Heels",
+        "Handbags",
+        "Jewellery",
+        "Makeup",
+        "Sarees",
+        "Accessories"
+      ]
+    },
+    {
+      "name": "Kids",
+      "slug": "kids",
+      "subcategories": [
+        "Boys Clothing",
+        "Girls Clothing",
+        "Footwear",
+        "Toys",
+        "School Bags",
+        "Baby Care",
+        "Sportswear",
+        "Books",
+        "Stationery",
+        "Accessories"
+      ]
+    },
+    {
+      "name": "Fashion",
+      "slug": "fashion",
+      "subcategories": [
+        "Trendy Clothing",
+        "Streetwear",
+        "Party Wear",
+        "Ethnic Wear",
+        "Footwear",
+        "Bags",
+        "Jewellery",
+        "Sunglasses",
+        "Winter Wear",
+        "Accessories"
+      ]
+    },
+    {
+      "name": "Footwear",
+      "slug": "footwear",
+      "subcategories": [
+        "Sneakers",
+        "Running Shoes",
+        "Formal Shoes",
+        "Loafers",
+        "Slippers",
+        "Sandals",
+        "Sports Shoes",
+        "Boots",
+        "Flip Flops",
+        "Ethnic Footwear"
+      ]
+    },
+    {
+      "name": "Home Appliances",
+      "slug": "home-appliances",
+      "subcategories": [
+        "Refrigerators",
+        "Washing Machines",
+        "Air Conditioners",
+        "Microwave Ovens",
+        "Vacuum Cleaners",
+        "Water Purifiers",
+        "Fans",
+        "Geysers",
+        "Chimneys",
+        "Mixers & Grinders"
+      ]
+    },
+    {
+      "name": "Sports",
+      "slug": "sports",
+      "subcategories": [
+        "Cricket",
+        "Football",
+        "Badminton",
+        "Cycling",
+        "Fitness Equipment",
+        "Running",
+        "Tennis",
+        "Swimming",
+        "Yoga Mats",
+        "Sports Shoes"
+      ]
+    },
+    {
+      "name": "Jewellery",
+      "slug": "jewellery",
+      "subcategories": [
+        "Gold Jewellery",
+        "Silver Jewellery",
+        "Diamond Jewellery",
+        "Imitation Jewellery",
+        "Necklaces",
+        "Earrings",
+        "Bracelets",
+        "Rings",
+        "Anklets",
+        "Bangles"
+      ]
+    },
+    {
+      "name": "Kitchen",
+      "slug": "kitchen",
+      "subcategories": [
+        "Cookware",
+        "Gas Stoves",
+        "Dinner Sets",
+        "Mixers",
+        "Blenders",
+        "Microwaves",
+        "Storage Jars",
+        "Cutlery",
+        "Kitchen Tools",
+        "Water Bottles"
+      ]
+    },
+    {
+      "name": "Home Decor",
+      "slug": "home-decor",
+      "subcategories": [
+        "Wall Clocks",
+        "Wall Art",
+        "Curtains",
+        "Bedsheets",
+        "Showpieces",
+        "Lamps",
+        "Cushions",
+        "Carpets",
+        "Plants",
+        "Mirrors"
+      ]
+    },
+    {
+      "name": "Study",
+      "slug": "study",
+      "subcategories": [
+        "Desks",
+        "Chairs",
+        "Table Lamps",
+        "Bookshelves",
+        "Stationery",
+        "Study Lamps",
+        "Whiteboards",
+        "Laptop Tables",
+        "Organizers",
+        "Study Accessories"
+      ]
+    },
+    {
+      "name": "Others",
+      "slug": "others",
+      "subcategories": [
+        "Gift Items",
+        "Pet Supplies",
+        "Car Accessories",
+        "Bikes Accessories",
+        "Gardening Tools",
+        "Cleaning Supplies",
+        "Travel Accessories",
+        "Musical Instruments",
+        "Fitness Gadgets",
+        "Miscellaneous"
       ]
     }
   ]
