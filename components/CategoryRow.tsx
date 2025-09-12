@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Product } from "@/types/product";
 import ProductCard from "@/components/ProductCard";
@@ -12,24 +12,34 @@ type Category = {
   image: string;
 };
 
-type Props = { category: Category };
+type Props = {
+  category: Category;
+};
 
 export default function CategoryRow({ category }: Props) {
-  // ⚡ Dummy subcategories (API connect later)
-  const subcategories: Product[] = Array.from({ length: 12 }).map((_, i) => ({
-    id: i + 1,
-    name: `${category.name} Product ${i + 1}`,
-    description: `Top ${category.name} deal you can grab today!`,
-    image: "/images/placeholder.png",
-    slug: `${category.slug}-${i + 1}`,
-    price: 39.99 + i,
-    rating: 4,
-    specs: { Warranty: "1 Year" },
-    affiliateLink: "#",
-  }));
+  const [products, setProducts] = useState<Product[] | null>(null);
 
-  const [showAll, setShowAll] = useState(false);
-  const visibleProducts = showAll ? subcategories : subcategories.slice(0, 5);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("/data/products.json");
+        const data = await res.json();
+
+        // Find products for this category
+        const categoryData = data.find((item: any) => item.category === category.slug);
+        if (categoryData) {
+          setProducts(categoryData.products.slice(0, 6)); // ✅ sirf 6 show karo
+        } else {
+          setProducts([]);
+        }
+      } catch (error) {
+        console.error("Error loading products:", error);
+        setProducts([]);
+      }
+    };
+
+    fetchProducts();
+  }, [category.slug]);
 
   return (
     <section className="mb-10" id={category.slug}>
@@ -47,21 +57,27 @@ export default function CategoryRow({ category }: Props) {
         </div>
 
         {/* View All Button */}
-        <button
-          onClick={() => setShowAll((prev) => !prev)}
+        <Link
+          href={`/products/${category.slug}`}
           className="text-sm text-blue-600 hover:underline"
         >
-          {showAll ? "Show Less" : "View All →"}
-        </button>
+          View All →
+        </Link>
       </div>
 
-      {/* Subcategories Row */}
+      {/* Products Row */}
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-        {visibleProducts.map((p) => (
-          <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
-            <PlaceholderCard />
-          </div>
-        ))}
+        {products === null
+          ? Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="min-w-[160px] sm:min-w-[200px]">
+                <PlaceholderCard />
+              </div>
+            ))
+          : products.map((p) => (
+              <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
+                <ProductCard product={p} />
+              </div>
+            ))}
       </div>
     </section>
   );
