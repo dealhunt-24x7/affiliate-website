@@ -3,14 +3,27 @@ export const dynamic = "force-dynamic";
 
 import React, { useEffect, useState } from "react";
 import CategoryRow from "@/components/CategoryRow";
-import { categories as staticCategories } from "@/data/categoriesList";
+
+type Category = {
+  name: string;
+  slug: string;
+  subcategories: string[];
+};
 
 export default function ProductsPage() {
-  const [categories, setCategories] = useState(staticCategories);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    // Future me agar categories ko bhi json se laana ho to yaha fetch kar sakte ho
-    setCategories(staticCategories);
+    async function fetchCategories() {
+      try {
+        const res = await fetch("/api/categories");
+        const data = await res.json();
+        setCategories(data.categories); // ✅ JSON ke andar "categories" key h
+      } catch (error) {
+        console.error("Error loading categories:", error);
+      }
+    }
+    fetchCategories();
   }, []);
 
   return (
