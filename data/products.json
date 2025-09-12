@@ -1,314 +1,122 @@
 [
   {
+    "id": 1,
     "category": "mobile",
-    "products": [
-      {
-        "id": 1,
-        "name": "iPhone 15 Pro",
-        "description": "The latest Apple flagship with A17 Bionic chip, titanium body, and advanced camera system.",
-        "price": 1199,
-        "image": "/images/products/iphone15pro.jpg",
-        "affiliateLink": "https://example.com/iphone15pro",
-        "specs": {
-          "Display": "6.1-inch Super Retina XDR",
-          "Processor": "A17 Pro Bionic",
-          "Camera": "48MP + 12MP + 12MP",
-          "Battery": "3200mAh",
-          "Storage": "128GB / 256GB / 512GB"
-        }
-      },
-      {
-        "id": 2,
-        "name": "Samsung Galaxy S25 Ultra",
-        "description": "Samsung’s top-tier phone with Snapdragon 8 Gen 4, S-Pen, and 200MP camera.",
-        "price": 1299,
-        "image": "/images/products/galaxys25ultra.jpg",
-        "affiliateLink": "https://example.com/galaxys25ultra",
-        "specs": {
-          "Display": "6.8-inch Dynamic AMOLED 2X",
-          "Processor": "Snapdragon 8 Gen 4",
-          "Camera": "200MP + 12MP + 10MP + 10MP",
-          "Battery": "5000mAh",
-          "Storage": "256GB / 512GB / 1TB"
-        }
-      }
-    ]
+    "name": "iPhone 15 Pro",
+    "description": "Apple flagship phone with A17 Pro chip and titanium design.",
+    "price": 1199,
+    "image": "/images/products/iphone15pro.jpg",
+    "affiliateLink": "https://example.com/iphone15pro",
+    "specs": { "Display": "6.1-inch OLED", "Processor": "A17 Pro", "Camera": "48MP" }
   },
   {
+    "id": 2,
+    "category": "mobile",
+    "name": "Samsung Galaxy S25 Ultra",
+    "description": "Samsung flagship phone with Snapdragon 8 Gen 4 and 200MP camera.",
+    "price": 1299,
+    "image": "/images/products/galaxys25ultra.jpg",
+    "affiliateLink": "https://example.com/galaxys25ultra",
+    "specs": { "Display": "6.8-inch AMOLED", "Processor": "Snapdragon 8 Gen 4", "Camera": "200MP" }
+  },
+  {
+    "id": 3,
+    "category": "mobile",
+    "name": "OnePlus 13",
+    "description": "Flagship killer with fast performance and clean OxygenOS.",
+    "price": 899,
+    "image": "/images/products/oneplus13.jpg",
+    "affiliateLink": "https://example.com/oneplus13",
+    "specs": { "Display": "6.7-inch AMOLED", "Processor": "Snapdragon 8 Gen 4", "Camera": "50MP" }
+  },
+  {
+    "id": 4,
     "category": "laptop",
-    "products": [
-      {
-        "id": 3,
-        "name": "MacBook Air M3",
-        "description": "Ultra-thin laptop powered by Apple’s M3 chip for blazing-fast performance.",
-        "price": 1399,
-        "image": "/images/products/macbookairm3.jpg",
-        "affiliateLink": "https://example.com/macbookairm3",
-        "specs": {
-          "Display": "13.6-inch Liquid Retina",
-          "Processor": "Apple M3",
-          "RAM": "8GB / 16GB",
-          "Battery": "18 hours",
-          "Storage": "256GB / 512GB / 1TB"
-        }
-      }
-    ]
+    "name": "MacBook Air M3",
+    "description": "Ultra-thin laptop powered by Apple M3 chip.",
+    "price": 1399,
+    "image": "/images/products/macbookairm3.jpg",
+    "affiliateLink": "https://example.com/macbookairm3",
+    "specs": { "Display": "13.6-inch Retina", "Processor": "M3", "RAM": "8GB" }
   },
   {
+    "id": 5,
+    "category": "laptop",
+    "name": "Dell XPS 15",
+    "description": "Premium Windows laptop with stunning 4K display.",
+    "price": 1799,
+    "image": "/images/products/dellxps15.jpg",
+    "affiliateLink": "https://example.com/dellxps15",
+    "specs": { "Display": "15.6-inch OLED", "Processor": "Intel i7", "RAM": "16GB" }
+  },
+  {
+    "id": 6,
+    "category": "laptop",
+    "name": "HP Spectre x360",
+    "description": "Convertible 2-in-1 laptop with touch support.",
+    "price": 1599,
+    "image": "/images/products/hpspectrex360.jpg",
+    "affiliateLink": "https://example.com/hpspectrex360",
+    "specs": { "Display": "13.5-inch OLED", "Processor": "Intel i7", "RAM": "16GB" }
+  },
+  {
+    "id": 7,
     "category": "headphones",
-    "products": [
-      {
-        "id": 4,
-        "name": "Sony WH-1000XM5",
-        "description": "Industry-leading noise cancellation wireless headphones.",
-        "price": 399,
-        "image": "/images/products/sonywh1000xm5.jpg",
-        "affiliateLink": "https://example.com/sonywh1000xm5",
-        "specs": {
-          "Type": "Over-Ear",
-          "Battery": "30 hours",
-          "Wireless": "Bluetooth 5.2"
-        }
-      }
-    ]
+    "name": "Sony WH-1000XM5",
+    "description": "Industry leading noise cancelling headphones.",
+    "price": 399,
+    "image": "/images/products/sonywh1000xm5.jpg",
+    "affiliateLink": "https://example.com/sonywh1000xm5",
+    "specs": { "Battery": "30h", "Type": "Over-Ear", "ANC": "Yes" }
   },
   {
+    "id": 8,
+    "category": "headphones",
+    "name": "AirPods Pro 2",
+    "description": "Apple wireless earbuds with active noise cancellation.",
+    "price": 249,
+    "image": "/images/products/airpodspro2.jpg",
+    "affiliateLink": "https://example.com/airpodspro2",
+    "specs": { "Battery": "6h + 24h Case", "Type": "In-Ear", "ANC": "Yes" }
+  },
+  {
+    "id": 9,
+    "category": "headphones",
+    "name": "Boat Airdopes 441",
+    "description": "Budget wireless earbuds with good sound quality.",
+    "price": 49,
+    "image": "/images/products/boatairdopes.jpg",
+    "affiliateLink": "https://example.com/boatairdopes",
+    "specs": { "Battery": "5h + 20h Case", "Type": "In-Ear", "ANC": "No" }
+  },
+  {
+    "id": 10,
     "category": "watches",
-    "products": [
-      {
-        "id": 5,
-        "name": "Apple Watch Series 10",
-        "description": "Advanced health sensors and always-on display smartwatch.",
-        "price": 499,
-        "image": "/images/products/applewatch10.jpg",
-        "affiliateLink": "https://example.com/applewatch10",
-        "specs": {
-          "Display": "Always-On Retina",
-          "Battery": "18 hours",
-          "Water Resistant": "Yes"
-        }
-      }
-    ]
+    "name": "Apple Watch Series 9",
+    "description": "Latest Apple Watch with health & fitness tracking.",
+    "price": 399,
+    "image": "/images/products/applewatch9.jpg",
+    "affiliateLink": "https://example.com/applewatch9",
+    "specs": { "Display": "Always-On Retina", "Sensors": "ECG, SPO2" }
   },
   {
-    "category": "electronics",
-    "products": [
-      {
-        "id": 6,
-        "name": "Sony Bravia 65” 4K TV",
-        "description": "Ultra HD Smart TV with Google TV integration.",
-        "price": 1099,
-        "image": "/images/products/sonybravia65.jpg",
-        "affiliateLink": "https://example.com/sonybravia65",
-        "specs": {
-          "Resolution": "4K UHD",
-          "Smart TV": "Yes",
-          "HDMI Ports": "4"
-        }
-      }
-    ]
+    "id": 11,
+    "category": "watches",
+    "name": "Samsung Galaxy Watch 6",
+    "description": "Premium smartwatch with Wear OS.",
+    "price": 349,
+    "image": "/images/products/galaxywatch6.jpg",
+    "affiliateLink": "https://example.com/galaxywatch6",
+    "specs": { "Display": "AMOLED", "Battery": "40h" }
   },
   {
-    "category": "men",
-    "products": [
-      {
-        "id": 7,
-        "name": "Men’s Leather Jacket",
-        "description": "Premium leather jacket for winter fashion.",
-        "price": 199,
-        "image": "/images/products/mensjacket.jpg",
-        "affiliateLink": "https://example.com/mensjacket",
-        "specs": {
-          "Material": "100% Leather",
-          "Sizes": "S / M / L / XL"
-        }
-      }
-    ]
-  },
-  {
-    "category": "women",
-    "products": [
-      {
-        "id": 8,
-        "name": "Women’s Handbag",
-        "description": "Stylish handbag for everyday use.",
-        "price": 89,
-        "image": "/images/products/womenshandbag.jpg",
-        "affiliateLink": "https://example.com/womenshandbag",
-        "specs": {
-          "Material": "Faux Leather",
-          "Compartments": "3"
-        }
-      }
-    ]
-  },
-  {
-    "category": "kids",
-    "products": [
-      {
-        "id": 9,
-        "name": "Kids Building Blocks",
-        "description": "Educational building blocks set for kids.",
-        "price": 49,
-        "image": "/images/products/buildingblocks.jpg",
-        "affiliateLink": "https://example.com/buildingblocks",
-        "specs": {
-          "Age": "3+",
-          "Pieces": "120"
-        }
-      }
-    ]
-  },
-  {
-    "category": "fashion",
-    "products": [
-      {
-        "id": 10,
-        "name": "Unisex Sneakers",
-        "description": "Trendy sneakers suitable for all outfits.",
-        "price": 99,
-        "image": "/images/products/sneakers.jpg",
-        "affiliateLink": "https://example.com/sneakers",
-        "specs": {
-          "Sizes": "6-11",
-          "Color": "White"
-        }
-      }
-    ]
-  },
-  {
-    "category": "footwear",
-    "products": [
-      {
-        "id": 11,
-        "name": "Running Shoes",
-        "description": "Comfortable running shoes for daily workouts.",
-        "price": 79,
-        "image": "/images/products/runningshoes.jpg",
-        "affiliateLink": "https://example.com/runningshoes",
-        "specs": {
-          "Sizes": "6-12",
-          "Material": "Mesh"
-        }
-      }
-    ]
-  },
-  {
-    "category": "home-appliances",
-    "products": [
-      {
-        "id": 12,
-        "name": "LG Washing Machine",
-        "description": "Front-load washing machine with inverter technology.",
-        "price": 699,
-        "image": "/images/products/washingmachine.jpg",
-        "affiliateLink": "https://example.com/washingmachine",
-        "specs": {
-          "Capacity": "8 kg",
-          "Type": "Front Load"
-        }
-      }
-    ]
-  },
-  {
-    "category": "sports",
-    "products": [
-      {
-        "id": 13,
-        "name": "Cricket Kit",
-        "description": "Complete cricket kit with bat, pads, gloves, and helmet.",
-        "price": 149,
-        "image": "/images/products/cricketkit.jpg",
-        "affiliateLink": "https://example.com/cricketkit",
-        "specs": {
-          "Includes": "Bat, Pads, Gloves, Helmet"
-        }
-      }
-    ]
-  },
-  {
-    "category": "jewellery",
-    "products": [
-      {
-        "id": 14,
-        "name": "Gold Plated Necklace",
-        "description": "Elegant gold plated necklace for special occasions.",
-        "price": 249,
-        "image": "/images/products/necklace.jpg",
-        "affiliateLink": "https://example.com/necklace",
-        "specs": {
-          "Material": "Gold Plated",
-          "Length": "18 inch"
-        }
-      }
-    ]
-  },
-  {
-    "category": "kitchen",
-    "products": [
-      {
-        "id": 15,
-        "name": "Non-Stick Cookware Set",
-        "description": "Durable non-stick pots and pans set for your kitchen.",
-        "price": 129,
-        "image": "/images/products/cookwareset.jpg",
-        "affiliateLink": "https://example.com/cookwareset",
-        "specs": {
-          "Pieces": "5",
-          "Material": "Aluminium"
-        }
-      }
-    ]
-  },
-  {
-    "category": "home-decor",
-    "products": [
-      {
-        "id": 16,
-        "name": "Wall Hanging Decor",
-        "description": "Beautiful macrame wall hanging for home decor.",
-        "price": 39,
-        "image": "/images/products/walldecor.jpg",
-        "affiliateLink": "https://example.com/walldecor",
-        "specs": {
-          "Material": "Cotton",
-          "Length": "36 inch"
-        }
-      }
-    ]
-  },
-  {
-    "category": "study",
-    "products": [
-      {
-        "id": 17,
-        "name": "Study Table",
-        "description": "Compact wooden study table for small rooms.",
-        "price": 159,
-        "image": "/images/products/studytable.jpg",
-        "affiliateLink": "https://example.com/studytable",
-        "specs": {
-          "Material": "Engineered Wood",
-          "Color": "Brown"
-        }
-      }
-    ]
-  },
-  {
-    "category": "others",
-    "products": [
-      {
-        "id": 18,
-        "name": "Gift Card",
-        "description": "Digital gift card for online shopping.",
-        "price": 50,
-        "image": "/images/products/giftcard.jpg",
-        "affiliateLink": "https://example.com/giftcard",
-        "specs": {
-          "Value": "$50",
-          "Type": "Digital"
-        }
-      }
-    ]
+    "id": 12,
+    "category": "watches",
+    "name": "Noise ColorFit Pro 4",
+    "description": "Budget smartwatch with calling support.",
+    "price": 59,
+    "image": "/images/products/noisecolorfitpro4.jpg",
+    "affiliateLink": "https://example.com/noisecolorfitpro4",
+    "specs": { "Display": "1.8-inch LCD", "Battery": "7 days" }
   }
 ]
