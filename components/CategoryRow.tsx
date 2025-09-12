@@ -20,24 +20,17 @@ export default function CategoryRow({ category }: Props) {
   const [products, setProducts] = useState<Product[] | null>(null);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    async function fetchProducts() {
       try {
-        const res = await fetch("/data/products.json");
+        const res = await fetch(`/api/products?category=${category.slug}`);
+        if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
-
-        // Find products for this category
-        const categoryData = data.find((item: any) => item.category === category.slug);
-        if (categoryData) {
-          setProducts(categoryData.products.slice(0, 6)); // ✅ sirf 6 show karo
-        } else {
-          setProducts([]);
-        }
-      } catch (error) {
-        console.error("Error loading products:", error);
-        setProducts([]);
+        setProducts(data.slice(0, 6)); // ✅ sirf 6 show karo
+      } catch (err) {
+        console.error("Error loading products:", err);
+        setProducts([]); // fallback to empty array
       }
-    };
-
+    }
     fetchProducts();
   }, [category.slug]);
 
