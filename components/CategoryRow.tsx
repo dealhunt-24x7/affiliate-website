@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Product } from "@/types/product";
 import ProductCard from "@/components/ProductCard";
@@ -11,13 +12,11 @@ type Category = {
   image: string;
 };
 
-type Props = {
-  category: Category;
-};
+type Props = { category: Category };
 
 export default function CategoryRow({ category }: Props) {
-  // Sirf 10 dummy products for placeholder
-  const products: Product[] = Array.from({ length: 10 }).map((_, i) => ({
+  // ⚡ Dummy subcategories (API connect later)
+  const subcategories: Product[] = Array.from({ length: 12 }).map((_, i) => ({
     id: i + 1,
     name: `${category.name} Product ${i + 1}`,
     description: `Top ${category.name} deal you can grab today!`,
@@ -29,8 +28,11 @@ export default function CategoryRow({ category }: Props) {
     affiliateLink: "#",
   }));
 
+  const [showAll, setShowAll] = useState(false);
+  const visibleProducts = showAll ? subcategories : subcategories.slice(0, 5);
+
   return (
-    <section className="mb-10">
+    <section className="mb-10" id={category.slug}>
       {/* Category Heading */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
@@ -45,17 +47,17 @@ export default function CategoryRow({ category }: Props) {
         </div>
 
         {/* View All Button */}
-        <Link
-          href={`/products/${category.slug}`}
+        <button
+          onClick={() => setShowAll((prev) => !prev)}
           className="text-sm text-blue-600 hover:underline"
         >
-          View All →
-        </Link>
+          {showAll ? "Show Less" : "View All →"}
+        </button>
       </div>
 
-      {/* Products Row */}
+      {/* Subcategories Row */}
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-        {products.map((p) => (
+        {visibleProducts.map((p) => (
           <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
             <PlaceholderCard />
           </div>
