@@ -20,17 +20,29 @@ export default function CategoryRow({ category }: Props) {
   const [products, setProducts] = useState<Product[] | null>(null);
 
   useEffect(() => {
-    async function fetchProducts() {
+    const fetchProducts = async () => {
       try {
-        const res = await fetch(`/api/products?category=${category.slug}`);
-        if (!res.ok) throw new Error("Failed to fetch products");
+        console.log("Fetching products for:", category.slug);
+        // ✅ Best practice: API route se fetch karna (direct JSON se nahi)
+        const res = await fetch("/api/categories");
+        if (!res.ok) throw new Error("Failed to fetch categories");
         const data = await res.json();
-        setProducts(data.slice(0, 6)); // ✅ sirf 6 show karo
-      } catch (err) {
-        console.error("Error loading products:", err);
-        setProducts([]); // fallback to empty array
+
+        console.log("Fetched data:", data);
+
+        // Find products for this category
+        const categoryData = data.find((item: any) => item.category === category.slug);
+        if (categoryData) {
+          setProducts(categoryData.products.slice(0, 6)); // ✅ Sirf 6 show karo
+        } else {
+          setProducts([]);
+        }
+      } catch (error) {
+        console.error("Error loading products:", error);
+        setProducts([]);
       }
-    }
+    };
+
     fetchProducts();
   }, [category.slug]);
 
@@ -60,17 +72,23 @@ export default function CategoryRow({ category }: Props) {
 
       {/* Products Row */}
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-        {products === null
-          ? Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="min-w-[160px] sm:min-w-[200px]">
-                <PlaceholderCard />
-              </div>
-            ))
-          : products.map((p) => (
-              <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
-                <ProductCard product={p} />
-              </div>
-            ))}
+        {products === null ? (
+          // ✅ Placeholder while loading
+          Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="min-w-[160px] sm:min-w-[200px]">
+              <PlaceholderCard />
+            </div>
+          ))
+        ) : products.length === 0 ? (
+          // ✅ Empty state
+          <p className="text-gray-500 text-sm italic">No products available</p>
+        ) : (
+          products.map((p) => (
+            <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
+              <ProductCard product={p} />
+            </div>
+          ))
+        )}
       </div>
     </section>
   );
