@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Menu, Search, User } from "lucide-react";
 import Sidebar from "./Sidebar";
+import { categories } from "@/data/categoriesList"; // ✅ centralized categories import
 
 export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -13,30 +14,12 @@ export default function Header() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const profileRef = useRef<HTMLDivElement | null>(null);
 
-  const categories = [
-    { name: "Mobiles", slug: "mobile", image: "/images/categories/mobile.png" },
-    { name: "Laptops", slug: "laptop", image: "/images/categories/laptop.png" },
-    { name: "Headphones", slug: "headphones", image: "/images/categories/headphones.png" },
-    { name: "Watches", slug: "watches", image: "/images/categories/watch.png" },
-    { name: "Electronics", slug: "electronics", image: "/images/categories/electronics.png" },
-    { name: "Men", slug: "men", image: "/images/categories/men.png" },
-    { name: "Women", slug: "women", image: "/images/categories/women.png" },
-    { name: "Kids", slug: "kids", image: "/images/categories/kids.png" },
-    { name: "Fashion", slug: "fashion", image: "/images/categories/fashion.png" },
-    { name: "Footwear", slug: "footwear", image: "/images/categories/footwear.png" },
-    { name: "Home appliances", slug: "home-appliances", image: "/images/categories/home-appliances.png" },
-    { name: "Sports", slug: "sports", image: "/images/categories/sports.png" },
-    { name: "Jwellery", slug: "jwellery", image: "/images/categories/jwellery.png" },
-    { name: "Kitchen", slug: "kitchen", image: "/images/categories/kitchen.png" },
-    { name: "Home decor", slug: "home-decor", image: "/images/categories/home-decor.png" },
-    { name: "Study", slug: "study", image: "/images/categories/study.png" },
-    { name: "Others", slug: "others", image: "/images/categories/others.png" },
-  ];
-
+  // ✅ Scroll to category row smoothly
   const handleCategoryClick = (slug: string) => {
     const target = document.getElementById(slug);
     const header = document.querySelector("header");
     const headerHeight = header ? header.getBoundingClientRect().height : 64;
+
     if (target) {
       const y = target.getBoundingClientRect().top + window.scrollY - headerHeight - 8;
       window.scrollTo({ top: y, behavior: "smooth" });
@@ -78,7 +61,7 @@ export default function Header() {
     if (query.trim() === "") return;
     if (suggestions.length > 0) {
       console.log("Navigate to results page with:", query);
-      // Future: redirect to custom results page
+      // TODO: redirect to custom search results page
     } else {
       window.open(`https://www.amazon.in/s?k=${encodeURIComponent(query)}`, "_blank");
     }
