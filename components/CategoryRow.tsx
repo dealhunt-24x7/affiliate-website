@@ -6,7 +6,7 @@ import { Product } from "@/types/product";
 import ProductCard from "@/components/ProductCard";
 import PlaceholderCard from "@/components/PlaceholderCard";
 
-type Category = {
+export type Category = {
   name: string;
   slug: string;
   image: string;
@@ -22,24 +22,24 @@ export default function CategoryRow({ category }: Props) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        console.log("Fetching products for:", category.slug);
-        // ✅ Best practice: API route se fetch karna (direct JSON se nahi)
-        const res = await fetch("/api/categories");
-        if (!res.ok) throw new Error("Failed to fetch categories");
-        const data = await res.json();
+        const res = await fetch("/data/products.json");
 
-        console.log("Fetched data:", data);
+        if (!res.ok) {
+          throw new Error(`Failed to fetch products.json: ${res.status}`);
+        }
+
+        const data: { category: string; products: Product[] }[] = await res.json();
 
         // Find products for this category
-        const categoryData = data.find((item: any) => item.category === category.slug);
+        const categoryData = data.find((item) => item.category === category.slug);
         if (categoryData) {
-          setProducts(categoryData.products.slice(0, 6)); // ✅ Sirf 6 show karo
+          setProducts(categoryData.products.slice(0, 6)); // ✅ sirf 6 products show karo
         } else {
-          setProducts([]);
+          setProducts([]); // ✅ agar category ke products na mile
         }
       } catch (error) {
         console.error("Error loading products:", error);
-        setProducts([]);
+        setProducts([]); // ✅ UI ko crash hone se bacha lo
       }
     };
 
@@ -73,21 +73,22 @@ export default function CategoryRow({ category }: Props) {
       {/* Products Row */}
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
         {products === null ? (
-          // ✅ Placeholder while loading
+          // Placeholder while loading
           Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="min-w-[160px] sm:min-w-[200px]">
               <PlaceholderCard />
             </div>
           ))
-        ) : products.length === 0 ? (
-          // ✅ Empty state
-          <p className="text-gray-500 text-sm italic">No products available</p>
-        ) : (
+        ) : products.length > 0 ? (
+          // Show products
           products.map((p) => (
             <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
               <ProductCard product={p} />
             </div>
           ))
+        ) : (
+          // Fallback if no products found
+          <p className="text-gray-500 text-sm">No products available in this category.</p>
         )}
       </div>
     </section>
