@@ -1,11 +1,23 @@
 import { NextResponse } from "next/server";
-import { categories } from "@/data/categoriesList"; // ✅ yaha se sari 17 categories import ho rahi hain
 
 export async function GET() {
-  try {
-    return NextResponse.json(categories); // ✅ sari categories return
-  } catch (error) {
-    console.error("Error loading categories:", error);
-    return NextResponse.json({ error: "Failed to load categories" }, { status: 500 });
-  }
+  return NextResponse.json([
+    { name: "Mobile", slug: "mobile", image: "/images/categories/mobile.png" },
+    { name: "Laptop", slug: "laptop", image: "/images/categories/laptop.png" },
+    { name: "Headphones", slug: "headphones", image: "/images/categories/headphones.png" },
+    { name: "Watches", slug: "watches", image: "/images/categories/watch.png" },
+    { name: "Electronics", slug: "electronics", image: "/images/categories/electronics.png" },
+    { name: "Men", slug: "men", image: "/images/categories/men.png" },
+    { name: "Women", slug: "women", image: "/images/categories/women.png" },
+    { name: "Kids", slug: "kids", image: "/images/categories/kids.png" },
+    { name: "Fashion", slug: "fashion", image: "/images/categories/fashion.png" },
+    { name: "Footwear", slug: "footwear", image: "/images/categories/footwear.png" },
+    { name: "Home appliances", slug: "home-appliances", image: "/images/categories/home-appliances.png" },
+    { name: "Sports", slug: "sports", image: "/images/categories/sports.png" },
+    { name: "Jewellery", slug: "jewellery", image: "/images/categories/jewellery.png" },
+    { name: "Kitchen", slug: "kitchen", image: "/images/categories/kitchen.png" },
+    { name: "Home decor", slug: "home-decor", image: "/images/categories/home-decor.png" },
+    { name: "Study", slug: "study", image: "/images/categories/study.png" },
+    { name: "Others", slug: "others", image: "/images/categories/others.png" }
+  ]);
 }
