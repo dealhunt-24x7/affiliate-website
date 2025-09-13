@@ -22,14 +22,17 @@ export default function CategoryRow({ category }: Props) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`/api/products?category=${category.slug}`);
+        // ✅ API ko call karo (server se data milega)
+        const res = await fetch(`/api/products`);
+        if (!res.ok) throw new Error(`Failed to fetch products: ${res.status}`);
         const data = await res.json();
 
-        if (Array.isArray(data)) {
-          setProducts(data.slice(0, 6)); // ✅ only first 6 products to reduce page weight
-        } else {
-          setProducts([]);
-        }
+        // ✅ Match category
+        const categoryData = data.find((item: any) => item.category === category.slug);
+
+        console.log("API fetched category data:", category.slug, categoryData);
+
+        setProducts(categoryData?.products?.length ? categoryData.products.slice(0, 6) : []);
       } catch (error) {
         console.error("Error loading products:", error);
         setProducts([]);
@@ -65,17 +68,21 @@ export default function CategoryRow({ category }: Props) {
 
       {/* Products Row */}
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-        {products === null
-          ? Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="min-w-[160px] sm:min-w-[200px]">
-                <PlaceholderCard />
-              </div>
-            ))
-          : products.map((p) => (
-              <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
-                <ProductCard product={p} />
-              </div>
-            ))}
+        {products === null ? (
+          Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="min-w-[160px] sm:min-w-[200px]">
+              <PlaceholderCard />
+            </div>
+          ))
+        ) : products.length > 0 ? (
+          products.map((p) => (
+            <div key={p.id} className="min-w-[160px] sm:min-w-[200px]">
+              <ProductCard product={p} />
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500 text-sm">No products available.</p>
+        )}
       </div>
     </section>
   );
