@@ -1,22 +1,49 @@
-import { NextResponse } from "next/server";
-import { readFileSync } from "fs";
-import path from "path";
+"use client";
+export const dynamic = "force-dynamic";
 
-export async function GET() {
-  try {
-    // File path generate
-    const filePath = path.join(process.cwd(), "data", "categories.json");
+import { useEffect, useState } from "react";
+import CategoryRow from "@/components/CategoryRow";
 
-    // Read & parse file
-    const jsonData = readFileSync(filePath, "utf-8");
-    const data = JSON.parse(jsonData);
+type Category = {
+  name: string;
+  slug: string;
+  image: string;
+};
 
-    return NextResponse.json(data);
-  } catch (error) {
-    console.error("Error loading categories:", error);
-    return NextResponse.json(
-      { error: "Failed to load categories" },
-      { status: 500 }
+export default function ProductsPage() {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/categories");
+        const data = await res.json();
+        console.log("✅ Fetched categories:", data); // 🔍 Debugging ke liye log
+        setCategories(data);
+      } catch (error) {
+        console.error("❌ Error loading categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="p-4 text-center text-gray-500">
+        Loading categories...
+      </div>
     );
   }
+
+  return (
+    <div className="p-4 space-y-10">
+      {categories.map((cat, idx) => (
+        <CategoryRow key={idx} category={cat} />
+      ))}
+    </div>
+  );
 }
