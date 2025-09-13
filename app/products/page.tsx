@@ -18,11 +18,12 @@ export default function ProductsPage() {
     const fetchCategories = async () => {
       try {
         const res = await fetch("/api/categories");
+        console.log("Fetching /api/categories...");
         const data = await res.json();
-        console.log("✅ Fetched categories:", data); // 🔍 Debugging ke liye log
+        console.log("Categories fetched:", data);
         setCategories(data);
       } catch (error) {
-        console.error("❌ Error loading categories:", error);
+        console.error("Error loading categories:", error);
       } finally {
         setLoading(false);
       }
@@ -32,15 +33,12 @@ export default function ProductsPage() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="p-4 text-center text-gray-500">
-        Loading categories...
-      </div>
-    );
+    return <div className="p-4 text-center text-gray-500">Loading categories...</div>;
   }
 
   return (
     <div className="p-4 space-y-10">
+      {categories.length === 0 && <p>No categories found.</p>}
       {categories.map((cat, idx) => (
         <CategoryRow key={idx} category={cat} />
       ))}
