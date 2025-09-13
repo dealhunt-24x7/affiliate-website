@@ -19,9 +19,10 @@ export default function ProductsPage() {
       try {
         const res = await fetch("/api/categories");
         const data = await res.json();
+        console.log("✅ Fetched categories:", data); // 🔍 Debugging ke liye log
         setCategories(data);
       } catch (error) {
-        console.error("Error loading categories:", error);
+        console.error("❌ Error loading categories:", error);
       } finally {
         setLoading(false);
       }
