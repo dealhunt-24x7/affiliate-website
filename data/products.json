@@ -1,122 +1,117 @@
 [
   {
-    "id": 1,
     "category": "mobile",
-    "name": "iPhone 15 Pro",
-    "description": "Apple flagship phone with A17 Pro chip and titanium design.",
-    "price": 1199,
-    "image": "/images/products/iphone15pro.jpg",
-    "affiliateLink": "https://example.com/iphone15pro",
-    "specs": { "Display": "6.1-inch OLED", "Processor": "A17 Pro", "Camera": "48MP" }
+    "products": [
+      {
+        "id": 1,
+        "name": "iPhone 15 Pro",
+        "description": "The latest Apple flagship with A17 Bionic chip, titanium body, and advanced camera system.",
+        "price": 1199,
+        "image": "/images/products/iphone15pro.jpg",
+        "affiliateLink": "https://example.com/iphone15pro",
+        "specs": {
+          "Display": "6.1-inch Super Retina XDR",
+          "Processor": "A17 Pro Bionic",
+          "Camera": "48MP + 12MP + 12MP",
+          "Battery": "3200mAh",
+          "Storage": "128GB / 256GB / 512GB"
+        }
+      },
+      {
+        "id": 2,
+        "name": "Samsung Galaxy S25 Ultra",
+        "description": "Samsung’s top-tier phone with Snapdragon 8 Gen 4, S-Pen, and 200MP camera.",
+        "price": 1299,
+        "image": "/images/products/galaxys25ultra.jpg",
+        "affiliateLink": "https://example.com/galaxys25ultra",
+        "specs": {
+          "Display": "6.8-inch Dynamic AMOLED 2X",
+          "Processor": "Snapdragon 8 Gen 4",
+          "Camera": "200MP + 12MP + 10MP + 10MP",
+          "Battery": "5000mAh",
+          "Storage": "256GB / 512GB / 1TB"
+        }
+      }
+    ]
   },
   {
-    "id": 2,
-    "category": "mobile",
-    "name": "Samsung Galaxy S25 Ultra",
-    "description": "Samsung flagship phone with Snapdragon 8 Gen 4 and 200MP camera.",
-    "price": 1299,
-    "image": "/images/products/galaxys25ultra.jpg",
-    "affiliateLink": "https://example.com/galaxys25ultra",
-    "specs": { "Display": "6.8-inch AMOLED", "Processor": "Snapdragon 8 Gen 4", "Camera": "200MP" }
-  },
-  {
-    "id": 3,
-    "category": "mobile",
-    "name": "OnePlus 13",
-    "description": "Flagship killer with fast performance and clean OxygenOS.",
-    "price": 899,
-    "image": "/images/products/oneplus13.jpg",
-    "affiliateLink": "https://example.com/oneplus13",
-    "specs": { "Display": "6.7-inch AMOLED", "Processor": "Snapdragon 8 Gen 4", "Camera": "50MP" }
-  },
-  {
-    "id": 4,
     "category": "laptop",
-    "name": "MacBook Air M3",
-    "description": "Ultra-thin laptop powered by Apple M3 chip.",
-    "price": 1399,
-    "image": "/images/products/macbookairm3.jpg",
-    "affiliateLink": "https://example.com/macbookairm3",
-    "specs": { "Display": "13.6-inch Retina", "Processor": "M3", "RAM": "8GB" }
+    "products": [
+      {
+        "id": 3,
+        "name": "MacBook Air M3",
+        "description": "Ultra-thin laptop powered by Apple’s M3 chip for blazing-fast performance.",
+        "price": 1399,
+        "image": "/images/products/macbookairm3.jpg",
+        "affiliateLink": "https://example.com/macbookairm3",
+        "specs": {
+          "Display": "13.6-inch Liquid Retina",
+          "Processor": "Apple M3",
+          "RAM": "8GB / 16GB",
+          "Battery": "18 hours",
+          "Storage": "256GB / 512GB / 1TB"
+        }
+      }
+    ]
   },
   {
-    "id": 5,
-    "category": "laptop",
-    "name": "Dell XPS 15",
-    "description": "Premium Windows laptop with stunning 4K display.",
-    "price": 1799,
-    "image": "/images/products/dellxps15.jpg",
-    "affiliateLink": "https://example.com/dellxps15",
-    "specs": { "Display": "15.6-inch OLED", "Processor": "Intel i7", "RAM": "16GB" }
-  },
-  {
-    "id": 6,
-    "category": "laptop",
-    "name": "HP Spectre x360",
-    "description": "Convertible 2-in-1 laptop with touch support.",
-    "price": 1599,
-    "image": "/images/products/hpspectrex360.jpg",
-    "affiliateLink": "https://example.com/hpspectrex360",
-    "specs": { "Display": "13.5-inch OLED", "Processor": "Intel i7", "RAM": "16GB" }
-  },
-  {
-    "id": 7,
     "category": "headphones",
-    "name": "Sony WH-1000XM5",
-    "description": "Industry leading noise cancelling headphones.",
-    "price": 399,
-    "image": "/images/products/sonywh1000xm5.jpg",
-    "affiliateLink": "https://example.com/sonywh1000xm5",
-    "specs": { "Battery": "30h", "Type": "Over-Ear", "ANC": "Yes" }
+    "products": []
   },
   {
-    "id": 8,
-    "category": "headphones",
-    "name": "AirPods Pro 2",
-    "description": "Apple wireless earbuds with active noise cancellation.",
-    "price": 249,
-    "image": "/images/products/airpodspro2.jpg",
-    "affiliateLink": "https://example.com/airpodspro2",
-    "specs": { "Battery": "6h + 24h Case", "Type": "In-Ear", "ANC": "Yes" }
-  },
-  {
-    "id": 9,
-    "category": "headphones",
-    "name": "Boat Airdopes 441",
-    "description": "Budget wireless earbuds with good sound quality.",
-    "price": 49,
-    "image": "/images/products/boatairdopes.jpg",
-    "affiliateLink": "https://example.com/boatairdopes",
-    "specs": { "Battery": "5h + 20h Case", "Type": "In-Ear", "ANC": "No" }
-  },
-  {
-    "id": 10,
     "category": "watches",
-    "name": "Apple Watch Series 9",
-    "description": "Latest Apple Watch with health & fitness tracking.",
-    "price": 399,
-    "image": "/images/products/applewatch9.jpg",
-    "affiliateLink": "https://example.com/applewatch9",
-    "specs": { "Display": "Always-On Retina", "Sensors": "ECG, SPO2" }
+    "products": []
   },
   {
-    "id": 11,
-    "category": "watches",
-    "name": "Samsung Galaxy Watch 6",
-    "description": "Premium smartwatch with Wear OS.",
-    "price": 349,
-    "image": "/images/products/galaxywatch6.jpg",
-    "affiliateLink": "https://example.com/galaxywatch6",
-    "specs": { "Display": "AMOLED", "Battery": "40h" }
+    "category": "electronics",
+    "products": []
   },
   {
-    "id": 12,
-    "category": "watches",
-    "name": "Noise ColorFit Pro 4",
-    "description": "Budget smartwatch with calling support.",
-    "price": 59,
-    "image": "/images/products/noisecolorfitpro4.jpg",
-    "affiliateLink": "https://example.com/noisecolorfitpro4",
-    "specs": { "Display": "1.8-inch LCD", "Battery": "7 days" }
+    "category": "men",
+    "products": []
+  },
+  {
+    "category": "women",
+    "products": []
+  },
+  {
+    "category": "kids",
+    "products": []
+  },
+  {
+    "category": "fashion",
+    "products": []
+  },
+  {
+    "category": "footwear",
+    "products": []
+  },
+  {
+    "category": "home-appliances",
+    "products": []
+  },
+  {
+    "category": "sports",
+    "products": []
+  },
+  {
+    "category": "jewellery",
+    "products": []
+  },
+  {
+    "category": "kitchen",
+    "products": []
+  },
+  {
+    "category": "home-decor",
+    "products": []
+  },
+  {
+    "category": "study",
+    "products": []
+  },
+  {
+    "category": "others",
+    "products": []
   }
 ]
