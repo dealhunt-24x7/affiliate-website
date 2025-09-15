@@ -1,1 +1,52 @@
-
+[
+  {
+    "category": "mens-watches",
+    "products": [
+      {
+        "id": 1,
+        "name": "Rolex Submariner",
+        "price": 10999,
+        "image": "/images/products/rolex-submariner.jpg",
+        "link": "https://example.com/rolex-submariner"
+      },
+      {
+        "id": 2,
+        "name": "Omega Seamaster",
+        "price": 8999,
+        "image": "/images/products/omega-seamaster.jpg",
+        "link": "https://example.com/omega-seamaster"
+      }
+    ]
+  },
+  {
+    "category": "womens-watches",
+    "products": [
+      {
+        "id": 3,
+        "name": "Cartier Tank",
+        "price": 7500,
+        "image": "/images/products/cartier-tank.jpg",
+        "link": "https://example.com/cartier-tank"
+      },
+      {
+        "id": 4,
+        "name": "Michael Kors Runway",
+        "price": 299,
+        "image": "/images/products/mk-runway.jpg",
+        "link": "https://example.com/mk-runway"
+      }
+    ]
+  },
+  {
+    "category": "jewelry",
+    "products": [
+      {
+        "id": 5,
+        "name": "Gold Bracelet",
+        "price": 499,
+        "image": "/images/products/gold-bracelet.jpg",
+        "link": "https://example.com/gold-bracelet"
+      }
+    ]
+  }
+]
