@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global resets */
+html, body {
+  @apply bg-white text-gray-900 antialiased;
+  margin: 0;
+  padding: 0;
+}
+
+/* Scrollbar hide (for product rows etc.) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
