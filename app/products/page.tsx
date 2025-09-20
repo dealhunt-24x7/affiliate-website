@@ -3,7 +3,7 @@
 export const dynamic = "force-dynamic";
 
 import { useEffect, useState } from "react";
-import CategoryRow from "@/components/CategoryRow";
+import ProductCard from "@/components/ProductCard";
 
 type Category = {
   name: string;
