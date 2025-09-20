@@ -1,40 +1,37 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Product } from "@/types/product";
 import ProductCard from "@/components/ProductCard";
 
+type ProductGroup = {
+  category: string;
+  products: any[];
+};
+
 export default function FeaturedDeals() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [featured, setFeatured] = useState<any[]>([]);
 
   useEffect(() => {
-    const fetchDeals = async () => {
-      try {
-        const res = await fetch("/api/products");
-        const data = await res.json();
-        // Filter / Pick top products (first 6 for now)
-        const featured = data.flatMap((c: any) => c.products).slice(0, 6);
-        setProducts(featured);
-      } catch (error) {
-        console.error("Error loading deals:", error);
-      }
+    const fetchProducts = async () => {
+      const res = await fetch("/api/products");
+      const data: ProductGroup[] = await res.json();
+
+      // pick first 3 products from first 2 categories
+      const selected = data.flatMap((grp) => grp.products).slice(0, 3);
+      setFeatured(selected);
     };
 
-    fetchDeals();
+    fetchProducts();
   }, []);
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4 text-gray-900">
-        Featured Deals
-      </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {products.length > 0 ? (
-          products.map((p) => <ProductCard key={p.id} product={p} />)
-        ) : (
-          <p className="col-span-full text-gray-500">No deals available right now.</p>
-        )}
+    <section className="px-4">
+      <h2 className="text-xl font-bold mb-6 text-center">Featured Deals</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+        {featured.map((p) => (
+          <ProductCard key={p.id} product={p} />
+        ))}
       </div>
-    </div>
+    </section>
   );
 }
