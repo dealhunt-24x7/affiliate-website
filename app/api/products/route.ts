@@ -5,13 +5,10 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category");
 
-  let filtered = products;
-
   if (category) {
-    filtered = products.filter(
-      (p: any) => p.category.toLowerCase() === category.toLowerCase()
-    );
+    const filtered = products.filter((item: any) => item.category === category);
+    return NextResponse.json(filtered);
   }
 
-  return NextResponse.json(filtered);
+  return NextResponse.json(products);
 }
