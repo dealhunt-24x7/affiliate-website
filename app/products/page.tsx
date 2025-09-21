@@ -1,53 +1,44 @@
-
 "use client";
-export const dynamic = "force-dynamic";
 
 import { useEffect, useState } from "react";
+import { Product } from "@/types/product";
 import ProductCard from "@/components/ProductCard";
 
-type Category = {
-  name: string;
-  slug: string;
-  image: string;
-};
-
 export default function ProductsPage() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/categories");
-        if (!res.ok) throw new Error("Failed to fetch categories");
+        const res = await fetch("/api/products");
+        if (!res.ok) throw new Error(`Failed to fetch products: ${res.status}`);
         const data = await res.json();
-        setCategories(data);
+        setProducts(data);
       } catch (error) {
-        console.error("Error loading categories:", error);
+        console.error("Error loading products:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCategories();
+    fetchProducts();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="p-4 text-center text-gray-500">
-        Loading categories...
-      </div>
-    );
-  }
-
   return (
-    <div className="p-4 space-y-10">
-      {categories.length > 0 ? (
-        categories.map((cat, idx) => (
-          <CategoryRow key={idx} category={cat} />
-        ))
+    <div className="max-w-6xl mx-auto px-4 py-6">
+      <h1 className="text-2xl font-bold mb-6">All Products</h1>
+
+      {loading ? (
+        <p className="text-gray-500">Loading products...</p>
+      ) : products.length > 0 ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
       ) : (
-        <p className="text-center text-gray-500">No categories available.</p>
+        <p className="text-gray-500">No products available.</p>
       )}
     </div>
   );
