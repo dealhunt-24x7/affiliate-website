@@ -1,10 +1,11 @@
-import "./../styles/globals.css";
+import "./globals.css";
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-export const metadata = {
-  title: "DealHunt - Find Best Deals",
-  description: "Affiliate deals website for top products",
+export const metadata: Metadata = {
+  title: "DealHunt",
+  description: "Luxury deals at your fingertips",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
