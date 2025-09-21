@@ -2,16 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global Resets */
-body {
-  @apply antialiased bg-gray-50 text-gray-900;
+/* Optional Global Styles */
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  background-color: #ffffff;
+  color: #000000;
 }
 
-/* Scrollbar Hide */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+a {
+  text-decoration: none;
+  color: inherit;
 }
