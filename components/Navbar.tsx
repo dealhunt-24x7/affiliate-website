@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FiSearch, FiHeart, FiUser, FiShoppingCart, FiMenu } from "react-icons/fi";
+import { FiHeart, FiUser, FiShoppingCart, FiMenu } from "react-icons/fi";
 import { useState } from "react";
 
 export default function Navbar() {
@@ -11,12 +11,21 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-md">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-gray-900 tracking-wide">
-          <span className="text-yellow-500">Luxury</span> Deals
+        <Link href="/" className="text-2xl font-bold tracking-wide">
+          <span className="text-yellow-500">Deal</span>Hunt
         </Link>
 
+        {/* Search Bar */}
+        <div className="hidden md:flex items-center ml-4">
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="px-3 py-1 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          />
+        </div>
+
         {/* Desktop Links + Icons */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-4">
           <nav className="flex gap-6 text-gray-700 font-medium">
             <Link href="/" className="hover:text-yellow-500 transition">
               Home
@@ -34,20 +43,22 @@ export default function Navbar() {
 
           {/* Icons */}
           <div className="flex items-center gap-4 text-gray-700 text-lg">
-            <FiSearch className="hover:text-yellow-500 cursor-pointer" />
             <FiHeart className="hover:text-yellow-500 cursor-pointer" />
             <FiShoppingCart className="hover:text-yellow-500 cursor-pointer" />
             <FiUser className="hover:text-yellow-500 cursor-pointer" />
           </div>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-gray-700 text-2xl"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          <FiMenu />
-        </button>
+        {/* Mobile Profile Icon */}
+        <div className="md:hidden flex items-center gap-4 text-gray-700 text-lg">
+          <FiUser className="hover:text-yellow-500 cursor-pointer" />
+          <button
+            className="text-2xl"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            <FiMenu />
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -67,10 +78,8 @@ export default function Navbar() {
               Contact
             </Link>
             <div className="flex items-center gap-4 mt-2 text-gray-700 text-lg">
-              <FiSearch className="hover:text-yellow-500 cursor-pointer" />
               <FiHeart className="hover:text-yellow-500 cursor-pointer" />
               <FiShoppingCart className="hover:text-yellow-500 cursor-pointer" />
-              <FiUser className="hover:text-yellow-500 cursor-pointer" />
             </div>
           </nav>
         </div>
