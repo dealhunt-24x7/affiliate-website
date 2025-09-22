@@ -9,20 +9,17 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-md">
-      {/* Mobile Search Bar */}
-      <div className="md:hidden w-full bg-gray-50 px-4 py-2">
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-md"
-        />
-      </div>
-
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4 w-full">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold tracking-wide">
-          <span className="text-yellow-500">Deal</span>Hunt
-        </Link>
+        <div className="flex flex-col md:flex-row md:items-center">
+          <Link href="/" className="text-2xl font-bold tracking-wide">
+            <span className="text-yellow-500">Deal</span>Hunt
+          </Link>
+          {/* Tagline */}
+          <span className="hidden md:inline ml-3 text-gray-500 font-medium text-sm">
+            Cart to Heart
+          </span>
+        </div>
 
         {/* Desktop Search Bar */}
         <div className="hidden md:flex items-center ml-4">
@@ -68,6 +65,15 @@ export default function Navbar() {
             <FiMenu />
           </button>
         </div>
+      </div>
+
+      {/* Mobile Search Bar below icons */}
+      <div className="md:hidden w-full px-4 mt-2">
+        <input
+          type="text"
+          placeholder="Search products..."
+          className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-md"
+        />
       </div>
 
       {/* Mobile Menu */}
