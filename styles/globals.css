@@ -2,16 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Optional Global Styles */
 html, body {
+  @apply bg-white text-gray-900 font-sans;
   padding: 0;
   margin: 0;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  background-color: #ffffff;
-  color: #000000;
 }
 
 a {
-  text-decoration: none;
-  color: inherit;
+  @apply text-inherit no-underline;
 }
