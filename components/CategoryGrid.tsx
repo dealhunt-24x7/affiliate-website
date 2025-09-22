@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import categories from "@/data/categories";
+import { categories } from "@/data/categories"; // ✅ fixed import
 
 export default function CategoryGrid() {
   return (
