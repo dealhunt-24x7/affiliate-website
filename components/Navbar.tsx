@@ -11,12 +11,16 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-md">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4 w-full">
         {/* Logo + Tagline */}
-        <div className="flex flex-col md:flex-row md:items-center">
+        <div className="flex flex-col md:flex-row md:items-center items-center">
           <Link href="/" className="text-2xl font-bold tracking-wide">
             <span className="text-yellow-500">Deal</span>Hunt
           </Link>
-          {/* Tagline stylish */}
+          {/* Desktop tagline */}
           <span className="hidden md:inline ml-3 text-sm font-semibold text-gradient bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent">
+            Cart to Heart
+          </span>
+          {/* Mobile tagline */}
+          <span className="md:hidden text-xs font-semibold text-gradient bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent mt-1">
             Cart to Heart
           </span>
         </div>
@@ -66,8 +70,8 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Search Bar below icons with gap */}
-      <div className="md:hidden w-full px-4 mt-4">
+      {/* Mobile Search Bar below icons with smaller gap */}
+      <div className="md:hidden w-full px-4 mt-2">
         <input
           type="text"
           placeholder="Search products..."
