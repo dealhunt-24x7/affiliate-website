@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300 py-8 mt-12">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer className="w-full bg-gray-900 text-gray-300 mt-12">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 py-8">
         {/* Logo + Info */}
         <div>
           <h2 className="text-2xl font-bold text-white mb-3">DealHunt</h2>
