@@ -9,13 +9,22 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-md">
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+      {/* Mobile Search Bar */}
+      <div className="md:hidden w-full bg-gray-50 px-4 py-2">
+        <input
+          type="text"
+          placeholder="Search products..."
+          className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-md"
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4 w-full">
         {/* Logo */}
         <Link href="/" className="text-2xl font-bold tracking-wide">
           <span className="text-yellow-500">Deal</span>Hunt
         </Link>
 
-        {/* Search Bar */}
+        {/* Desktop Search Bar */}
         <div className="hidden md:flex items-center ml-4">
           <input
             type="text"
@@ -49,7 +58,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Profile Icon */}
+        {/* Mobile Profile Icon + Menu Button */}
         <div className="md:hidden flex items-center gap-4 text-gray-700 text-lg">
           <FiUser className="hover:text-yellow-500 cursor-pointer" />
           <button
