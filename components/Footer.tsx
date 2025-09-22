@@ -25,13 +25,13 @@ export default function Footer() {
           </div>
 
           {/* Newsletter */}
-          <div>
+          <div className="flex flex-col">
             <h3 className="text-lg font-semibold text-white mb-3">Stay Updated</h3>
-            <form className="flex flex-col sm:flex-row gap-2">
+            <form className="flex flex-col sm:flex-row gap-2 max-w-md">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-3 py-2 rounded-md text-black w-full sm:w-auto flex-1"
+                className="px-3 py-2 rounded-md text-black w-full sm:flex-1"
               />
               <button
                 type="submit"
