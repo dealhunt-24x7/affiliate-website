@@ -1,19 +1,30 @@
+"use client";
+
+import Image from "next/image";
+
 export default function HeroBanner() {
   return (
-    <section className="relative w-full h-[400px] sm:h-[500px] bg-gray-200 flex items-center justify-center">
-      <img
+    <section className="relative bg-gradient-to-r from-black via-gray-900 to-black text-white">
+      {/* Background Image */}
+      <Image
         src="/images/banners/hero.jpg"
-        alt="Hero Banner"
-        className="absolute inset-0 w-full h-full object-cover"
+        alt="Luxury Deals"
+        fill
+        priority
+        className="object-cover opacity-40"
       />
-      <div className="relative z-10 text-center text-white bg-black/40 p-6 rounded-xl">
-        <h1 className="text-3xl sm:text-5xl font-bold mb-4">
+
+      {/* Overlay Content */}
+      <div className="relative z-10 max-w-4xl mx-auto text-center py-24 px-4">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
           Luxury Deals at Your Fingertips
         </h1>
-        <p className="text-lg sm:text-xl mb-6">Shop exclusive watches, jewelry, and more</p>
+        <p className="text-lg md:text-xl mb-6">
+          Shop exclusive watches, jewelry, and more – only the best handpicked deals.
+        </p>
         <a
           href="/products"
-          className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-medium"
+          className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-8 py-3 rounded-full shadow-lg transition transform hover:scale-105"
         >
           Shop Now
         </a>
