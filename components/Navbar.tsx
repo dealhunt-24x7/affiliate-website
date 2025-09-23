@@ -95,7 +95,7 @@ export default function Navbar() {
 
           {/* Drawer */}
           <aside
-            className="relative z-50 w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl h-auto max-h-[90vh] overflow-y-auto transition-transform transform -translate-x-[-100%] animate-slide-in"
+            className="relative z-50 w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl h-auto overflow-y-auto transform transition-transform duration-300 -translate-x-full animate-slide-in"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
