@@ -86,16 +86,16 @@ export default function Navbar() {
 
       {/* SIDE DRAWER */}
       {drawerOpen && (
-        <div className="fixed inset-0 z-[9999] flex">
+        <>
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/50 transition-opacity duration-300"
+            className="fixed inset-0 z-[9998] bg-black/50 transition-opacity duration-300"
             onClick={() => setDrawerOpen(false)}
           />
 
           {/* Drawer */}
           <aside
-            className="relative z-50 w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl h-auto overflow-y-auto transform transition-transform duration-300 -translate-x-full animate-slide-in"
+            className="fixed top-0 left-0 z-[9999] w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl h-auto max-h-[90vh] overflow-y-auto transform -translate-x-full animate-slide-in"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
@@ -146,7 +146,7 @@ export default function Navbar() {
               </div>
             </nav>
           </aside>
-        </div>
+        </>
       )}
 
       {/* Tailwind Animations */}
