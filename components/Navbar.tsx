@@ -1,109 +1,149 @@
 "use client";
 
 import Link from "next/link";
-import { FiHeart, FiUser, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
+import {
+  FiHeart,
+  FiUser,
+  FiShoppingCart,
+  FiMenu,
+  FiX,
+  FiMoreHorizontal,
+} from "react-icons/fi";
 import { useState } from "react";
 
 export default function Navbar() {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-md">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 py-3">
-        {/* Top Row (Logo + Icons) */}
-        <div className="flex justify-between items-center w-full md:w-auto">
-          {/* Logo */}
-          <Link href="/" className="text-2xl font-bold tracking-wide">
-            <span className="text-yellow-500">Deal</span>Hunt
-          </Link>
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
+      <div className="max-w-7xl mx-auto px-6 py-3 w-full">
+        <div className="flex items-center justify-between space-x-4">
+          {/* LEFT: Logo + Taglines */}
+          <div className="flex flex-col">
+            <Link href="/" className="text-2xl font-bold tracking-wide">
+              <span className="text-yellow-500">Deal</span>Hunt
+            </Link>
 
-          {/* Animated Tagline Desktop */}
-          <span className="hidden md:inline ml-3 text-sm font-semibold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse hover:scale-105 transition-transform">
-            Cart to Heart
-          </span>
+            {/* Desktop animated tagline */}
+            <span className="hidden md:inline mt-1 text-sm font-semibold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse hover:scale-105 transition-transform">
+              Cart to Heart
+            </span>
 
-          {/* Desktop Icons */}
-          <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg ml-auto">
-            <FiHeart className="hover:text-yellow-500 cursor-pointer" />
-            <FiShoppingCart className="hover:text-yellow-500 cursor-pointer" />
-            <FiUser className="hover:text-yellow-500 cursor-pointer" />
-            {/* 3 Dots Menu (Desktop) */}
-            <button
-              className="hover:text-yellow-500 cursor-pointer"
-              onClick={() => setMobileOpen(true)}
-            >
-              <FiMenu />
-            </button>
+            {/* Mobile tagline (visible on mobile) */}
+            <span className="md:hidden mt-1 text-xs font-semibold text-yellow-400">
+              Cart to Heart
+            </span>
           </div>
 
-          {/* Mobile Right Section */}
-          <div className="md:hidden flex items-center gap-4 text-gray-700 text-lg">
-            <FiUser className="hover:text-yellow-500 cursor-pointer" />
-            <button className="text-2xl" onClick={() => setMobileOpen(true)}>
-              <FiMenu />
+          {/* CENTER: search bar (centred on desktop) */}
+          <div className="flex-1 flex justify-center px-4">
+            <div className="w-full max-w-md">
+              <input
+                type="text"
+                placeholder="Search products..."
+                aria-label="Search products"
+                className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
+              />
+            </div>
+          </div>
+
+          {/* RIGHT: Icons + desktop 3-dot button */}
+          <div className="flex items-center gap-3">
+            {/* icons visible on desktop */}
+            <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
+              <FiHeart className="hover:text-yellow-500 cursor-pointer" />
+              <FiShoppingCart className="hover:text-yellow-500 cursor-pointer" />
+              <FiUser className="hover:text-yellow-500 cursor-pointer" />
+            </div>
+
+            {/* 3-dot (desktop) */}
+            <button
+              className="hidden md:inline-flex items-center justify-center p-2 rounded hover:bg-gray-100"
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open menu"
+            >
+              <FiMoreHorizontal className="text-lg text-gray-700 hover:text-yellow-500" />
             </button>
+
+            {/* Mobile right section: profile + hamburger */}
+            <div className="md:hidden flex items-center gap-3">
+              <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
+              <button
+                className="text-2xl p-1"
+                onClick={() => setDrawerOpen(true)}
+                aria-label="Open menu"
+              >
+                <FiMenu />
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Search Bar (Below Logo on Mobile) */}
-        <div className="mt-3 w-full md:w-auto">
+        {/* MOBILE search bar below top row (keeps some gap above HeroBanner) */}
+        <div className="md:hidden mt-3 px-2">
           <input
             type="text"
             placeholder="Search products..."
-            className="w-full md:w-64 px-3 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            aria-label="Search products mobile"
+            className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-md"
           />
         </div>
       </div>
 
-      {/* Side Drawer Menu */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-50"
-          onClick={() => setMobileOpen(false)}
-        >
+      {/* SIDE DRAWER (used for desktop 3-dot and mobile hamburger) */}
+      {drawerOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          {/* Backdrop */}
           <div
-            className="absolute top-0 left-0 h-full w-72 bg-white shadow-xl p-6 animate-slideIn"
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setDrawerOpen(false)}
+          />
+
+          {/* Drawer panel */}
+          <aside
+            className="relative z-60 w-72 max-w-xs h-full bg-white shadow-2xl p-6 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
+            {/* Close */}
             <button
               className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black"
-              onClick={() => setMobileOpen(false)}
+              onClick={() => setDrawerOpen(false)}
+              aria-label="Close menu"
             >
               <FiX />
             </button>
 
-            {/* Navigation Links */}
-            <nav className="flex flex-col gap-4 mt-8">
-              <Link href="/" className="hover:text-yellow-500">Home</Link>
-              <Link href="/products" className="hover:text-yellow-500">Products</Link>
-              <Link href="/about" className="hover:text-yellow-500">About</Link>
-              <Link href="/contact" className="hover:text-yellow-500">Contact</Link>
-              <hr className="my-2" />
-              <button className="hover:text-yellow-500">Filter</button>
-              <button className="hover:text-yellow-500">Donate Your Savings</button>
-              <button className="hover:text-yellow-500">Refer & Earn</button>
-              <button className="hover:text-yellow-500">Wallet</button>
-              <button className="hover:text-yellow-500">Settings</button>
-              <div className="flex items-center gap-4 mt-4 text-gray-700 text-lg">
-                <FiHeart className="hover:text-yellow-500 cursor-pointer" />
-                <FiShoppingCart className="hover:text-yellow-500 cursor-pointer" />
+            {/* Menu items (golden text) */}
+            <nav className="mt-8 flex flex-col gap-4">
+              <Link href="/" className="text-yellow-500 font-semibold">
+                Home
+              </Link>
+              <Link href="/products" className="text-yellow-500 font-semibold">
+                Products
+              </Link>
+              <Link href="/about" className="text-yellow-500 font-semibold">
+                About
+              </Link>
+              <Link href="/contact" className="text-yellow-500 font-semibold">
+                Contact
+              </Link>
+
+              <hr className="my-2 border-gray-200" />
+
+              <button className="text-yellow-500 text-left font-semibold">Filter</button>
+              <button className="text-yellow-500 text-left font-semibold">
+                Donate Your Savings
+              </button>
+              <button className="text-yellow-500 text-left font-semibold">Refer & Earn</button>
+              <button className="text-yellow-500 text-left font-semibold">Wallet</button>
+              <button className="text-yellow-500 text-left font-semibold">Settings</button>
+
+              <div className="flex items-center gap-4 mt-6 text-yellow-500 text-lg">
+                <FiHeart className="cursor-pointer" />
+                <FiShoppingCart className="cursor-pointer" />
               </div>
             </nav>
-          </div>
-          <style jsx>{`
-            @keyframes slideIn {
-              from {
-                transform: translateX(-100%);
-              }
-              to {
-                transform: translateX(0);
-              }
-            }
-            .animate-slideIn {
-              animation: slideIn 0.3s ease-out forwards;
-            }
-          `}</style>
+          </aside>
         </div>
       )}
     </header>
