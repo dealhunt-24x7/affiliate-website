@@ -1,151 +1,71 @@
 "use client";
 
-import Link from "next/link";
-import {
-  FiHeart,
-  FiUser,
-  FiShoppingCart,
-  FiMenu,
-  FiX,
-  FiMoreHorizontal,
-} from "react-icons/fi";
-import { useState } from "react";
+import Image from "next/image";
 
-export default function Navbar() {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
+export default function HeroBanner() {
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
-      <div className="max-w-7xl mx-auto px-6 py-3 w-full">
-        <div className="flex items-center justify-between space-x-4">
-          {/* LEFT: Logo + Taglines */}
-          <div className="flex flex-col">
-            <Link href="/" className="text-2xl font-bold tracking-wide">
-              <span className="text-yellow-500">Deal</span>Hunt
-            </Link>
+    <section className="relative bg-gradient-to-r from-black via-gray-900 to-black text-white mt-6 animate-banner">
+      {/* Background Image */}
+      <Image
+        src="/images/banners/hero.jpg"
+        alt="Luxury Deals"
+        fill
+        priority
+        className="object-cover opacity-40"
+      />
 
-            {/* Desktop animated tagline */}
-            <span className="hidden md:inline mt-1 text-sm font-semibold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse hover:scale-105 transition-transform">
-              Cart to Heart
-            </span>
-
-            {/* Mobile tagline (visible on mobile) */}
-            <span className="md:hidden mt-1 text-xs font-semibold text-yellow-400">
-              Cart to Heart
-            </span>
-          </div>
-
-          {/* CENTER: search bar (centred on desktop) */}
-          <div className="flex-1 flex justify-center px-4">
-            <div className="w-full max-w-md">
-              <input
-                type="text"
-                placeholder="Search products..."
-                aria-label="Search products"
-                className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
-              />
-            </div>
-          </div>
-
-          {/* RIGHT: Icons + desktop 3-dot button */}
-          <div className="flex items-center gap-3">
-            {/* icons visible on desktop */}
-            <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
-              <FiHeart className="hover:text-yellow-500 cursor-pointer" />
-              <FiShoppingCart className="hover:text-yellow-500 cursor-pointer" />
-              <FiUser className="hover:text-yellow-500 cursor-pointer" />
-            </div>
-
-            {/* 3-dot (desktop) */}
-            <button
-              className="hidden md:inline-flex items-center justify-center p-2 rounded hover:bg-gray-100"
-              onClick={() => setDrawerOpen(true)}
-              aria-label="Open menu"
-            >
-              <FiMoreHorizontal className="text-lg text-gray-700 hover:text-yellow-500" />
-            </button>
-
-            {/* Mobile right section: profile + hamburger */}
-            <div className="md:hidden flex items-center gap-3">
-              <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
-              <button
-                className="text-2xl p-1"
-                onClick={() => setDrawerOpen(true)}
-                aria-label="Open menu"
-              >
-                <FiMenu />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* MOBILE search bar below top row (keeps some gap above HeroBanner) */}
-        <div className="md:hidden mt-3 px-2">
-          <input
-            type="text"
-            placeholder="Search products..."
-            aria-label="Search products mobile"
-            className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-md"
-          />
-        </div>
+      {/* Overlay Content */}
+      <div className="relative z-10 max-w-4xl mx-auto text-center py-24 px-4">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-lg animate-slideDown">
+          Luxury Deals at Your Fingertips
+        </h1>
+        {/* Animated Tagline (Visible on Mobile Too) */}
+        <p className="text-lg font-bold mb-4 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse">
+          Cart to Heart ❤️
+        </p>
+        <p className="text-lg md:text-xl mb-6 opacity-90 animate-fadeIn">
+          Shop exclusive watches, jewelry, and more – only the best handpicked deals.
+        </p>
+        <a
+          href="/products"
+          className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-8 py-3 rounded-full shadow-lg transition transform hover:scale-105 animate-fadeIn delay-300"
+        >
+          Shop Now
+        </a>
       </div>
 
-      {/* SIDE DRAWER (used for desktop 3-dot and mobile hamburger) */}
-      {drawerOpen && (
-        <div className="fixed inset-0 z-50 flex">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/50"
-            onClick={() => setDrawerOpen(false)}
-          />
-
-          {/* Drawer panel */}
-          <aside
-            className="relative z-60 w-72 max-w-xs h-full bg-white shadow-2xl p-6 overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close */}
-            <button
-              className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black"
-              onClick={() => setDrawerOpen(false)}
-              aria-label="Close menu"
-            >
-              <FiX />
-            </button>
-
-            {/* Menu items (golden text) */}
-            <nav className="mt-8 flex flex-col gap-4">
-              <Link href="/" className="text-yellow-500 font-semibold">
-                Home
-              </Link>
-              <Link href="/products" className="text-yellow-500 font-semibold">
-                Products
-              </Link>
-              <Link href="/about" className="text-yellow-500 font-semibold">
-                About
-              </Link>
-              <Link href="/contact" className="text-yellow-500 font-semibold">
-                Contact
-              </Link>
-
-              <hr className="my-2 border-gray-200" />
-
-              <button className="text-yellow-500 text-left font-semibold">Filter</button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Donate Your Savings
-              </button>
-              <button className="text-yellow-500 text-left font-semibold">Refer & Earn</button>
-              <button className="text-yellow-500 text-left font-semibold">Wallet</button>
-              <button className="text-yellow-500 text-left font-semibold">Settings</button>
-
-              <div className="flex items-center gap-4 mt-6 text-yellow-500 text-lg">
-                <FiHeart className="cursor-pointer" />
-                <FiShoppingCart className="cursor-pointer" />
-              </div>
-            </nav>
-          </aside>
-        </div>
-      )}
-    </header>
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-banner {
+          animation: fadeIn 0.8s ease-in-out;
+        }
+        .animate-slideDown {
+          animation: slideDown 0.8s ease-out forwards;
+        }
+        .animate-fadeIn {
+          animation: fadeIn 1s ease-out forwards;
+        }
+        .delay-300 {
+          animation-delay: 0.3s;
+        }
+      `}</style>
+    </section>
   );
 }
