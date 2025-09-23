@@ -18,25 +18,20 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-3 w-full">
         <div className="flex items-center justify-between space-x-4">
-          {/* LEFT: Logo + Taglines */}
+          {/* LEFT: Logo + Tagline */}
           <div className="flex flex-col">
             <Link href="/" className="text-2xl font-bold tracking-wide">
               <span className="text-yellow-500">Deal</span>Hunt
             </Link>
 
-            {/* Desktop animated tagline */}
-            <span className="hidden md:inline mt-1 text-sm font-semibold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse hover:scale-105 transition-transform">
-              Cart to Heart
-            </span>
-
-            {/* Mobile tagline (visible on mobile) */}
-            <span className="md:hidden mt-1 text-xs font-semibold text-yellow-400">
+            {/* Single tagline (desktop + mobile same style) */}
+            <span className="mt-1 text-sm font-semibold bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-pulse">
               Cart to Heart
             </span>
           </div>
 
-          {/* CENTER: search bar (centred on desktop) */}
-          <div className="flex-1 flex justify-center px-4">
+          {/* CENTER: Desktop search bar */}
+          <div className="hidden md:flex flex-1 justify-center px-4">
             <div className="w-full max-w-md">
               <input
                 type="text"
@@ -47,16 +42,16 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* RIGHT: Icons + desktop 3-dot button */}
+          {/* RIGHT: Icons + desktop 3-dot */}
           <div className="flex items-center gap-3">
-            {/* icons visible on desktop */}
+            {/* Desktop icons */}
             <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
               <FiHeart className="hover:text-yellow-500 cursor-pointer" />
               <FiShoppingCart className="hover:text-yellow-500 cursor-pointer" />
               <FiUser className="hover:text-yellow-500 cursor-pointer" />
             </div>
 
-            {/* 3-dot (desktop) */}
+            {/* 3-dot menu (desktop only) */}
             <button
               className="hidden md:inline-flex items-center justify-center p-2 rounded hover:bg-gray-100"
               onClick={() => setDrawerOpen(true)}
@@ -65,7 +60,7 @@ export default function Navbar() {
               <FiMoreHorizontal className="text-lg text-gray-700 hover:text-yellow-500" />
             </button>
 
-            {/* Mobile right section: profile + hamburger */}
+            {/* Mobile: profile + hamburger */}
             <div className="md:hidden flex items-center gap-3">
               <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
               <button
@@ -78,19 +73,9 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-
-        {/* MOBILE search bar below top row (keeps some gap above HeroBanner) */}
-        <div className="md:hidden mt-3 px-2">
-          <input
-            type="text"
-            placeholder="Search products..."
-            aria-label="Search products mobile"
-            className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-md"
-          />
-        </div>
       </div>
 
-      {/* SIDE DRAWER (used for desktop 3-dot and mobile hamburger) */}
+      {/* SIDE DRAWER (Full Height) */}
       {drawerOpen && (
         <div className="fixed inset-0 z-50 flex">
           {/* Backdrop */}
@@ -99,7 +84,7 @@ export default function Navbar() {
             onClick={() => setDrawerOpen(false)}
           />
 
-          {/* Drawer panel */}
+          {/* Drawer Panel */}
           <aside
             className="relative z-60 w-72 max-w-xs h-full bg-white shadow-2xl p-6 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
@@ -113,7 +98,7 @@ export default function Navbar() {
               <FiX />
             </button>
 
-            {/* Menu items (golden text) */}
+            {/* Golden Menu Links */}
             <nav className="mt-8 flex flex-col gap-4">
               <Link href="/" className="text-yellow-500 font-semibold">
                 Home
@@ -130,13 +115,21 @@ export default function Navbar() {
 
               <hr className="my-2 border-gray-200" />
 
-              <button className="text-yellow-500 text-left font-semibold">Filter</button>
+              <button className="text-yellow-500 text-left font-semibold">
+                Filter
+              </button>
               <button className="text-yellow-500 text-left font-semibold">
                 Donate Your Savings
               </button>
-              <button className="text-yellow-500 text-left font-semibold">Refer & Earn</button>
-              <button className="text-yellow-500 text-left font-semibold">Wallet</button>
-              <button className="text-yellow-500 text-left font-semibold">Settings</button>
+              <button className="text-yellow-500 text-left font-semibold">
+                Refer & Earn
+              </button>
+              <button className="text-yellow-500 text-left font-semibold">
+                Wallet
+              </button>
+              <button className="text-yellow-500 text-left font-semibold">
+                Settings
+              </button>
 
               <div className="flex items-center gap-4 mt-6 text-yellow-500 text-lg">
                 <FiHeart className="cursor-pointer" />
