@@ -17,20 +17,19 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-3 w-full">
-        <div className="flex items-center justify-between space-x-4">
-          {/* LEFT: Logo + Tagline */}
+        {/* TOP ROW */}
+        <div className="flex items-center justify-between">
+          {/* Logo + Tagline */}
           <div className="flex flex-col">
             <Link href="/" className="text-2xl font-bold tracking-wide">
               <span className="text-yellow-500">Deal</span>Hunt
             </Link>
-
-            {/* Single tagline (desktop + mobile same style) */}
             <span className="mt-1 text-sm font-semibold bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-pulse">
               Cart to Heart
             </span>
           </div>
 
-          {/* CENTER: Desktop search bar */}
+          {/* Desktop Search Bar */}
           <div className="hidden md:flex flex-1 justify-center px-4">
             <div className="w-full max-w-md">
               <input
@@ -42,16 +41,16 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* RIGHT: Icons + desktop 3-dot */}
+          {/* Right side icons */}
           <div className="flex items-center gap-3">
-            {/* Desktop icons */}
+            {/* Desktop Icons */}
             <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
               <FiHeart className="hover:text-yellow-500 cursor-pointer" />
               <FiShoppingCart className="hover:text-yellow-500 cursor-pointer" />
               <FiUser className="hover:text-yellow-500 cursor-pointer" />
             </div>
 
-            {/* 3-dot menu (desktop only) */}
+            {/* Desktop 3-dot */}
             <button
               className="hidden md:inline-flex items-center justify-center p-2 rounded hover:bg-gray-100"
               onClick={() => setDrawerOpen(true)}
@@ -73,23 +72,33 @@ export default function Navbar() {
             </div>
           </div>
         </div>
+
+        {/* Mobile Search Bar */}
+        <div className="md:hidden mt-3">
+          <input
+            type="text"
+            placeholder="Search products..."
+            aria-label="Search products"
+            className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
+          />
+        </div>
       </div>
 
-      {/* SIDE DRAWER (Full Height) */}
+      {/* SIDE DRAWER (FULL SCREEN FIXED) */}
       {drawerOpen && (
-        <div className="fixed inset-0 z-50 flex">
+        <div className="fixed inset-0 z-[9999] flex">
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/50"
             onClick={() => setDrawerOpen(false)}
           />
 
-          {/* Drawer Panel */}
+          {/* Drawer */}
           <aside
-            className="relative z-60 w-72 max-w-xs h-full bg-white shadow-2xl p-6 overflow-y-auto"
+            className="relative z-50 w-72 max-w-xs h-screen bg-white shadow-2xl p-6 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close */}
+            {/* Close button */}
             <button
               className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black"
               onClick={() => setDrawerOpen(false)}
@@ -98,7 +107,7 @@ export default function Navbar() {
               <FiX />
             </button>
 
-            {/* Golden Menu Links */}
+            {/* Menu Links */}
             <nav className="mt-8 flex flex-col gap-4">
               <Link href="/" className="text-yellow-500 font-semibold">
                 Home
