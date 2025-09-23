@@ -84,18 +84,18 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* SIDE DRAWER (AUTO HEIGHT WITH ANIMATION) */}
+      {/* SIDE DRAWER */}
       {drawerOpen && (
         <div className="fixed inset-0 z-[9999] flex">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/50 animate-fade-in"
+            className="absolute inset-0 bg-black/50 transition-opacity duration-300"
             onClick={() => setDrawerOpen(false)}
           />
 
           {/* Drawer */}
           <aside
-            className="relative z-50 w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl h-auto max-h-[90vh] overflow-y-auto animate-slide-in"
+            className="relative z-50 w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl h-auto max-h-[90vh] overflow-y-auto transition-transform transform -translate-x-[-100%] animate-slide-in"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
@@ -149,31 +149,20 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* Animations */}
+      {/* Tailwind Animations */}
       <style jsx>{`
-        @keyframes slideIn {
-          from {
+        @keyframes slide-in {
+          0% {
             transform: translateX(-100%);
             opacity: 0;
           }
-          to {
+          100% {
             transform: translateX(0);
             opacity: 1;
           }
         }
         .animate-slide-in {
-          animation: slideIn 0.3s ease-out forwards;
-        }
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        .animate-fade-in {
-          animation: fadeIn 0.2s ease-in forwards;
+          animation: slide-in 0.3s ease-out forwards;
         }
       `}</style>
     </header>
