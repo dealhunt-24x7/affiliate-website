@@ -2,9 +2,7 @@
 
 import HeroBanner from "@/components/HeroBanner";
 import CategoryGrid from "@/components/CategoryGrid";
-import FeaturedDeals from "@/components/FeaturedDeals";
-import DealOfTheDay from "@/components/DealOfTheDay";
-import BlogSection from "@/components/BlogSection";
+import FeaturedProducts from "@/components/FeaturedProducts"; // Updated component
 import FAQSection from "@/components/FAQSection";
 
 export default function HomePage() {
@@ -13,17 +11,11 @@ export default function HomePage() {
       {/* Hero Banner */}
       <HeroBanner />
 
-      {/* Deal of the Day - Auto Scroll */}
-      <DealOfTheDay />
-
       {/* Categories */}
       <CategoryGrid />
 
-      {/* Featured Deals */}
-      <FeaturedDeals />
-
-      {/* Blogs Section */}
-      <BlogSection />
+      {/* Featured Products (infinite scroll + related blogs) */}
+      <FeaturedProducts />
 
       {/* FAQ Section */}
       <FAQSection />
