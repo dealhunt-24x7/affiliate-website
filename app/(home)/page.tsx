@@ -3,13 +3,19 @@
 import HeroBanner from "@/components/HeroBanner";
 import CategoryGrid from "@/components/CategoryGrid";
 import FeaturedDeals from "@/components/FeaturedDeals";
+import DealOfTheDay from "@/components/DealOfTheDay";
+import BlogSection from "@/components/BlogSection";
+import FAQSection from "@/components/FAQSection";
 
 export default function HomePage() {
   return (
     <div className="space-y-12">
       <HeroBanner />
+      <DealOfTheDay />
       <CategoryGrid />
       <FeaturedDeals />
-    </div>
+      <BlogSection />
+      <FAQSection />
+    </>
   );
 }
