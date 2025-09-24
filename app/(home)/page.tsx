@@ -1,19 +1,15 @@
+"use client";
+
 import HeroBanner from "@/components/HeroBanner";
-import CategoriesSection from "@/components/CategoriesSection";
+import CategoryGrid from "@/components/CategoryGrid";
 import FeaturedDeals from "@/components/FeaturedDeals";
-import DealOfTheDay from "@/components/DealOfTheDay";
-import BlogSection from "@/components/BlogSection";
-import FAQSection from "@/components/FAQSection";
 
 export default function HomePage() {
   return (
-    <>
+    <div className="space-y-12">
       <HeroBanner />
-      <DealOfTheDay />
-      <CategoriesSection />
+      <CategoryGrid />
       <FeaturedDeals />
-      <BlogSection />
-      <FAQSection />
-    </>
+    </div>
   );
 }
