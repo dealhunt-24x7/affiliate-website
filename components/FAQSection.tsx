@@ -2,30 +2,35 @@
 import { useState } from "react";
 
 const faqs = [
-  { q: "How do I place an order?", a: "Browse products, add to cart, and checkout securely." },
-  { q: "Do you offer free shipping?", a: "Yes, on all orders above $50." },
-  { q: "How can I track my order?", a: "You will receive a tracking link via email." },
+  { id: 1, question: "How do I buy a deal?", answer: "Click on the deal and follow the link to purchase." },
+  { id: 2, question: "Are these deals real?", answer: "Yes, we only show verified affiliate deals." },
+  { id: 3, question: "Can I return a product?", answer: "Return policies depend on the merchant site." },
+  { id: 4, question: "Do I earn cashback?", answer: "Some deals provide cashback via our affiliate programs." },
+  { id: 5, question: "How often are deals updated?", answer: "We update our deals daily." },
 ];
 
 export default function FAQSection() {
-  const [open, setOpen] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
+  const displayedFAQs = showAll ? faqs : faqs.slice(0, 3);
 
   return (
-    <section className="max-w-4xl mx-auto px-4 py-10">
-      <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-        Frequently Asked Questions
-      </h2>
+    <section className="max-w-5xl mx-auto px-4 py-10">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">FAQs</h2>
       <div className="space-y-4">
-        {faqs.map((faq, i) => (
-          <div
-            key={i}
-            className="bg-white shadow rounded-xl p-4 cursor-pointer"
-            onClick={() => setOpen(open === i ? null : i)}
-          >
-            <h3 className="font-semibold text-lg">{faq.q}</h3>
-            {open === i && <p className="mt-2 text-gray-600">{faq.a}</p>}
+        {displayedFAQs.map((faq) => (
+          <div key={faq.id} className="bg-white p-4 rounded-xl shadow">
+            <h3 className="font-semibold">{faq.question}</h3>
+            <p className="mt-1 text-gray-600">{faq.answer}</p>
           </div>
         ))}
+      </div>
+      <div className="text-center mt-4">
+        <button
+          className="text-yellow-500 font-semibold hover:underline"
+          onClick={() => setShowAll(!showAll)}
+        >
+          {showAll ? "View Less FAQs" : "View All FAQs"}
+        </button>
       </div>
     </section>
   );
