@@ -9,7 +9,7 @@ const deals = [
   { id: 5, title: "Cartier Tank", price: "$4500", image: "/images/deals/deal5.jpg" },
 ];
 
-export default function DealOfTheDay() {
+export default function FeaturedDeals() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
