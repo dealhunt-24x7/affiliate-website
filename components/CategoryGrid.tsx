@@ -1,19 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { categories } from "@/data/categories"; // ✅ fixed import
+import { categories } from "@/data/categories";
 
 export default function CategoryGrid() {
   return (
     <section className="py-12 bg-white">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-10">
           Shop by Category
         </h2>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
           {categories.map((cat) => (
             <div
-              key={cat.id}
+              key={cat.slug}
               className="flex flex-col items-center text-center group cursor-pointer"
             >
               <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-md border-2 border-gray-200 group-hover:border-yellow-500 transition">
@@ -29,6 +29,11 @@ export default function CategoryGrid() {
               </span>
             </div>
           ))}
+        </div>
+        <div className="text-center mt-6">
+          <button className="text-yellow-500 font-semibold hover:underline">
+            See All Categories
+          </button>
         </div>
       </div>
     </section>
