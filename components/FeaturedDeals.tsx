@@ -19,24 +19,26 @@ export default function FeaturedDeals() {
   }, []);
 
   return (
-    <section className="max-w-full mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-gray-800">Featured Deals</h2>
-        <button className="text-yellow-500 font-semibold hover:underline">
-          View More Deals
-        </button>
-      </div>
+    <section className="w-full bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-gray-800">Featured Deals</h2>
+          <button className="text-yellow-500 font-semibold hover:underline">
+            View More Deals
+          </button>
+        </div>
 
-      <div className="relative flex justify-center">
-        <div className="w-full max-w-3xl overflow-hidden rounded-xl shadow-lg bg-white">
-          <img
-            src={deals[current].image}
-            alt={deals[current].title}
-            className="w-full h-56 object-cover"
-          />
-          <div className="p-4 text-center">
-            <h3 className="font-semibold text-lg">{deals[current].title}</h3>
-            <p className="text-yellow-600 font-bold">{deals[current].price}</p>
+        <div className="relative">
+          <div className="w-full overflow-hidden rounded-xl shadow-lg bg-white">
+            <img
+              src={deals[current].image}
+              alt={deals[current].title}
+              className="w-full h-64 object-cover"
+            />
+            <div className="p-4 text-center">
+              <h3 className="font-semibold text-lg">{deals[current].title}</h3>
+              <p className="text-yellow-600 font-bold">{deals[current].price}</p>
+            </div>
           </div>
         </div>
       </div>
