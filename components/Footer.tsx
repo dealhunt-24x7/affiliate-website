@@ -1,6 +1,12 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { FaInstagram, FaTelegram, FaYoutube, FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
+  const [showContact, setShowContact] = useState(false);
+
   return (
     <footer className="w-full bg-gray-900 text-gray-300 mt-12">
       <div className="w-full bg-gray-900 py-8">
@@ -20,7 +26,20 @@ export default function Footer() {
               <li><Link href="/" className="hover:text-white">Home</Link></li>
               <li><Link href="/products" className="hover:text-white">Products</Link></li>
               <li><Link href="/about" className="hover:text-white">About</Link></li>
-              <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
+              <li>
+                <button
+                  onClick={() => setShowContact(!showContact)}
+                  className="hover:text-white focus:outline-none"
+                >
+                  Contact Us
+                </button>
+                {showContact && (
+                  <div className="mt-2 text-sm text-gray-400 space-y-1">
+                    <p>📱 WhatsApp: <a href="https://wa.me/918279521992" target="_blank" className="hover:text-yellow-500">+91 82795 21992</a></p>
+                    <p>📧 Email: <a href="mailto:dealhunt24x7@gmail.com" className="hover:text-yellow-500">dealhunt24x7@gmail.com</a></p>
+                  </div>
+                )}
+              </li>
             </ul>
           </div>
 
@@ -40,6 +59,14 @@ export default function Footer() {
                 Subscribe
               </button>
             </form>
+
+            {/* Social Icons */}
+            <div className="flex gap-4 mt-4 text-2xl text-gray-400">
+              <a href="https://youtube.com" target="_blank" className="hover:text-red-500"><FaYoutube /></a>
+              <a href="https://x.com" target="_blank" className="hover:text-gray-200"><FaXTwitter /></a>
+              <a href="https://instagram.com" target="_blank" className="hover:text-pink-500"><FaInstagram /></a>
+              <a href="https://t.me" target="_blank" className="hover:text-blue-400"><FaTelegram /></a>
+            </div>
           </div>
         </div>
 
