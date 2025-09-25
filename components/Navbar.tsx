@@ -109,35 +109,22 @@ export default function Navbar() {
 
             {/* Menu Links */}
             <nav className="mt-8 flex flex-col gap-4">
-              <Link href="/" className="text-yellow-500 font-semibold">
-                Home
-              </Link>
-              <Link href="/products" className="text-yellow-500 font-semibold">
-                Products
-              </Link>
-              <Link href="/about" className="text-yellow-500 font-semibold">
-                About
-              </Link>
-              <Link href="/contact" className="text-yellow-500 font-semibold">
-                Contact
-              </Link>
+              <Link href="/" className="text-yellow-500 font-semibold">Home</Link>
+              <Link href="/products" className="text-yellow-500 font-semibold">Products</Link>
+              <Link href="/about" className="text-yellow-500 font-semibold">About</Link>
+              <Link href="/contact" className="text-yellow-500 font-semibold">Contact</Link>
 
               <hr className="my-2 border-gray-200" />
 
-              <button className="text-yellow-500 text-left font-semibold">
-                Filter
-              </button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Donate Your Savings
-              </button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Refer & Earn
-              </button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Wallet
-              </button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Settings
+              <button className="text-yellow-500 text-left font-semibold">Filter</button>
+              <button className="text-yellow-500 text-left font-semibold">Donate Your Savings</button>
+              <button className="text-yellow-500 text-left font-semibold">Refer & Earn</button>
+              <button className="text-yellow-500 text-left font-semibold">Wallet</button>
+              <button className="text-yellow-500 text-left font-semibold">Settings</button>
+
+              {/* ✅ New Button */}
+              <button className="mt-3 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded-lg shadow">
+                Join Our Cart to Heart Program
               </button>
 
               <div className="flex items-center gap-4 mt-6 text-yellow-500 text-lg">
