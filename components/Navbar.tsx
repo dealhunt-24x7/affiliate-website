@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   FiHeart,
   FiUser,
@@ -8,11 +9,39 @@ import {
   FiMenu,
   FiX,
   FiMoreHorizontal,
+  FiSearch,
 } from "react-icons/fi";
 import { useState } from "react";
 
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const router = useRouter();
+
+  // Mock suggestions - baad me API se la sakte ho
+  const mockSuggestions = [
+    "Rolex Submariner",
+    "Casio G-Shock",
+    "Omega Speedmaster",
+    "Cartier Bracelet",
+    "Luxury Handbags",
+    "Apple Watch Series 10",
+  ];
+
+  // Filter suggestions
+  const filteredSuggestions = mockSuggestions.filter((item) =>
+    item.toLowerCase().includes(query.toLowerCase())
+  );
+
+  // Handle search submit
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) {
+      router.push(`/products?search=${encodeURIComponent(query.trim())}`);
+      setShowSuggestions(false);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
@@ -30,15 +59,41 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Search Bar */}
-          <div className="hidden md:flex flex-1 justify-center px-4">
-            <div className="w-full max-w-md">
+          <div className="hidden md:flex flex-1 justify-center px-4 relative">
+            <form onSubmit={handleSearch} className="w-full max-w-md">
               <input
                 type="text"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 placeholder="Search products..."
                 aria-label="Search products"
                 className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
               />
-            </div>
+              {showSuggestions && query.length > 0 && (
+                <ul className="absolute bg-white border border-gray-200 rounded-md shadow-lg mt-1 w-full max-w-md z-50">
+                  {filteredSuggestions.length > 0 ? (
+                    filteredSuggestions.map((item, idx) => (
+                      <li
+                        key={idx}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onMouseDown={() => {
+                          router.push(`/products?search=${encodeURIComponent(item)}`);
+                          setShowSuggestions(false);
+                        }}
+                      >
+                        {item}
+                      </li>
+                    ))
+                  ) : (
+                    <li className="px-4 py-2 text-gray-400">No results found</li>
+                  )}
+                </ul>
+              )}
+            </form>
           </div>
 
           {/* Right side icons */}
@@ -74,84 +129,42 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Search Bar */}
-        <div className="md:hidden mt-3">
-          <input
-            type="text"
-            placeholder="Search products..."
-            aria-label="Search products"
-            className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
-          />
+        <div className="md:hidden mt-3 relative">
+          <form onSubmit={handleSearch}>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+              placeholder="Search products..."
+              className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
+            />
+            {showSuggestions && query.length > 0 && (
+              <ul className="absolute bg-white border border-gray-200 rounded-md shadow-lg mt-1 w-full z-50">
+                {filteredSuggestions.length > 0 ? (
+                  filteredSuggestions.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onMouseDown={() => {
+                        router.push(`/products?search=${encodeURIComponent(item)}`);
+                        setShowSuggestions(false);
+                      }}
+                    >
+                      {item}
+                    </li>
+                  ))
+                ) : (
+                  <li className="px-4 py-2 text-gray-400">No results found</li>
+                )}
+              </ul>
+            )}
+          </form>
         </div>
       </div>
-
-      {/* SIDE DRAWER */}
-      {drawerOpen && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-[9998] bg-black/50 transition-opacity duration-300"
-            onClick={() => setDrawerOpen(false)}
-          />
-
-          {/* Drawer */}
-          <aside
-            className="fixed top-0 left-0 z-[9999] w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl h-auto max-h-[90vh] overflow-y-auto transform -translate-x-full animate-slide-in"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close button */}
-            <button
-              className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black"
-              onClick={() => setDrawerOpen(false)}
-              aria-label="Close menu"
-            >
-              <FiX />
-            </button>
-
-            {/* Menu Links */}
-            <nav className="mt-8 flex flex-col gap-4">
-              <Link href="/" className="text-yellow-500 font-semibold">Home</Link>
-              <Link href="/products" className="text-yellow-500 font-semibold">Products</Link>
-              <Link href="/about" className="text-yellow-500 font-semibold">About</Link>
-              <Link href="/contact" className="text-yellow-500 font-semibold">Contact</Link>
-
-              <hr className="my-2 border-gray-200" />
-
-              <button className="text-yellow-500 text-left font-semibold">Filter</button>
-              <button className="text-yellow-500 text-left font-semibold">Donate Your Savings</button>
-              <button className="text-yellow-500 text-left font-semibold">Refer & Earn</button>
-              <button className="text-yellow-500 text-left font-semibold">Wallet</button>
-              <button className="text-yellow-500 text-left font-semibold">Settings</button>
-
-              {/* ✅ New Button */}
-              <button className="mt-3 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded-lg shadow">
-                Join Our Cart to Heart Program
-              </button>
-
-              <div className="flex items-center gap-4 mt-6 text-yellow-500 text-lg">
-                <FiHeart className="cursor-pointer" />
-                <FiShoppingCart className="cursor-pointer" />
-              </div>
-            </nav>
-          </aside>
-        </>
-      )}
-
-      {/* Tailwind Animations */}
-      <style jsx>{`
-        @keyframes slide-in {
-          0% {
-            transform: translateX(-100%);
-            opacity: 0;
-          }
-          100% {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-        .animate-slide-in {
-          animation: slide-in 0.3s ease-out forwards;
-        }
-      `}</style>
     </header>
   );
 }
