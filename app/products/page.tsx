@@ -20,20 +20,25 @@ interface Product {
 }
 
 export default function ProductsPage() {
-  const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("search") || "";
+  let searchQuery = "";
+  try {
+    const searchParams = useSearchParams();
+    searchQuery = searchParams?.get("search") || "";
+  } catch (err) {
+    // agar prerender ke time pe error aaye to ignore
+    searchQuery = "";
+  }
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // --- Filters ---
+  // Filters
   const [selectedBrand, setSelectedBrand] = useState<string>("all");
   const [minRating, setMinRating] = useState<number>(0);
 
   useEffect(() => {
     setLoading(true);
 
-    // Mock API data (replace with real API later)
     const mockProducts: Product[] = [
       {
         id: 1,
@@ -63,13 +68,14 @@ export default function ProductsPage() {
       },
     ];
 
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setProducts(mockProducts);
       setLoading(false);
-    }, 1200); // Simulating API delay
+    }, 1200);
+
+    return () => clearTimeout(timeout);
   }, [searchQuery]);
 
-  // --- Filtered Products ---
   const filteredProducts = products.filter(
     (p) =>
       (selectedBrand === "all" || p.brand === selectedBrand) &&
@@ -122,7 +128,6 @@ export default function ProductsPage() {
         {/* Products List */}
         <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {loading ? (
-            // --- Loading Skeleton ---
             Array.from({ length: 6 }).map((_, idx) => (
               <div
                 key={idx}
@@ -135,7 +140,7 @@ export default function ProductsPage() {
               </div>
             ))
           ) : filteredProducts.length > 0 ? (
-            filteredProducts.map((product: Product) => (
+            filteredProducts.map((product) => (
               <div
                 key={product.id}
                 className="bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition"
@@ -157,22 +162,20 @@ export default function ProductsPage() {
                     Compare Prices:
                   </h3>
                   <div className="flex flex-col gap-2">
-                    {product.comparison.map(
-                      (item: ComparisonItem, idx: number) => (
-                        <div
-                          key={idx}
-                          className="flex justify-between items-center bg-white px-3 py-2 rounded-md shadow-sm"
-                        >
-                          <span className="font-medium">{item.site}</span>
-                          <span className="text-yellow-600 font-bold">
-                            {item.price}
-                          </span>
-                          <span className="text-gray-500 text-sm">
-                            ⭐ {item.rating}
-                          </span>
-                        </div>
-                      )
-                    )}
+                    {product.comparison.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="flex justify-between items-center bg-white px-3 py-2 rounded-md shadow-sm"
+                      >
+                        <span className="font-medium">{item.site}</span>
+                        <span className="text-yellow-600 font-bold">
+                          {item.price}
+                        </span>
+                        <span className="text-gray-500 text-sm">
+                          ⭐ {item.rating}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
