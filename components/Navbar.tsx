@@ -10,8 +10,9 @@ import {
   FiMoreHorizontal,
 } from "react-icons/fi";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-// Sample suggestions - later API se fetch karenge
+// Sample suggestions (API connect later)
 const sampleSuggestions = [
   "Rolex Daytona",
   "Omega Seamaster",
@@ -24,6 +25,7 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -41,8 +43,7 @@ export default function Navbar() {
   const handleSelect = (item: string) => {
     setQuery(item);
     setSuggestions([]);
-    // Redirect to products page with search query
-    window.location.href = `/products?search=${encodeURIComponent(item)}`;
+    router.push(`/products?search=${encodeURIComponent(item)}`);
   };
 
   return (
@@ -91,9 +92,18 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             {/* Desktop Icons */}
             <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
-              <FiHeart className="hover:text-yellow-500 cursor-pointer" />
-              <FiShoppingCart className="hover:text-yellow-500 cursor-pointer" />
-              <FiUser className="hover:text-yellow-500 cursor-pointer" />
+              <FiHeart
+                onClick={() => router.push("/wishlist")}
+                className="hover:text-yellow-500 cursor-pointer"
+              />
+              <FiShoppingCart
+                onClick={() => router.push("/cart")}
+                className="hover:text-yellow-500 cursor-pointer"
+              />
+              <FiUser
+                onClick={() => router.push("/profile")}
+                className="hover:text-yellow-500 cursor-pointer"
+              />
             </div>
 
             {/* Desktop 3-dot */}
@@ -107,7 +117,10 @@ export default function Navbar() {
 
             {/* Mobile: profile + hamburger */}
             <div className="md:hidden flex items-center gap-3 relative">
-              <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
+              <FiUser
+                className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer"
+                onClick={() => router.push("/profile")}
+              />
               <button
                 className="text-2xl p-1"
                 onClick={() => setDrawerOpen(true)}
@@ -172,44 +185,25 @@ export default function Navbar() {
 
             {/* Menu Links */}
             <nav className="mt-8 flex flex-col gap-4">
-              <Link href="/" className="text-yellow-500 font-semibold">
-                Home
-              </Link>
-              <Link href="/products" className="text-yellow-500 font-semibold">
-                Products
-              </Link>
-              <Link href="/about" className="text-yellow-500 font-semibold">
-                About
-              </Link>
-              <Link href="/contact" className="text-yellow-500 font-semibold">
-                Contact
-              </Link>
+              <Link href="/">Home</Link>
+              <Link href="/products">Products</Link>
+              <Link href="/about">About</Link>
+              <Link href="/contact">Contact</Link>
 
               <hr className="my-2 border-gray-200" />
 
-              <button className="text-yellow-500 text-left font-semibold">
+              <button onClick={() => router.push("/cart-to-heart")}>
                 Join Our Cart to Heart Program
               </button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Filter
-              </button>
-              <button className="text-yellow-500 text-left font-semibold">
+              <button onClick={() => router.push("/filter")}>Filter</button>
+              <button onClick={() => router.push("/donate")}>
                 Donate Your Savings
               </button>
-              <button className="text-yellow-500 text-left font-semibold">
+              <button onClick={() => router.push("/refer-earn")}>
                 Refer & Earn
               </button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Wallet
-              </button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Settings
-              </button>
-
-              <div className="flex items-center gap-4 mt-6 text-yellow-500 text-lg">
-                <FiHeart className="cursor-pointer" />
-                <FiShoppingCart className="cursor-pointer" />
-              </div>
+              <button onClick={() => router.push("/wallet")}>Wallet</button>
+              <button onClick={() => router.push("/settings")}>Settings</button>
             </nav>
           </aside>
         </>
