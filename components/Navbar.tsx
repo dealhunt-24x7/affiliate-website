@@ -11,8 +11,39 @@ import {
 } from "react-icons/fi";
 import { useState } from "react";
 
+// Sample suggestions - later API se fetch karenge
+const sampleSuggestions = [
+  "Rolex Daytona",
+  "Omega Seamaster",
+  "Apple Watch Ultra",
+  "Tag Heuer Carrera",
+  "Cartier Tank",
+];
+
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuery(value);
+    if (value.length > 0) {
+      const filtered = sampleSuggestions.filter((item) =>
+        item.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions(filtered);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleSelect = (item: string) => {
+    setQuery(item);
+    setSuggestions([]);
+    // Redirect to products page with search query
+    window.location.href = `/products?search=${encodeURIComponent(item)}`;
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
@@ -30,14 +61,29 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Search Bar */}
-          <div className="hidden md:flex flex-1 justify-center px-4">
+          <div className="hidden md:flex flex-1 justify-center px-4 relative">
             <div className="w-full max-w-md">
               <input
                 type="text"
+                value={query}
+                onChange={handleChange}
                 placeholder="Search products..."
                 aria-label="Search products"
                 className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
               />
+              {suggestions.length > 0 && (
+                <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
+                  {suggestions.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className="px-4 py-2 hover:bg-yellow-100 cursor-pointer"
+                      onClick={() => handleSelect(item)}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
 
@@ -60,7 +106,7 @@ export default function Navbar() {
             </button>
 
             {/* Mobile: profile + hamburger */}
-            <div className="md:hidden flex items-center gap-3">
+            <div className="md:hidden flex items-center gap-3 relative">
               <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
               <button
                 className="text-2xl p-1"
@@ -69,18 +115,33 @@ export default function Navbar() {
               >
                 <FiMenu />
               </button>
+
+              {/* Mobile Search Bar */}
+              <div className="absolute top-12 left-0 w-full px-0">
+                <input
+                  type="text"
+                  value={query}
+                  onChange={handleChange}
+                  placeholder="Search products..."
+                  aria-label="Search products"
+                  className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
+                />
+                {suggestions.length > 0 && (
+                  <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
+                    {suggestions.map((item, idx) => (
+                      <li
+                        key={idx}
+                        className="px-4 py-2 hover:bg-yellow-100 cursor-pointer"
+                        onClick={() => handleSelect(item)}
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Mobile Search Bar */}
-        <div className="md:hidden mt-3">
-          <input
-            type="text"
-            placeholder="Search products..."
-            aria-label="Search products"
-            className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
-          />
         </div>
       </div>
 
