@@ -6,6 +6,7 @@ import FeaturedDeals from "@/components/FeaturedDeals";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import FAQSection from "@/components/FAQSection";
 import CartToHeartSection from "@/components/CartToHeartSection";
+import FloatingAIButtons from "@/components/FloatingAIButtons";
 
 export default function HomePage() {
   return (
@@ -27,6 +28,9 @@ export default function HomePage() {
 
       {/* FAQ Section */}
       <FAQSection />
+
+      {/* Floating AI Buttins */}
+      <FloatingAIButtons />
     </main>
   );
 }
