@@ -1,30 +1,17 @@
-import Link from "next/link";
-
 export default function CartToHeartSection() {
   return (
     <section className="w-full bg-gradient-to-r from-yellow-100 via-orange-50 to-pink-50 rounded-2xl shadow-md my-8 p-6 md:p-10 text-center">
       <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
         ❤️ Cart to Heart Program
       </h2>
-      <p className="mt-3 text-gray-700 max-w-2xl mx-auto text-base md:text-lg">
-        Support others or get support when you need it! Join our community-driven
-        program to donate your savings or raise funds for education and medical needs.
+      <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+        Join our unique program to donate, support, or get crowd funding for
+        education, health, and more. Benefit from exclusive rewards and make an
+        impact while shopping.
       </p>
-
-      <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
-        <Link
-          href="/cart-to-heart"
-          className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded-full shadow-md transition"
-        >
-          Join Now
-        </Link>
-        <Link
-          href="/cart-to-heart#learn-more"
-          className="text-yellow-600 font-medium underline hover:text-yellow-700"
-        >
-          Know More
-        </Link>
-      </div>
+      <button className="mt-6 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full shadow-lg transition">
+        Join Now
+      </button>
     </section>
   );
 }
