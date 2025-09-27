@@ -9,7 +9,10 @@ export default function CartToHeartSection() {
         education, health, and more. Benefit from exclusive rewards and make an
         impact while shopping.
       </p>
-      <button className="mt-6 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full shadow-lg transition">
+      <button
+        onClick={() => (window.location.href = "/cart-to-heart")}
+        className="mt-6 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full shadow-lg transition"
+      >
         Join Now
       </button>
     </section>
