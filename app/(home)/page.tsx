@@ -1,6 +1,7 @@
 "use client";
 
 import HeroBanner from "@/components/HeroBanner";
+import BannerAdSection from "@/components/BannerAdSection";
 import CategoryGrid from "@/components/CategoryGrid";
 import FeaturedDeals from "@/components/FeaturedDeals";
 import FeaturedProducts from "@/components/FeaturedProducts";
@@ -13,6 +14,9 @@ export default function HomePage() {
     <main className="space-y-12">
       {/* Hero Banner */}
       <HeroBanner />
+
+      {/* Banner Ad Section */}
+      <BannerAdSection />
 
       {/* Featured Deals */}
       <FeaturedDeals />
@@ -29,7 +33,7 @@ export default function HomePage() {
       {/* FAQ Section */}
       <FAQSection />
 
-      {/* Floating AI Buttins */}
+      {/* Floating AI Buttons */}
       <FloatingAIButtons />
     </main>
   );
