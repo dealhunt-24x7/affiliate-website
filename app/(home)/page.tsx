@@ -1,28 +1,32 @@
 "use client";
 
 import HeroBanner from "@/components/HeroBanner";
-import FeaturedDeals from "@/components/FeaturedDeals"; // ✅ Previously DealOfTheDay
 import CategoryGrid from "@/components/CategoryGrid";
-import FeaturedProducts from "@/components/FeaturedProducts"; // ✅ Merged with blogs
+import FeaturedDeals from "@/components/FeaturedDeals";
+import FeaturedProducts from "@/components/FeaturedProducts";
 import FAQSection from "@/components/FAQSection";
+import CartToHeartSection from "@/components/CartToHeartSection";
 
 export default function HomePage() {
   return (
-    <div className="space-y-12">
+    <main className="space-y-12">
       {/* Hero Banner */}
       <HeroBanner />
 
-      {/* Featured Deals (formerly Deal of the Day) */}
+      {/* Featured Deals */}
       <FeaturedDeals />
 
       {/* Categories */}
       <CategoryGrid />
 
-      {/* Featured Products + Blogs */}
+      {/* Cart to Heart Section */}
+      <CartToHeartSection />
+
+      {/* Featured Products */}
       <FeaturedProducts />
 
-      {/* FAQ */}
+      {/* FAQ Section */}
       <FAQSection />
-    </div>
+    </main>
   );
 }
