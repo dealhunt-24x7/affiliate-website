@@ -14,7 +14,6 @@ import {
 } from "react-icons/fi";
 import { useState, useRef } from "react";
 
-// Suggestions (Later API se fetch karenge)
 const sampleSuggestions = [
   "Rolex Daytona",
   "Omega Seamaster",
@@ -29,7 +28,6 @@ export default function Navbar() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Handle search input
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
@@ -44,52 +42,35 @@ export default function Navbar() {
     }
   };
 
-  // Handle camera click → file input trigger
-  const handleCameraClick = () => {
-    fileInputRef.current?.click();
-  };
+  const handleCameraClick = () => fileInputRef.current?.click();
 
-  // Handle file selection
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      alert(`📷 Image selected: ${file.name}`);
-      // Later: send file to API for image search
+    if (e.target.files?.[0]) {
+      alert(`📷 Image selected: ${e.target.files[0].name}`);
     }
   };
 
-  // Handle mic click → voice recognition
   const handleMicClick = () => {
     const SpeechRecognition =
-      (window as any).SpeechRecognition ||
-      (window as any).webkitSpeechRecognition;
-
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      alert("Voice recognition not supported in this browser");
+      alert("Voice recognition not supported");
       return;
     }
-
     const recognition = new SpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = false;
-
-    recognition.onstart = () => console.log("🎤 Listening...");
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      setSearchQuery(transcript);
-    };
-    recognition.onerror = (err: any) => console.error("Voice error:", err);
+    recognition.onresult = (e: any) =>
+      setSearchQuery(e.results[0][0].transcript);
     recognition.start();
   };
 
-  // Handle suggestion select
   const handleSelect = (item: string) => {
     setSearchQuery(item);
     setSuggestions([]);
     window.location.href = `/products?search=${encodeURIComponent(item)}`;
   };
 
-  // Scroll to sections
   const scrollToSection = (id: string) => {
     setDrawerOpen(false);
     setTimeout(() => {
@@ -100,7 +81,6 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
-      {/* Hidden file input for camera */}
       <input
         type="file"
         accept="image/*"
@@ -112,7 +92,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-3 w-full">
         {/* TOP ROW */}
         <div className="flex items-center justify-between">
-          {/* Logo + Tagline */}
+          {/* Logo */}
           <div className="flex flex-col">
             <Link href="/" className="text-2xl font-bold tracking-wide">
               <span className="text-yellow-500">Deal</span>Hunt
@@ -130,11 +110,8 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={handleChange}
                 placeholder="Search products..."
-                aria-label="Search products"
                 className="w-full px-4 pr-20 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
               />
-
-              {/* Suggestions */}
               {suggestions.length > 0 && (
                 <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
                   {suggestions.map((item, idx) => (
@@ -148,28 +125,17 @@ export default function Navbar() {
                   ))}
                 </ul>
               )}
-
-              {/* Icons */}
               <div className="absolute inset-y-0 right-3 flex items-center gap-3 text-gray-400">
-                <FiCamera
-                  onClick={handleCameraClick}
-                  className="cursor-pointer hover:text-gray-700"
-                />
-                <FiMic
-                  onClick={handleMicClick}
-                  className="cursor-pointer hover:text-gray-700"
-                />
-                {searchQuery.length > 0 && (
-                  <FiSearch
-                    onClick={() => handleSelect(searchQuery)}
-                    className="cursor-pointer hover:text-gray-700"
-                  />
+                <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
+                <FiMic onClick={handleMicClick} className="cursor-pointer" />
+                {searchQuery && (
+                  <FiSearch onClick={() => handleSelect(searchQuery)} className="cursor-pointer" />
                 )}
               </div>
             </div>
           </div>
 
-          {/* Right Side Icons */}
+          {/* Right Icons */}
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
               <FiHeart className="hover:text-yellow-500 cursor-pointer" />
@@ -177,22 +143,22 @@ export default function Navbar() {
               <FiUser className="hover:text-yellow-500 cursor-pointer" />
             </div>
 
-            {/* 3-dot menu */}
+            {/* 3-dot */}
             <button
-              className="hidden md:inline-flex items-center justify-center p-2 rounded hover:bg-gray-100"
+              className="hidden md:inline-flex p-2 rounded hover:bg-gray-100"
               onClick={() => setDrawerOpen(true)}
-              aria-label="Open menu"
             >
               <FiMoreHorizontal className="text-lg text-gray-700 hover:text-yellow-500" />
             </button>
 
-            {/* Mobile profile + hamburger */}
+            {/* Mobile: Wishlist + Cart + Profile + Menu */}
             <div className="md:hidden flex items-center gap-3">
+              <FiHeart className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
+              <FiShoppingCart className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
               <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
               <button
                 className="text-2xl p-1"
                 onClick={() => setDrawerOpen(true)}
-                aria-label="Open menu"
               >
                 <FiMenu />
               </button>
@@ -212,39 +178,22 @@ export default function Navbar() {
           <div className="absolute inset-y-0 right-3 flex items-center gap-3 text-gray-400">
             <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
             <FiMic onClick={handleMicClick} className="cursor-pointer" />
-            {searchQuery.length > 0 && (
-              <FiSearch
-                onClick={() => handleSelect(searchQuery)}
-                className="cursor-pointer"
-              />
+            {searchQuery && (
+              <FiSearch onClick={() => handleSelect(searchQuery)} className="cursor-pointer" />
             )}
           </div>
-
-          {suggestions.length > 0 && (
-            <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
-              {suggestions.map((item, idx) => (
-                <li
-                  key={idx}
-                  className="px-4 py-2 hover:bg-yellow-100 cursor-pointer"
-                  onClick={() => handleSelect(item)}
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
       </div>
 
-      {/* Drawer Menu */}
+      {/* Drawer */}
       {drawerOpen && (
         <>
           <div
-            className="fixed inset-0 z-[9998] bg-black/50"
+            className="fixed inset-0 bg-black/50 z-[9998]"
             onClick={() => setDrawerOpen(false)}
           />
           <aside
-            className={`fixed top-0 left-0 z-[9999] w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl max-h-[90vh] overflow-y-auto transition-transform duration-300 ${
+            className={`fixed top-0 left-0 z-[9999] w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl max-h-[90vh] overflow-y-auto transition-transform ${
               drawerOpen ? "translate-x-0" : "-translate-x-full"
             }`}
             onClick={(e) => e.stopPropagation()}
@@ -252,28 +201,17 @@ export default function Navbar() {
             <button
               className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black"
               onClick={() => setDrawerOpen(false)}
-              aria-label="Close menu"
             >
               <FiX />
             </button>
 
             <nav className="mt-8 flex flex-col gap-4">
-              <Link href="/" className="text-yellow-500 font-semibold">
-                Home
-              </Link>
-              <Link href="/products" className="text-yellow-500 font-semibold">
-                Products
-              </Link>
-              <Link href="/about" className="text-yellow-500 font-semibold">
-                About
-              </Link>
-              <button
-                onClick={() => scrollToSection("contact-section")}
-                className="text-yellow-500 text-left font-semibold"
-              >
-                Contact
-              </button>
+              <Link href="/" className="text-yellow-500 font-semibold">Home</Link>
+              <Link href="/products" className="text-yellow-500 font-semibold">Products</Link>
+              <Link href="/about" className="text-yellow-500 font-semibold">About</Link>
+              <button onClick={() => scrollToSection("contact-section")} className="text-yellow-500 text-left font-semibold">Contact</button>
 
+              {/* Join Cart to Heart Program */}
               <div
                 onClick={() => scrollToSection("cart-to-heart")}
                 className="p-3 bg-gradient-to-r from-yellow-100 via-orange-100 to-pink-100 rounded-xl shadow-md text-yellow-700 text-center font-bold cursor-pointer hover:scale-[1.02] transition"
@@ -281,21 +219,12 @@ export default function Navbar() {
                 ❤️ Join Cart to Heart Program
               </div>
 
-              <button className="text-yellow-500 text-left font-semibold">
-                Filter
-              </button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Donate Your Savings
-              </button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Refer & Earn
-              </button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Wallet
-              </button>
-              <button className="text-yellow-500 text-left font-semibold">
-                Settings
-              </button>
+              {/* Remaining buttons now clickable */}
+              <button onClick={() => alert("Filter page coming soon")} className="text-yellow-500 text-left font-semibold">Filter</button>
+              <button onClick={() => alert("Donate feature coming soon")} className="text-yellow-500 text-left font-semibold">Donate Your Savings</button>
+              <button onClick={() => alert("Refer & Earn coming soon")} className="text-yellow-500 text-left font-semibold">Refer & Earn</button>
+              <button onClick={() => alert("Wallet coming soon")} className="text-yellow-500 text-left font-semibold">Wallet</button>
+              <button onClick={() => alert("Settings coming soon")} className="text-yellow-500 text-left font-semibold">Settings</button>
             </nav>
           </aside>
         </>
