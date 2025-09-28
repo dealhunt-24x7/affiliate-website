@@ -1,16 +1,15 @@
 "use client";
-
 import { useState } from "react";
-import { FiMic, FiCamera } from "react-icons/fi";
+import { BsRobot } from "react-icons/bs";
+import { FiCamera } from "react-icons/fi";
 
 export default function FloatingAIButtons() {
-  const [listening, setListening] = useState(false);
+  const [speaking, setSpeaking] = useState(false);
 
   const handleVoice = () => {
-    setListening(!listening);
-    const speech = new SpeechSynthesisUtterance(
-      "This is a demo voice assistant speaking about the product."
-    );
+    setSpeaking(true);
+    const speech = new SpeechSynthesisUtterance("Hello! I am your AI shopping assistant.");
+    speech.onend = () => setSpeaking(false);
     window.speechSynthesis.speak(speech);
   };
 
@@ -24,7 +23,7 @@ export default function FloatingAIButtons() {
         onClick={handleVoice}
         className="bg-yellow-500 hover:bg-yellow-600 p-4 rounded-full shadow-lg text-white text-2xl"
       >
-        <FiMic />
+        <BsRobot />
       </button>
       <button
         onClick={handleCamera}
