@@ -10,9 +10,8 @@ import {
   FiMoreHorizontal,
 } from "react-icons/fi";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-// Sample suggestions (API connect later)
+// Sample suggestions
 const sampleSuggestions = [
   "Rolex Daytona",
   "Omega Seamaster",
@@ -25,7 +24,6 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -41,9 +39,20 @@ export default function Navbar() {
   };
 
   const handleSelect = (item: string) => {
+    if (!item.trim()) return;
     setQuery(item);
     setSuggestions([]);
-    router.push(`/products?search=${encodeURIComponent(item)}`);
+    window.location.href = `/products?search=${encodeURIComponent(item)}`;
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      alert(`Image selected: ${e.target.files[0].name}`);
+    }
+  };
+
+  const startVoiceSearch = () => {
+    alert("🎤 Voice search starting... (Demo)");
   };
 
   return (
@@ -63,15 +72,21 @@ export default function Navbar() {
 
           {/* Desktop Search Bar */}
           <div className="hidden md:flex flex-1 justify-center px-4 relative">
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-md relative">
               <input
                 type="text"
                 value={query}
                 onChange={handleChange}
                 placeholder="Search products..."
-                aria-label="Search products"
-                className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
+                className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm pr-20"
               />
+              {/* Right-side Icons */}
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-2 text-gray-500">
+                <button onClick={() => document.getElementById("imageInput")?.click()} aria-label="Search by image">📷</button>
+                <button onClick={startVoiceSearch} aria-label="Voice search">🎤</button>
+                <button onClick={() => handleSelect(query)} aria-label="Search">🔍</button>
+                <input type="file" id="imageInput" accept="image/*" className="hidden" onChange={handleImageUpload} />
+              </div>
               {suggestions.length > 0 && (
                 <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
                   {suggestions.map((item, idx) => (
@@ -90,23 +105,12 @@ export default function Navbar() {
 
           {/* Right side icons */}
           <div className="flex items-center gap-3">
-            {/* Desktop Icons */}
             <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
-              <FiHeart
-                onClick={() => router.push("/wishlist")}
-                className="hover:text-yellow-500 cursor-pointer"
-              />
-              <FiShoppingCart
-                onClick={() => router.push("/cart")}
-                className="hover:text-yellow-500 cursor-pointer"
-              />
-              <FiUser
-                onClick={() => router.push("/profile")}
-                className="hover:text-yellow-500 cursor-pointer"
-              />
+              <FiHeart className="hover:text-yellow-500 cursor-pointer" />
+              <FiShoppingCart className="hover:text-yellow-500 cursor-pointer" />
+              <FiUser className="hover:text-yellow-500 cursor-pointer" />
             </div>
 
-            {/* Desktop 3-dot */}
             <button
               className="hidden md:inline-flex items-center justify-center p-2 rounded hover:bg-gray-100"
               onClick={() => setDrawerOpen(true)}
@@ -115,12 +119,9 @@ export default function Navbar() {
               <FiMoreHorizontal className="text-lg text-gray-700 hover:text-yellow-500" />
             </button>
 
-            {/* Mobile: profile + hamburger */}
-            <div className="md:hidden flex items-center gap-3 relative">
-              <FiUser
-                className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer"
-                onClick={() => router.push("/profile")}
-              />
+            {/* Mobile menu */}
+            <div className="md:hidden flex items-center gap-3">
+              <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
               <button
                 className="text-2xl p-1"
                 onClick={() => setDrawerOpen(true)}
@@ -128,82 +129,46 @@ export default function Navbar() {
               >
                 <FiMenu />
               </button>
-
-              {/* Mobile Search Bar */}
-              <div className="absolute top-12 left-0 w-full px-0">
-                <input
-                  type="text"
-                  value={query}
-                  onChange={handleChange}
-                  placeholder="Search products..."
-                  aria-label="Search products"
-                  className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
-                />
-                {suggestions.length > 0 && (
-                  <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
-                    {suggestions.map((item, idx) => (
-                      <li
-                        key={idx}
-                        className="px-4 py-2 hover:bg-yellow-100 cursor-pointer"
-                        onClick={() => handleSelect(item)}
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* SIDE DRAWER */}
+      {/* Drawer */}
       {drawerOpen && (
         <>
-          {/* Backdrop */}
           <div
             className="fixed inset-0 z-[9998] bg-black/50 transition-opacity duration-300"
             onClick={() => setDrawerOpen(false)}
           />
-
-          {/* Drawer */}
           <aside
-            className={`fixed top-0 left-0 z-[9999] w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl h-auto max-h-[90vh] overflow-y-auto transition-transform duration-300 ${
+            className={`fixed top-0 left-0 z-[9999] w-72 bg-white shadow-2xl p-6 rounded-r-2xl h-auto max-h-[90vh] overflow-y-auto transition-transform duration-300 ${
               drawerOpen ? "translate-x-0" : "-translate-x-full"
             }`}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close button */}
             <button
               className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black"
               onClick={() => setDrawerOpen(false)}
-              aria-label="Close menu"
             >
               <FiX />
             </button>
 
-            {/* Menu Links */}
             <nav className="mt-8 flex flex-col gap-4">
-              <Link href="/">Home</Link>
-              <Link href="/products">Products</Link>
-              <Link href="/about">About</Link>
-              <Link href="/contact">Contact</Link>
-
-              <hr className="my-2 border-gray-200" />
-
-              <button onClick={() => router.push("/cart-to-heart")}>
-                Join Our Cart to Heart Program
+              <Link href="/" className="text-yellow-500 font-semibold">Home</Link>
+              <Link href="/products" className="text-yellow-500 font-semibold">Products</Link>
+              <Link href="/about" className="text-yellow-500 font-semibold">About</Link>
+              <button
+                className="text-yellow-500 text-left font-semibold"
+                onClick={() => {
+                  setDrawerOpen(false);
+                  setTimeout(() => {
+                    document.getElementById("contact-section")?.scrollIntoView({ behavior: "smooth" });
+                  }, 300);
+                }}
+              >
+                Contact
               </button>
-              <button onClick={() => router.push("/filter")}>Filter</button>
-              <button onClick={() => router.push("/donate")}>
-                Donate Your Savings
-              </button>
-              <button onClick={() => router.push("/refer-earn")}>
-                Refer & Earn
-              </button>
-              <button onClick={() => router.push("/wallet")}>Wallet</button>
-              <button onClick={() => router.push("/settings")}>Settings</button>
             </nav>
           </aside>
         </>
