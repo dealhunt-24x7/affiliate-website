@@ -1,16 +1,69 @@
-import Link from "next/link";
+"use client";
+import { useState, useEffect } from "react";
 
-export default function Page() {
+export default function ProfilePage() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const user = localStorage.getItem("affiliateUser");
+    if (user) {
+      setUsername(user);
+      setLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogin = () => {
+    const name = prompt("Enter your name:");
+    if (name) {
+      localStorage.setItem("affiliateUser", name);
+      setUsername(name);
+      setLoggedIn(true);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("affiliateUser");
+    setUsername("");
+    setLoggedIn(false);
+  };
+
   return (
-    <main className="max-w-4xl mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold text-yellow-600">Your Profile</h1>
-      <p className="mt-4 text-gray-600">Manage your account details here.</p>
+    <div className="max-w-3xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold mb-6">Profile</h1>
 
-      <div className="mt-8">
-        <Link href="/" className="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md">
-          Back to Home
-        </Link>
-      </div>
-    </main>
+      {!loggedIn ? (
+        <div className="space-y-4">
+          <p className="text-gray-600">You are not logged in.</p>
+          <button
+            onClick={handleLogin}
+            className="px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+          >
+            Login / Sign Up
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <p className="text-gray-700 font-semibold">Welcome, {username}!</p>
+          <button
+            onClick={handleLogout}
+            className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+          >
+            Logout
+          </button>
+
+          <div className="mt-6 p-4 border rounded-lg bg-gray-50">
+            <h2 className="text-xl font-semibold mb-2">Profile Settings</h2>
+            <p className="text-gray-600 mb-2">Update your preferences here.</p>
+            <button
+              onClick={() => alert("Preferences updated (mock)") }
+              className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+            >
+              Save Preferences
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
