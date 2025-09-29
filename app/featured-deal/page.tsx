@@ -2,45 +2,46 @@
 
 import Link from "next/link";
 
+const deals = [
+  { id: 1, title: "Omega Seamaster", price: "$2499", image: "/images/deals/deal1.jpg" },
+  { id: 2, title: "Rolex Daytona", price: "$12999", image: "/images/deals/deal2.jpg" },
+  { id: 3, title: "Apple Watch Ultra", price: "$799", image: "/images/deals/deal3.jpg" },
+  { id: 4, title: "Tag Heuer Carrera", price: "$3499", image: "/images/deals/deal4.jpg" },
+];
+
 export default function FeaturedDealsPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex items-center gap-4 mb-6">
-        <button
-          onClick={() => window.history.back()}
-          className="px-4 py-2 rounded-lg bg-yellow-100 hover:bg-yellow-200 text-yellow-800 font-semibold shadow"
+    <main className="max-w-6xl mx-auto px-6 py-10">
+      {/* 🔙 Back Button */}
+      <div className="mb-6">
+        <Link
+          href="/"
+          className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
         >
-          ⬅ Back
-        </button>
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-          All Featured Deals
-        </h1>
+          ⬅ Back to Home
+        </Link>
       </div>
 
-      {/* Deals Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Example Card */}
-        {Array.from({ length: 6 }).map((_, idx) => (
+      <h1 className="text-3xl font-bold text-gray-800 mb-8">All Featured Deals</h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {deals.map((deal) => (
           <div
-            key={idx}
-            className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
+            key={deal.id}
+            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition"
           >
             <img
-              src="https://via.placeholder.com/400x250"
-              alt="Deal"
-              className="w-full h-48 object-cover rounded-lg"
+              src={deal.image}
+              alt={deal.title}
+              className="w-full h-48 object-cover"
             />
-            <h2 className="mt-3 font-semibold text-lg">Deal {idx + 1}</h2>
-            <p className="text-gray-600">Short description about this deal.</p>
-            <Link
-              href="/products"
-              className="block mt-3 text-center bg-yellow-500 text-white rounded-lg py-2 hover:bg-yellow-600 transition"
-            >
-              View Deal
-            </Link>
+            <div className="p-4 text-center">
+              <h3 className="font-semibold text-lg">{deal.title}</h3>
+              <p className="text-yellow-600 font-bold">{deal.price}</p>
+            </div>
           </div>
         ))}
       </div>
-    </div>
+    </main>
   );
 }
