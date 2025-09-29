@@ -28,6 +28,7 @@ export default function Navbar() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // ✅ SEARCH SUGGESTIONS FIX
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
@@ -42,6 +43,13 @@ export default function Navbar() {
     }
   };
 
+  const handleSelect = (item: string) => {
+    setSearchQuery(item);
+    setSuggestions([]);
+    window.location.href = `/products?search=${encodeURIComponent(item)}`;
+  };
+
+  // ✅ CAMERA + MIC HANDLERS
   const handleCameraClick = () => fileInputRef.current?.click();
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,12 +73,7 @@ export default function Navbar() {
     recognition.start();
   };
 
-  const handleSelect = (item: string) => {
-    setSearchQuery(item);
-    setSuggestions([]);
-    window.location.href = `/products?search=${encodeURIComponent(item)}`;
-  };
-
+  // ✅ SCROLL TO SECTION FUNCTION
   const scrollToSection = (id: string) => {
     setDrawerOpen(false);
     setTimeout(() => {
@@ -112,6 +115,7 @@ export default function Navbar() {
                 placeholder="Search products..."
                 className="w-full px-4 pr-20 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
               />
+              {/* ✅ SUGGESTIONS */}
               {suggestions.length > 0 && (
                 <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
                   {suggestions.map((item, idx) => (
@@ -137,10 +141,11 @@ export default function Navbar() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-3">
+            {/* Desktop Icons */}
             <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
-              <FiHeart className="hover:text-yellow-500 cursor-pointer" />
-              <FiShoppingCart className="hover:text-yellow-500 cursor-pointer" />
-              <FiUser className="hover:text-yellow-500 cursor-pointer" />
+              <Link href="/wishlist"><FiHeart className="hover:text-yellow-500 cursor-pointer" /></Link>
+              <Link href="/cart"><FiShoppingCart className="hover:text-yellow-500 cursor-pointer" /></Link>
+              <Link href="/profile"><FiUser className="hover:text-yellow-500 cursor-pointer" /></Link>
             </div>
 
             {/* 3-dot */}
@@ -153,13 +158,10 @@ export default function Navbar() {
 
             {/* Mobile: Wishlist + Cart + Profile + Menu */}
             <div className="md:hidden flex items-center gap-3">
-              <FiHeart className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
-              <FiShoppingCart className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
-              <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
-              <button
-                className="text-2xl p-1"
-                onClick={() => setDrawerOpen(true)}
-              >
+              <Link href="/wishlist"><FiHeart className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" /></Link>
+              <Link href="/cart"><FiShoppingCart className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" /></Link>
+              <Link href="/profile"><FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" /></Link>
+              <button className="text-2xl p-1" onClick={() => setDrawerOpen(true)}>
                 <FiMenu />
               </button>
             </div>
@@ -175,6 +177,19 @@ export default function Navbar() {
             placeholder="Search products..."
             className="w-full px-4 pr-20 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm bg-white"
           />
+          {suggestions.length > 0 && (
+            <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
+              {suggestions.map((item, idx) => (
+                <li
+                  key={idx}
+                  className="px-4 py-2 hover:bg-yellow-100 cursor-pointer"
+                  onClick={() => handleSelect(item)}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
           <div className="absolute inset-y-0 right-3 flex items-center gap-3 text-gray-400">
             <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
             <FiMic onClick={handleMicClick} className="cursor-pointer" />
@@ -219,12 +234,12 @@ export default function Navbar() {
                 ❤️ Join Cart to Heart Program
               </div>
 
-              {/* Remaining buttons now clickable */}
-              <button onClick={() => alert("Filter page coming soon")} className="text-yellow-500 text-left font-semibold">Filter</button>
-              <button onClick={() => alert("Donate feature coming soon")} className="text-yellow-500 text-left font-semibold">Donate Your Savings</button>
-              <button onClick={() => alert("Refer & Earn coming soon")} className="text-yellow-500 text-left font-semibold">Refer & Earn</button>
-              <button onClick={() => alert("Wallet coming soon")} className="text-yellow-500 text-left font-semibold">Wallet</button>
-              <button onClick={() => alert("Settings coming soon")} className="text-yellow-500 text-left font-semibold">Settings</button>
+              {/* Placeholder pages */}
+              <Link href="/filter" className="text-yellow-500 font-semibold">Filter</Link>
+              <Link href="/donate" className="text-yellow-500 font-semibold">Donate Your Savings</Link>
+              <Link href="/refer" className="text-yellow-500 font-semibold">Refer & Earn</Link>
+              <Link href="/wallet" className="text-yellow-500 font-semibold">Wallet</Link>
+              <Link href="/settings" className="text-yellow-500 font-semibold">Settings</Link>
             </nav>
           </aside>
         </>
