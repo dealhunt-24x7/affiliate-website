@@ -28,7 +28,7 @@ export default function Navbar() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // ✅ SEARCH SUGGESTIONS FIX
+  // ✅ SEARCH SUGGESTIONS
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
@@ -46,6 +46,7 @@ export default function Navbar() {
   const handleSelect = (item: string) => {
     setSearchQuery(item);
     setSuggestions([]);
+    setDrawerOpen(false);
     window.location.href = `/products?search=${encodeURIComponent(item)}`;
   };
 
@@ -73,7 +74,7 @@ export default function Navbar() {
     recognition.start();
   };
 
-  // ✅ SCROLL TO SECTION FUNCTION
+  // ✅ SCROLL TO SECTION FUNCTION (closes drawer)
   const scrollToSection = (id: string) => {
     setDrawerOpen(false);
     setTimeout(() => {
@@ -82,8 +83,17 @@ export default function Navbar() {
     }, 300);
   };
 
+  // ✅ Close Drawer & Navigate
+  const handleNavigate = (href: string) => {
+    setDrawerOpen(false);
+    setTimeout(() => {
+      window.location.href = href;
+    }, 300);
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
+      {/* Hidden file input for camera */}
       <input
         type="file"
         accept="image/*"
@@ -115,7 +125,6 @@ export default function Navbar() {
                 placeholder="Search products..."
                 className="w-full px-4 pr-20 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
               />
-              {/* ✅ SUGGESTIONS */}
               {suggestions.length > 0 && (
                 <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
                   {suggestions.map((item, idx) => (
@@ -133,7 +142,10 @@ export default function Navbar() {
                 <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
                 <FiMic onClick={handleMicClick} className="cursor-pointer" />
                 {searchQuery && (
-                  <FiSearch onClick={() => handleSelect(searchQuery)} className="cursor-pointer" />
+                  <FiSearch
+                    onClick={() => handleSelect(searchQuery)}
+                    className="cursor-pointer"
+                  />
                 )}
               </div>
             </div>
@@ -141,7 +153,6 @@ export default function Navbar() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-3">
-            {/* Desktop Icons */}
             <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
               <Link href="/wishlist"><FiHeart className="hover:text-yellow-500 cursor-pointer" /></Link>
               <Link href="/cart"><FiShoppingCart className="hover:text-yellow-500 cursor-pointer" /></Link>
@@ -156,7 +167,7 @@ export default function Navbar() {
               <FiMoreHorizontal className="text-lg text-gray-700 hover:text-yellow-500" />
             </button>
 
-            {/* Mobile: Wishlist + Cart + Profile + Menu */}
+            {/* Mobile Icons */}
             <div className="md:hidden flex items-center gap-3">
               <Link href="/wishlist"><FiHeart className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" /></Link>
               <Link href="/cart"><FiShoppingCart className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" /></Link>
@@ -208,7 +219,7 @@ export default function Navbar() {
             onClick={() => setDrawerOpen(false)}
           />
           <aside
-            className={`fixed top-0 left-0 z-[9999] w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl max-h-[90vh] overflow-y-auto transition-transform ${
+            className={`fixed top-0 left-0 z-[9999] w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl max-h-[90vh] overflow-y-auto transition-transform duration-300 ${
               drawerOpen ? "translate-x-0" : "-translate-x-full"
             }`}
             onClick={(e) => e.stopPropagation()}
@@ -221,12 +232,11 @@ export default function Navbar() {
             </button>
 
             <nav className="mt-8 flex flex-col gap-4">
-              <Link href="/" className="text-yellow-500 font-semibold">Home</Link>
-              <Link href="/products" className="text-yellow-500 font-semibold">Products</Link>
-              <Link href="/about" className="text-yellow-500 font-semibold">About</Link>
+              <button onClick={() => handleNavigate("/")} className="text-yellow-500 text-left font-semibold">Home</button>
+              <button onClick={() => handleNavigate("/products")} className="text-yellow-500 text-left font-semibold">Products</button>
+              <button onClick={() => handleNavigate("/about")} className="text-yellow-500 text-left font-semibold">About</button>
               <button onClick={() => scrollToSection("contact-section")} className="text-yellow-500 text-left font-semibold">Contact</button>
 
-              {/* Join Cart to Heart Program */}
               <div
                 onClick={() => scrollToSection("cart-to-heart")}
                 className="p-3 bg-gradient-to-r from-yellow-100 via-orange-100 to-pink-100 rounded-xl shadow-md text-yellow-700 text-center font-bold cursor-pointer hover:scale-[1.02] transition"
@@ -234,12 +244,12 @@ export default function Navbar() {
                 ❤️ Join Cart to Heart Program
               </div>
 
-              {/* Placeholder pages */}
-              <Link href="/filter" className="text-yellow-500 font-semibold">Filter</Link>
-              <Link href="/donate" className="text-yellow-500 font-semibold">Donate Your Savings</Link>
-              <Link href="/refer" className="text-yellow-500 font-semibold">Refer & Earn</Link>
-              <Link href="/wallet" className="text-yellow-500 font-semibold">Wallet</Link>
-              <Link href="/settings" className="text-yellow-500 font-semibold">Settings</Link>
+              {/* Additional Pages */}
+              <button onClick={() => handleNavigate("/filter")} className="text-yellow-500 text-left font-semibold">Filter</button>
+              <button onClick={() => handleNavigate("/donate")} className="text-yellow-500 text-left font-semibold">Donate Your Savings</button>
+              <button onClick={() => handleNavigate("/refer")} className="text-yellow-500 text-left font-semibold">Refer & Earn</button>
+              <button onClick={() => handleNavigate("/wallet")} className="text-yellow-500 text-left font-semibold">Wallet</button>
+              <button onClick={() => handleNavigate("/settings")} className="text-yellow-500 text-left font-semibold">Settings</button>
             </nav>
           </aside>
         </>
