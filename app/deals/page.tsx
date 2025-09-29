@@ -9,7 +9,7 @@ const deals = [
   { id: 4, title: "Tag Heuer Carrera", price: "$3499", image: "/images/deals/deal4.jpg" },
 ];
 
-export default function FeaturedDealsPage() {
+export default function DealsPage() {
   const router = useRouter();
 
   return (
