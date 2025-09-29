@@ -1,4 +1,6 @@
 "use client";
+
+import Link from "next/link";
 import { useState } from "react";
 
 const products = [
@@ -14,10 +16,20 @@ export default function FeaturedProducts() {
   return (
     <section className="py-10 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-2xl font-bold text-gray-800 mb-8">Featured Products</h2>
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl font-bold text-gray-800">Featured Products</h2>
+
+          {/* ✅ Link to Products Page */}
+          <Link
+            href="/products"
+            className="text-yellow-500 font-semibold hover:underline"
+          >
+            View More Products
+          </Link>
+        </div>
 
         <div className="space-y-8">
-          {products.map((prod, index) => (
+          {products.slice(0, 2).map((prod, index) => (
             <div
               key={prod.id}
               className={`flex flex-col md:flex-row gap-6 items-stretch ${
@@ -33,7 +45,7 @@ export default function FeaturedProducts() {
                 />
               </div>
 
-              {/* Blog + Product Info (Combined Box even in mobile) */}
+              {/* Blog + Product Info */}
               <div className="flex-1 flex flex-col justify-between p-4">
                 <div>
                   <h3 className="text-lg font-semibold">{prod.title}</h3>
