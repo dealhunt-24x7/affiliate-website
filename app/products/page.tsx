@@ -2,6 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 interface ComparisonItem {
   site: string;
@@ -25,7 +26,6 @@ export default function ProductsPage() {
     const searchParams = useSearchParams();
     searchQuery = searchParams?.get("search") || "";
   } catch (err) {
-    // agar prerender ke time pe error aaye to ignore
     searchQuery = "";
   }
 
@@ -84,6 +84,16 @@ export default function ProductsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* 🔙 Back Button */}
+      <div className="mb-4">
+        <Link
+          href="/"
+          className="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md shadow-md"
+        >
+          ← Back to Home
+        </Link>
+      </div>
+
       <h1 className="text-2xl md:text-3xl font-bold mb-6">
         Showing results for:{" "}
         <span className="text-yellow-600">{searchQuery}</span>
