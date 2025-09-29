@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const deals = [
   { id: 1, title: "Omega Seamaster", price: "$2499", image: "/images/deals/deal1.jpg" },
@@ -10,21 +10,25 @@ const deals = [
 ];
 
 export default function FeaturedDealsPage() {
+  const router = useRouter();
+
   return (
-    <main className="max-w-6xl mx-auto px-6 py-10">
-      {/* 🔙 Back Button */}
-      <div className="mb-6">
-        <Link
-          href="/"
-          className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
-        >
-          ⬅ Back to Home
-        </Link>
-      </div>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Back Button */}
+      <button
+        onClick={() => router.push("/")}
+        className="mb-6 inline-flex items-center text-yellow-600 hover:text-yellow-700 font-semibold"
+      >
+        ← Back to Home
+      </button>
 
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">All Featured Deals</h1>
+      {/* Page Heading */}
+      <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+        All Featured Deals
+      </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {/* Deals Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {deals.map((deal) => (
           <div
             key={deal.id}
@@ -36,12 +40,12 @@ export default function FeaturedDealsPage() {
               className="w-full h-48 object-cover"
             />
             <div className="p-4 text-center">
-              <h3 className="font-semibold text-lg">{deal.title}</h3>
+              <h3 className="text-lg font-semibold">{deal.title}</h3>
               <p className="text-yellow-600 font-bold">{deal.price}</p>
             </div>
           </div>
         ))}
       </div>
-    </main>
+    </div>
   );
 }
