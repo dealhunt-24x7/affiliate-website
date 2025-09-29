@@ -19,7 +19,7 @@ export default function FeaturedProducts() {
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl font-bold text-gray-800">Featured Products</h2>
 
-          {/* ✅ Link to Products Page */}
+          {/* ✅ Redirect to your existing products page */}
           <Link
             href="/products"
             className="text-yellow-500 font-semibold hover:underline"
@@ -36,7 +36,6 @@ export default function FeaturedProducts() {
                 index % 2 === 1 ? "md:flex-row-reverse" : ""
               } bg-white rounded-xl shadow-lg overflow-hidden`}
             >
-              {/* Product Image */}
               <div className="flex-1">
                 <img
                   src={prod.image}
@@ -45,7 +44,6 @@ export default function FeaturedProducts() {
                 />
               </div>
 
-              {/* Blog + Product Info */}
               <div className="flex-1 flex flex-col justify-between p-4">
                 <div>
                   <h3 className="text-lg font-semibold">{prod.title}</h3>
