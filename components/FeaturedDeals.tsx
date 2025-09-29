@@ -1,4 +1,6 @@
 "use client";
+
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 const deals = [
@@ -23,9 +25,14 @@ export default function FeaturedDeals() {
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-gray-800">Featured Deals</h2>
-          <button className="text-yellow-500 font-semibold hover:underline">
+
+          {/* ✅ Link to Deals Page */}
+          <Link
+            href="/deals"
+            className="text-yellow-500 font-semibold hover:underline"
+          >
             View More Deals
-          </button>
+          </Link>
         </div>
 
         <div className="relative">
