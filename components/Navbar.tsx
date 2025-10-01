@@ -24,9 +24,9 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [listening, setListening] = useState(false); // Mic state
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // ✅ SEARCH SUGGESTIONS
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
@@ -48,7 +48,6 @@ export default function Navbar() {
     window.location.href = `/products?search=${encodeURIComponent(item)}`;
   };
 
-  // ✅ CAMERA + MIC HANDLERS
   const handleCameraClick = () => fileInputRef.current?.click();
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +56,7 @@ export default function Navbar() {
     }
   };
 
+  // ✅ Mic with visual feedback
   const handleMicClick = () => {
     const SpeechRecognition =
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -67,12 +67,17 @@ export default function Navbar() {
     const recognition = new SpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = false;
-    recognition.onresult = (e: any) =>
+
+    setListening(true);
+
+    recognition.onresult = (e: any) => {
       setSearchQuery(e.results[0][0].transcript);
+      setListening(false);
+    };
+    recognition.onend = () => setListening(false);
     recognition.start();
   };
 
-  // ✅ SCROLL TO SECTION FUNCTION (closes drawer)
   const scrollToSection = (id: string) => {
     setDrawerOpen(false);
     setTimeout(() => {
@@ -81,7 +86,6 @@ export default function Navbar() {
     }, 300);
   };
 
-  // ✅ Close Drawer & Navigate
   const handleNavigate = (href: string) => {
     setDrawerOpen(false);
     setTimeout(() => {
@@ -91,7 +95,6 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
-      {/* Hidden file input for camera */}
       <input
         type="file"
         accept="image/*"
@@ -101,9 +104,7 @@ export default function Navbar() {
       />
 
       <div className="max-w-7xl mx-auto px-6 py-3 w-full">
-        {/* TOP ROW */}
         <div className="flex items-center justify-between">
-          {/* Logo */}
           <div className="flex flex-col">
             <Link href="/" className="text-2xl font-bold tracking-wide">
               <span className="text-yellow-500">Deal</span>Hunt
@@ -113,7 +114,6 @@ export default function Navbar() {
             </span>
           </div>
 
-          {/* Desktop Search */}
           <div className="hidden md:flex flex-1 justify-center px-4">
             <div className="relative w-full max-w-md">
               <input
@@ -138,7 +138,10 @@ export default function Navbar() {
               )}
               <div className="absolute inset-y-0 right-3 flex items-center gap-3 text-gray-400">
                 <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
-                <FiMic onClick={handleMicClick} className="cursor-pointer" />
+                <FiMic
+                  onClick={handleMicClick}
+                  className={`cursor-pointer ${listening ? "text-red-500 animate-pulse" : "text-gray-400"}`}
+                />
                 {searchQuery && (
                   <FiSearch
                     onClick={() => handleSelect(searchQuery)}
@@ -149,16 +152,13 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Right Icons */}
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
-              {/* ❌ Wishlist & Cart removed */}
               <Link href="/profile">
                 <FiUser className="hover:text-yellow-500 cursor-pointer" />
               </Link>
             </div>
 
-            {/* 3-dot */}
             <button
               className="hidden md:inline-flex p-2 rounded hover:bg-gray-100"
               onClick={() => setDrawerOpen(true)}
@@ -166,9 +166,7 @@ export default function Navbar() {
               <FiMoreHorizontal className="text-lg text-gray-700 hover:text-yellow-500" />
             </button>
 
-            {/* Mobile Icons */}
             <div className="md:hidden flex items-center gap-3">
-              {/* ❌ Wishlist & Cart removed */}
               <Link href="/profile">
                 <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
               </Link>
@@ -179,7 +177,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Search */}
         <div className="md:hidden mt-3 relative">
           <input
             type="text"
@@ -203,7 +200,10 @@ export default function Navbar() {
           )}
           <div className="absolute inset-y-0 right-3 flex items-center gap-3 text-gray-400">
             <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
-            <FiMic onClick={handleMicClick} className="cursor-pointer" />
+            <FiMic
+              onClick={handleMicClick}
+              className={`cursor-pointer ${listening ? "text-red-500 animate-pulse" : "text-gray-400"}`}
+            />
             {searchQuery && (
               <FiSearch onClick={() => handleSelect(searchQuery)} className="cursor-pointer" />
             )}
@@ -211,7 +211,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Drawer */}
       {drawerOpen && (
         <>
           <div
@@ -244,16 +243,7 @@ export default function Navbar() {
                 ❤️ Join Cart to Heart Program
               </div>
 
-              {/* Additional Pages */}
               <button onClick={() => handleNavigate("/filter")} className="text-yellow-500 text-left font-semibold">Filter</button>
               <button onClick={() => handleNavigate("/donate")} className="text-yellow-500 text-left font-semibold">Donate Your Savings</button>
               <button onClick={() => handleNavigate("/refer")} className="text-yellow-500 text-left font-semibold">Refer & Earn</button>
-              <button onClick={() => handleNavigate("/wallet")} className="text-yellow-500 text-left font-semibold">Wallet</button>
-              <button onClick={() => handleNavigate("/settings")} className="text-yellow-500 text-left font-semibold">Settings</button>
-            </nav>
-          </aside>
-        </>
-      )}
-    </header>
-  );
-}
+              <button onClick={() => handleNavigate("/wallet
