@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import {
-  FiHeart,
   FiUser,
-  FiShoppingCart,
   FiMenu,
   FiX,
   FiMoreHorizontal,
@@ -154,9 +152,10 @@ export default function Navbar() {
           {/* Right Icons */}
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
-              <Link href="/wishlist"><FiHeart className="hover:text-yellow-500 cursor-pointer" /></Link>
-              <Link href="/cart"><FiShoppingCart className="hover:text-yellow-500 cursor-pointer" /></Link>
-              <Link href="/profile"><FiUser className="hover:text-yellow-500 cursor-pointer" /></Link>
+              {/* ❌ Wishlist & Cart removed */}
+              <Link href="/profile">
+                <FiUser className="hover:text-yellow-500 cursor-pointer" />
+              </Link>
             </div>
 
             {/* 3-dot */}
@@ -169,9 +168,10 @@ export default function Navbar() {
 
             {/* Mobile Icons */}
             <div className="md:hidden flex items-center gap-3">
-              <Link href="/wishlist"><FiHeart className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" /></Link>
-              <Link href="/cart"><FiShoppingCart className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" /></Link>
-              <Link href="/profile"><FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" /></Link>
+              {/* ❌ Wishlist & Cart removed */}
+              <Link href="/profile">
+                <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
+              </Link>
               <button className="text-2xl p-1" onClick={() => setDrawerOpen(true)}>
                 <FiMenu />
               </button>
