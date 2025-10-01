@@ -13,18 +13,23 @@ interface ComparisonItem {
 interface Product {
   id: number;
   name: string;
-  price: number; // number type for sorting
+  price: string;
   img: string;
   comparison: ComparisonItem[];
   brand: string;
   rating: number;
 }
 
-export const dynamic = "force-dynamic"; // ✅ Prevents prerender errors
+export const dynamic = "force-dynamic";
 
 export default function ProductsPage() {
-  const searchParams = useSearchParams();
-  const searchQuery = searchParams?.get("search") || "";
+  let searchQuery = "";
+  try {
+    const searchParams = useSearchParams();
+    searchQuery = searchParams?.get("search") || "";
+  } catch (err) {
+    searchQuery = "";
+  }
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,7 +37,7 @@ export default function ProductsPage() {
   // Filters
   const [selectedBrand, setSelectedBrand] = useState<string>("all");
   const [minRating, setMinRating] = useState<number>(0);
-  const [priceSort, setPriceSort] = useState<string>(""); // "high" or "low"
+  const [priceSort, setPriceSort] = useState<"high" | "low" | "none">("none");
 
   useEffect(() => {
     setLoading(true);
@@ -41,7 +46,7 @@ export default function ProductsPage() {
       {
         id: 1,
         name: "Rolex Submariner",
-        price: 750000,
+        price: "₹7,50,000",
         img: "https://via.placeholder.com/400x300",
         brand: "Rolex",
         rating: 4.7,
@@ -54,7 +59,7 @@ export default function ProductsPage() {
       {
         id: 2,
         name: "Casio G-Shock",
-        price: 8999,
+        price: "₹8,999",
         img: "https://via.placeholder.com/400x300",
         brand: "Casio",
         rating: 4.3,
@@ -69,24 +74,35 @@ export default function ProductsPage() {
     const timeout = setTimeout(() => {
       setProducts(mockProducts);
       setLoading(false);
-    }, 1000);
+    }, 1200);
 
     return () => clearTimeout(timeout);
   }, [searchQuery]);
 
+  // Apply filters
   let filteredProducts = products.filter(
     (p) =>
       (selectedBrand === "all" || p.brand === selectedBrand) &&
       p.rating >= minRating
   );
 
-  // Price sorting
-  if (priceSort === "high") filteredProducts.sort((a, b) => b.price - a.price);
-  else if (priceSort === "low") filteredProducts.sort((a, b) => a.price - b.price);
+  // Apply sorting
+  if (priceSort === "high")
+    filteredProducts.sort(
+      (a, b) =>
+        Number(b.price.replace(/[^0-9]/g, "")) -
+        Number(a.price.replace(/[^0-9]/g, ""))
+    );
+  else if (priceSort === "low")
+    filteredProducts.sort(
+      (a, b) =>
+        Number(a.price.replace(/[^0-9]/g, "")) -
+        Number(b.price.replace(/[^0-9]/g, ""))
+    );
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Back Button */}
+      {/* 🔙 Back Button */}
       <div className="mb-4">
         <Link
           href="/"
@@ -103,7 +119,7 @@ export default function ProductsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Sidebar Filters */}
-        <aside className="bg-white rounded-xl shadow-md p-4 h-fit">
+        <aside className="bg-white rounded-xl shadow-md p-4 h-fit flex flex-col gap-4">
           <h2 className="text-lg font-semibold mb-3">Filters</h2>
 
           {/* Brand Filter */}
@@ -120,22 +136,8 @@ export default function ProductsPage() {
             </select>
           </label>
 
-          {/* Price Sort */}
+          {/* Rating Filter */}
           <label className="block mb-3">
-            <span className="text-sm font-medium text-gray-700">Price</span>
-            <select
-              value={priceSort}
-              onChange={(e) => setPriceSort(e.target.value)}
-              className="w-full mt-1 border border-gray-300 rounded-md px-3 py-2"
-            >
-              <option value="">None</option>
-              <option value="low">Low to High</option>
-              <option value="high">High to Low</option>
-            </select>
-          </label>
-
-          {/* Minimum Rating */}
-          <label className="block">
             <span className="text-sm font-medium text-gray-700">
               Minimum Rating
             </span>
@@ -148,6 +150,20 @@ export default function ProductsPage() {
               onChange={(e) => setMinRating(Number(e.target.value))}
               className="w-full mt-1 border border-gray-300 rounded-md px-3 py-2"
             />
+          </label>
+
+          {/* Price Sort */}
+          <label className="block">
+            <span className="text-sm font-medium text-gray-700">Sort by Price</span>
+            <select
+              value={priceSort}
+              onChange={(e) => setPriceSort(e.target.value as any)}
+              className="w-full mt-1 border border-gray-300 rounded-md px-3 py-2"
+            >
+              <option value="none">None</option>
+              <option value="high">High to Low</option>
+              <option value="low">Low to High</option>
+            </select>
           </label>
         </aside>
 
@@ -178,9 +194,7 @@ export default function ProductsPage() {
                 />
 
                 <h2 className="text-lg font-semibold mt-3">{product.name}</h2>
-                <p className="text-xl font-bold text-green-600">
-                  ₹{product.price.toLocaleString()}
-                </p>
+                <p className="text-xl font-bold text-green-600">{product.price}</p>
 
                 {/* Comparison Strip */}
                 <div className="mt-3 bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -194,12 +208,8 @@ export default function ProductsPage() {
                         className="flex justify-between items-center bg-white px-3 py-2 rounded-md shadow-sm"
                       >
                         <span className="font-medium">{item.site}</span>
-                        <span className="text-yellow-600 font-bold">
-                          {item.price}
-                        </span>
-                        <span className="text-gray-500 text-sm">
-                          ⭐ {item.rating}
-                        </span>
+                        <span className="text-yellow-600 font-bold">{item.price}</span>
+                        <span className="text-gray-500 text-sm">⭐ {item.rating}</span>
                       </div>
                     ))}
                   </div>
