@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useRef } from "react";
 import Link from "next/link";
 import {
   FiUser,
@@ -10,7 +11,6 @@ import {
   FiMic,
   FiSearch,
 } from "react-icons/fi";
-import { useState, useRef } from "react";
 
 const sampleSuggestions = [
   "Rolex Daytona",
@@ -56,7 +56,6 @@ export default function Navbar() {
     }
   };
 
-  // ✅ Mic with visual feedback
   const handleMicClick = () => {
     const SpeechRecognition =
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -64,6 +63,7 @@ export default function Navbar() {
       alert("Voice recognition not supported");
       return;
     }
+
     const recognition = new SpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = false;
@@ -95,6 +95,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
+      {/* Hidden file input */}
       <input
         type="file"
         accept="image/*"
@@ -104,7 +105,9 @@ export default function Navbar() {
       />
 
       <div className="max-w-7xl mx-auto px-6 py-3 w-full">
+        {/* Top Row */}
         <div className="flex items-center justify-between">
+          {/* Logo */}
           <div className="flex flex-col">
             <Link href="/" className="text-2xl font-bold tracking-wide">
               <span className="text-yellow-500">Deal</span>Hunt
@@ -114,6 +117,7 @@ export default function Navbar() {
             </span>
           </div>
 
+          {/* Desktop Search */}
           <div className="hidden md:flex flex-1 justify-center px-4">
             <div className="relative w-full max-w-md">
               <input
@@ -152,6 +156,7 @@ export default function Navbar() {
             </div>
           </div>
 
+          {/* Right Icons */}
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
               <Link href="/profile">
@@ -177,6 +182,7 @@ export default function Navbar() {
           </div>
         </div>
 
+        {/* Mobile Search */}
         <div className="md:hidden mt-3 relative">
           <input
             type="text"
@@ -211,6 +217,7 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* Drawer */}
       {drawerOpen && (
         <>
           <div
@@ -246,4 +253,12 @@ export default function Navbar() {
               <button onClick={() => handleNavigate("/filter")} className="text-yellow-500 text-left font-semibold">Filter</button>
               <button onClick={() => handleNavigate("/donate")} className="text-yellow-500 text-left font-semibold">Donate Your Savings</button>
               <button onClick={() => handleNavigate("/refer")} className="text-yellow-500 text-left font-semibold">Refer & Earn</button>
-              <button onClick={() => handleNavigate("/wallet
+              <button onClick={() => handleNavigate("/wallet")} className="text-yellow-500 text-left font-semibold">Wallet</button>
+              <button onClick={() => handleNavigate("/settings")} className="text-yellow-500 text-left font-semibold">Settings</button>
+            </nav>
+          </aside>
+        </>
+      )}
+    </header>
+  );
+}
