@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -30,6 +31,16 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
+      {/* Back Button */}
+      <div className="mb-4">
+        <Link
+          href="/"
+          className="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md shadow-md"
+        >
+          ← Back to Home
+        </Link>
+      </div>
+
       <h1 className="text-3xl font-bold mb-6">Profile</h1>
 
       {!loggedIn ? (
@@ -56,7 +67,7 @@ export default function ProfilePage() {
             <h2 className="text-xl font-semibold mb-2">Profile Settings</h2>
             <p className="text-gray-600 mb-2">Update your preferences here.</p>
             <button
-              onClick={() => alert("Preferences updated (mock)") }
+              onClick={() => alert("Preferences updated (mock)")}
               className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
             >
               Save Preferences
