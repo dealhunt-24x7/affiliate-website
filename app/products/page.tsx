@@ -38,6 +38,9 @@ export default function ProductsPage() {
   const [selectedBrand, setSelectedBrand] = useState<string>("all");
   const [minRating, setMinRating] = useState<number>(0);
   const [priceSort, setPriceSort] = useState<"high" | "low" | "none">("none");
+  const [partners, setPartners] = useState<string[]>([]);
+  const [selectedPartners, setSelectedPartners] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
 
   useEffect(() => {
     setLoading(true);
@@ -73,18 +76,44 @@ export default function ProductsPage() {
 
     const timeout = setTimeout(() => {
       setProducts(mockProducts);
+
+      // 🔹 Dynamic partners
+      const allPartners = [
+        ...new Set(
+          mockProducts.flatMap((p) => p.comparison.map((c) => c.site))
+        ),
+      ];
+      setPartners(allPartners);
+
+      // 🔹 Dynamic price range
+      const allPrices = mockProducts.map((p) =>
+        Number(p.price.replace(/[^0-9]/g, ""))
+      );
+      const min = Math.min(...allPrices);
+      const max = Math.max(...allPrices);
+      setPriceRange([min, max]);
+
       setLoading(false);
-    }, 1200);
+    }, 1000);
 
     return () => clearTimeout(timeout);
   }, [searchQuery]);
 
   // Apply filters
-  let filteredProducts = products.filter(
-    (p) =>
+  let filteredProducts = products.filter((p) => {
+    const numericPrice = Number(p.price.replace(/[^0-9]/g, ""));
+
+    return (
       (selectedBrand === "all" || p.brand === selectedBrand) &&
-      p.rating >= minRating
-  );
+      p.rating >= minRating &&
+      numericPrice >= priceRange[0] &&
+      numericPrice <= priceRange[1] &&
+      (selectedPartners.length === 0 ||
+        selectedPartners.some((partner) =>
+          p.comparison.some((c) => c.site === partner)
+        ))
+    );
+  });
 
   // Apply sorting
   if (priceSort === "high")
@@ -99,6 +128,15 @@ export default function ProductsPage() {
         Number(a.price.replace(/[^0-9]/g, "")) -
         Number(b.price.replace(/[^0-9]/g, ""))
     );
+
+  // Toggle partner
+  const togglePartner = (partner: string) => {
+    setSelectedPartners((prev) =>
+      prev.includes(partner)
+        ? prev.filter((p) => p !== partner)
+        : [...prev, partner]
+    );
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -131,30 +169,83 @@ export default function ProductsPage() {
               className="w-full mt-1 border border-gray-300 rounded-md px-3 py-2"
             >
               <option value="all">All</option>
-              <option value="Rolex">Rolex</option>
-              <option value="Casio">Casio</option>
+              {[...new Set(products.map((p) => p.brand))].map((b) => (
+                <option key={b} value={b}>
+                  {b}
+                </option>
+              ))}
             </select>
           </label>
 
-          {/* Rating Filter */}
-          <label className="block mb-3">
+          {/* Rating Filter (Stars) */}
+          <div className="mb-3">
             <span className="text-sm font-medium text-gray-700">
               Minimum Rating
             </span>
-            <input
-              type="number"
-              value={minRating}
-              min={0}
-              max={5}
-              step={0.1}
-              onChange={(e) => setMinRating(Number(e.target.value))}
-              className="w-full mt-1 border border-gray-300 rounded-md px-3 py-2"
-            />
-          </label>
+            <div className="flex gap-1 mt-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  onClick={() => setMinRating(star)}
+                  className={`px-2 py-1 rounded ${
+                    minRating >= star
+                      ? "bg-yellow-500 text-white"
+                      : "bg-gray-200"
+                  }`}
+                >
+                  {star}⭐
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Price Range (Slider mimic) */}
+          <div className="mb-3">
+            <span className="text-sm font-medium text-gray-700">Price Range</span>
+            <div className="flex items-center gap-2 mt-2">
+              <input
+                type="number"
+                value={priceRange[0]}
+                min={0}
+                onChange={(e) =>
+                  setPriceRange([Number(e.target.value), priceRange[1]])
+                }
+                className="w-20 border rounded px-2 py-1"
+              />
+              <span>-</span>
+              <input
+                type="number"
+                value={priceRange[1]}
+                onChange={(e) =>
+                  setPriceRange([priceRange[0], Number(e.target.value)])
+                }
+                className="w-20 border rounded px-2 py-1"
+              />
+            </div>
+          </div>
+
+          {/* Partners Filter */}
+          <div className="mb-3">
+            <span className="text-sm font-medium text-gray-700">Partners</span>
+            <div className="flex flex-col gap-1 mt-2">
+              {partners.map((partner) => (
+                <label key={partner} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={selectedPartners.includes(partner)}
+                    onChange={() => togglePartner(partner)}
+                  />
+                  {partner}
+                </label>
+              ))}
+            </div>
+          </div>
 
           {/* Price Sort */}
           <label className="block">
-            <span className="text-sm font-medium text-gray-700">Sort by Price</span>
+            <span className="text-sm font-medium text-gray-700">
+              Sort by Price
+            </span>
             <select
               value={priceSort}
               onChange={(e) => setPriceSort(e.target.value as any)}
@@ -194,7 +285,9 @@ export default function ProductsPage() {
                 />
 
                 <h2 className="text-lg font-semibold mt-3">{product.name}</h2>
-                <p className="text-xl font-bold text-green-600">{product.price}</p>
+                <p className="text-xl font-bold text-green-600">
+                  {product.price}
+                </p>
 
                 {/* Comparison Strip */}
                 <div className="mt-3 bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -208,8 +301,12 @@ export default function ProductsPage() {
                         className="flex justify-between items-center bg-white px-3 py-2 rounded-md shadow-sm"
                       >
                         <span className="font-medium">{item.site}</span>
-                        <span className="text-yellow-600 font-bold">{item.price}</span>
-                        <span className="text-gray-500 text-sm">⭐ {item.rating}</span>
+                        <span className="text-yellow-600 font-bold">
+                          {item.price}
+                        </span>
+                        <span className="text-gray-500 text-sm">
+                          ⭐ {item.rating}
+                        </span>
                       </div>
                     ))}
                   </div>
