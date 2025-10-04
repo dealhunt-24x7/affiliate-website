@@ -1,27 +1,38 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI as string;
+const MONGODB_URI = process.env.MONGODB_URI!;
 
 if (!MONGODB_URI) {
-  throw new Error("⚠️ Missing MONGODB_URI in .env.local");
+  throw new Error("⚠️ Please define the MONGODB_URI environment variable inside .env.local");
 }
 
-// Global type fix
-declare global {
-  var mongooseCache: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } | undefined;
+// Define type for cache
+interface MongooseCache {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
 }
 
-let cached = global.mongooseCache;
+// Create global cache
+const globalWithMongoose = globalThis as typeof globalThis & {
+  mongoose?: MongooseCache;
+};
 
-if (!cached) {
-  cached = global.mongooseCache = { conn: null, promise: null };
-}
+let cached: MongooseCache = globalWithMongoose.mongoose ?? {
+  conn: null,
+  promise: null,
+};
 
-export async function connectDB() {
-  if (cached.conn) return cached.conn;
+globalWithMongoose.mongoose = cached;
+
+// ✅ Safe connect function
+export async function connectDB(): Promise<typeof mongoose> {
+  if (cached && cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI, { dbName: "dealhunt" });
+    cached.promise = mongoose.connect(MONGODB_URI, {
+      dbName: "dealhunt",
+      bufferCommands: false,
+    });
   }
 
   cached.conn = await cached.promise;
