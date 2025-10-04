@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
-import { connectToDB } from "@/lib/mongodb";
+import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import { verifyPassword } from "@/utils/hash";
 
@@ -15,7 +15,7 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        await connectToDB();
+        await connectDB();
         const user = await User.findOne({ email: credentials?.email });
         if (!user) throw new Error("No user found");
         const isValid = await verifyPassword(
