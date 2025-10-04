@@ -1,113 +1,149 @@
 "use client";
 
-import React, { useState } from "react";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
+import { FaFacebook, FaEnvelope } from "react-icons/fa";
 
-export default function SigninPage() {
+export default function SignInPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [credentials, setCredentials] = useState({ name: "", email: "", password: "" });
+  const [isSignup, setIsSignup] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
     setLoading(true);
 
-    const res = await signIn("credentials", {
-      redirect: false,
-      email: formData.email,
-      password: formData.password,
-    });
+    if (isSignup) {
+      // SignUp API
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
 
-    if (res?.error) {
-      setError("Invalid email or password");
-      setLoading(false);
+      if (res.ok) {
+        alert("Signup successful! You can now login.");
+        setIsSignup(false);
+      } else {
+        const data = await res.json();
+        alert(data.message || "Signup failed.");
+      }
     } else {
-      router.push("/");
+      // Normal Email Login
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: credentials.email,
+        password: credentials.password,
+      });
+
+      if (res?.ok) {
+        router.push("/");
+      } else {
+        alert("Invalid credentials!");
+      }
     }
+
+    setLoading(false);
   };
 
-  const handleGoogle = () => signIn("google", { callbackUrl: "/" });
-  const handleFacebook = () => signIn("facebook", { callbackUrl: "/" });
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-yellow-100 to-orange-200">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-96">
-        <h2 className="text-2xl font-bold text-center mb-6 text-yellow-600">
-          Welcome Back 👋
-        </h2>
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-yellow-50 via-white to-yellow-100 p-4">
+      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 space-y-6">
+        <h1 className="text-3xl font-bold text-center text-yellow-600">
+          {isSignup ? "Create Account" : "Welcome Back"}
+        </h1>
 
-        <button
-          onClick={handleGoogle}
-          className="w-full flex items-center justify-center gap-2 py-2 border rounded-lg hover:bg-gray-100 mb-3"
-        >
-          <FcGoogle size={22} /> Continue with Google
-        </button>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {isSignup && (
+            <input
+              name="name"
+              value={credentials.name}
+              onChange={handleChange}
+              placeholder="Full Name"
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-500"
+            />
+          )}
 
-        <button
-          onClick={handleFacebook}
-          className="w-full flex items-center justify-center gap-2 py-2 border rounded-lg hover:bg-gray-100 mb-5 text-blue-600"
-        >
-          <FaFacebook size={22} /> Continue with Facebook
-        </button>
-
-        <div className="relative mb-5">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="bg-white px-2 text-gray-500">or</span>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit}>
           <input
-            type="email"
             name="email"
-            placeholder="Email"
-            value={formData.email}
+            type="email"
+            value={credentials.email}
             onChange={handleChange}
+            placeholder="Email Address"
             required
-            className="w-full mb-3 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400"
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className="w-full mb-4 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400"
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-500"
           />
 
-          {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
+          <input
+            name="password"
+            type="password"
+            value={credentials.password}
+            onChange={handleChange}
+            placeholder="Password"
+            required
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-500"
+          />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition"
+            className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg font-semibold transition"
           >
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? "Please wait..." : isSignup ? "Sign Up" : "Sign In"}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-sm">
-          Don’t have an account?{" "}
-          <span
-            className="text-yellow-600 font-semibold cursor-pointer"
-            onClick={() => router.push("/signup")}
+        {/* Social Login */}
+        <div className="flex items-center gap-2 my-4">
+          <div className="flex-1 h-px bg-gray-300"></div>
+          <span className="text-gray-400 text-sm">OR</span>
+          <div className="flex-1 h-px bg-gray-300"></div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <button
+            onClick={() => signIn("google")}
+            className="flex items-center justify-center gap-2 border rounded-lg py-2 hover:bg-gray-50 transition"
           >
-            Sign up
-          </span>
+            <FcGoogle size={22} /> Continue with Google
+          </button>
+
+          <button
+            onClick={() => signIn("facebook")}
+            className="flex items-center justify-center gap-2 border rounded-lg py-2 hover:bg-blue-50 transition"
+          >
+            <FaFacebook size={22} className="text-blue-600" /> Continue with Facebook
+          </button>
+
+          <button
+            onClick={() => setIsSignup(!isSignup)}
+            className="text-sm text-yellow-600 hover:underline mt-2 text-center"
+          >
+            {isSignup
+              ? "Already have an account? Sign In"
+              : "Don't have an account? Sign Up"}
+          </button>
+        </div>
+
+        <p className="text-center text-gray-400 text-xs mt-4">
+          By continuing, you agree to our{" "}
+          <a href="/privacy-policy" className="text-yellow-600 hover:underline">
+            Privacy Policy
+          </a>{" "}
+          &{" "}
+          <a href="/terms" className="text-yellow-600 hover:underline">
+            Terms of Service
+          </a>
         </p>
       </div>
     </div>
   );
-}
+}";
