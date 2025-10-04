@@ -24,7 +24,7 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [listening, setListening] = useState(false); // Mic state
+  const [listening, setListening] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,7 +144,9 @@ export default function Navbar() {
                 <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
                 <FiMic
                   onClick={handleMicClick}
-                  className={`cursor-pointer ${listening ? "text-red-500 animate-pulse" : "text-gray-400"}`}
+                  className={`cursor-pointer ${
+                    listening ? "text-red-500 animate-pulse" : "text-gray-400"
+                  }`}
                 />
                 {searchQuery && (
                   <FiSearch
@@ -208,10 +210,15 @@ export default function Navbar() {
             <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
             <FiMic
               onClick={handleMicClick}
-              className={`cursor-pointer ${listening ? "text-red-500 animate-pulse" : "text-gray-400"}`}
+              className={`cursor-pointer ${
+                listening ? "text-red-500 animate-pulse" : "text-gray-400"
+              }`}
             />
             {searchQuery && (
-              <FiSearch onClick={() => handleSelect(searchQuery)} className="cursor-pointer" />
+              <FiSearch
+                onClick={() => handleSelect(searchQuery)}
+                className="cursor-pointer"
+              />
             )}
           </div>
         </div>
@@ -238,10 +245,30 @@ export default function Navbar() {
             </button>
 
             <nav className="mt-8 flex flex-col gap-4">
-              <button onClick={() => handleNavigate("/")} className="text-yellow-500 text-left font-semibold">Home</button>
-              <button onClick={() => handleNavigate("/products")} className="text-yellow-500 text-left font-semibold">Products</button>
-              <button onClick={() => handleNavigate("/about")} className="text-yellow-500 text-left font-semibold">About</button>
-              <button onClick={() => scrollToSection("contact-section")} className="text-yellow-500 text-left font-semibold">Contact</button>
+              <button
+                onClick={() => handleNavigate("/")}
+                className="text-yellow-500 text-left font-semibold"
+              >
+                Home
+              </button>
+              <button
+                onClick={() => handleNavigate("/products")}
+                className="text-yellow-500 text-left font-semibold"
+              >
+                Products
+              </button>
+              <button
+                onClick={() => handleNavigate("/about")}
+                className="text-yellow-500 text-left font-semibold"
+              >
+                About
+              </button>
+              <button
+                onClick={() => scrollToSection("contact-section")}
+                className="text-yellow-500 text-left font-semibold"
+              >
+                Contact
+              </button>
 
               <div
                 onClick={() => scrollToSection("cart-to-heart")}
@@ -250,11 +277,36 @@ export default function Navbar() {
                 ❤️ Join Cart to Heart Program
               </div>
 
-              <button onClick={() => handleNavigate("/filter")} className="text-yellow-500 text-left font-semibold">Filter</button>
-              <button onClick={() => handleNavigate("/donate")} className="text-yellow-500 text-left font-semibold">Donate Your Savings</button>
-              <button onClick={() => handleNavigate("/refer")} className="text-yellow-500 text-left font-semibold">Refer & Earn</button>
-              <button onClick={() => handleNavigate("/wallet")} className="text-yellow-500 text-left font-semibold">Wallet</button>
-              <button onClick={() => handleNavigate("/settings")} className="text-yellow-500 text-left font-semibold">Settings</button>
+              <button
+                onClick={() => handleNavigate("/filter")}
+                className="text-yellow-500 text-left font-semibold"
+              >
+                Filter
+              </button>
+              <button
+                onClick={() => handleNavigate("/donate")}
+                className="text-yellow-500 text-left font-semibold"
+              >
+                Donate Your Savings
+              </button>
+              <button
+                onClick={() => handleNavigate("/refer")}
+                className="text-yellow-500 text-left font-semibold"
+              >
+                Refer & Earn
+              </button>
+              <button
+                onClick={() => handleNavigate("/wallet")}
+                className="text-yellow-500 text-left font-semibold"
+              >
+                Wallet
+              </button>
+              <button
+                onClick={() => handleNavigate("/settings")}
+                className="text-yellow-500 text-left font-semibold"
+              >
+                Settings
+              </button>
             </nav>
           </aside>
         </>
