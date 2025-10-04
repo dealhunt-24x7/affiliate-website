@@ -1,24 +1,24 @@
-import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import { hashPassword } from "@/utils/hash";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
     const { name, email, password } = await req.json();
     await connectDB();
 
-    const existing = await User.findOne({ email });
-    if (existing) {
-      return NextResponse.json({ error: "User already exists" }, { status: 400 });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return NextResponse.json({ message: "User already exists" }, { status: 400 });
     }
 
-    const hashed = await hashPassword(password);
-    const newUser = new User({ name, email, password: hashed });
+    const hashedPassword = await hashPassword(password);
+    const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
-    return NextResponse.json({ message: "Signup successful" }, { status: 201 });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ message: "User created successfully" }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ message: "Error creating user", error }, { status: 500 });
   }
 }
