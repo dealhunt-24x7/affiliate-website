@@ -1,21 +1,20 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import { verifyPassword } from "@/utils/hash";
 
-export const authOptions = {
+// ✅ NextAuth configuration
+const authOptions = {
   providers: [
+    // Google login
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-    FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID!,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
-    }),
+
+    // Credentials login
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -53,6 +52,6 @@ export const authOptions = {
   },
 };
 
+// ✅ App Router compliant exports
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };
