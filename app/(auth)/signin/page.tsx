@@ -146,3 +146,4 @@ export default function SignInPage() {
       </div>
     </div>
   );
+}
