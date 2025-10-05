@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -6,18 +6,18 @@ import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import { verifyPassword } from "@/utils/hash";
 
-const authOptions: NextAuthOptions = {
+const handler = NextAuth({
   providers: [
     // 🔹 Google Login
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
 
     // 🔹 Facebook Login
     FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID!,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+      clientId: process.env.FACEBOOK_CLIENT_ID || "",
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
     }),
 
     // 🔹 Manual Email Login
@@ -49,15 +49,13 @@ const authOptions: NextAuthOptions = {
 
   callbacks: {
     async session({ session, token }) {
-      // ✅ Safely attach id to session.user
       if (session.user) {
-        (session.user as any).id = token.sub;
+        // @ts-ignore
+        session.user.id = token.sub;
       }
       return session;
     },
   },
-};
-
-const handler = NextAuth(authOptions);
+});
 
 export { handler as GET, handler as POST };
