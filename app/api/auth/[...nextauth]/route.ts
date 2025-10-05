@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -6,7 +6,7 @@ import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import { verifyPassword } from "@/utils/hash";
 
-const handler = NextAuth({
+const authOptions: NextAuthOptions = {
   providers: [
     // 🔹 Google Login
     GoogleProvider({
@@ -49,13 +49,15 @@ const handler = NextAuth({
 
   callbacks: {
     async session({ session, token }) {
-      // ✅ Safe check to avoid undefined error
+      // ✅ Safely attach id to session.user
       if (session.user) {
-        session.user.id = token.sub!;
+        (session.user as any).id = token.sub;
       }
       return session;
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
