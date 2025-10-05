@@ -4,12 +4,16 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook, FaEnvelope } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
 
 export default function SignInPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [credentials, setCredentials] = useState({ name: "", email: "", password: "" });
+  const [credentials, setCredentials] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const [isSignup, setIsSignup] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,34 +24,39 @@ export default function SignInPage() {
     e.preventDefault();
     setLoading(true);
 
-    if (isSignup) {
-      // SignUp API
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(credentials),
-      });
+    try {
+      if (isSignup) {
+        // 🔹 Signup request
+        const res = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(credentials),
+        });
 
-      if (res.ok) {
-        alert("Signup successful! You can now login.");
-        setIsSignup(false);
+        if (res.ok) {
+          alert("Signup successful! Please login now.");
+          setIsSignup(false);
+        } else {
+          const data = await res.json();
+          alert(data.message || "Signup failed.");
+        }
       } else {
-        const data = await res.json();
-        alert(data.message || "Signup failed.");
-      }
-    } else {
-      // Normal Email Login
-      const res = await signIn("credentials", {
-        redirect: false,
-        email: credentials.email,
-        password: credentials.password,
-      });
+        // 🔹 Sign-in using credentials
+        const res = await signIn("credentials", {
+          redirect: false,
+          email: credentials.email,
+          password: credentials.password,
+        });
 
-      if (res?.ok) {
-        router.push("/");
-      } else {
-        alert("Invalid credentials!");
+        if (res?.ok) {
+          router.push("/");
+        } else {
+          alert("Invalid email or password!");
+        }
       }
+    } catch (err) {
+      console.error("Auth error:", err);
+      alert("Something went wrong!");
     }
 
     setLoading(false);
