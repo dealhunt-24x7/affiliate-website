@@ -1,3 +1,5 @@
+import type { Session } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "./mongodb";
@@ -40,7 +42,13 @@ export const authOptions = {
   session: { strategy: "jwt" },
 
   callbacks: {
-    async session({ session, token }) {
+    async session({
+      session,
+      token,
+    }: {
+      session: Session;
+      token: JWT;
+    }): Promise<Session> {
       if (session.user) {
         // @ts-ignore
         session.user.id = token.sub;
