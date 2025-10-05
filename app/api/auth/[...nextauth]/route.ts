@@ -6,21 +6,16 @@ import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import { verifyPassword } from "@/utils/hash";
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
-    // 🔹 Google Login
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-
-    // 🔹 Facebook Login
     FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID || "",
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
+      clientId: process.env.FACEBOOK_CLIENT_ID!,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
     }),
-
-    // 🔹 Manual Email Login
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -56,6 +51,8 @@ const handler = NextAuth({
       return session;
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
