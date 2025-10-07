@@ -1,11 +1,11 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, DefaultSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import { verifyPassword } from "@/utils/hash";
 
-// Extend Session type safely
+// 🔹 Extend DefaultSession type for custom fields
 declare module "next-auth" {
   interface Session {
     user: {
@@ -16,13 +16,13 @@ declare module "next-auth" {
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    // 🔹 Google Provider
+    // ✅ Google login
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
 
-    // 🔹 Manual Email Login
+    // ✅ Manual email login
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -30,25 +30,20 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // Connect to MongoDB
         await connectDB();
-
-        // Find user by email
         const user = await User.findOne({ email: credentials?.email });
         if (!user) throw new Error("User not found");
 
-        // Verify password
         const isValid = await verifyPassword(credentials!.password, user.password);
         if (!isValid) throw new Error("Invalid password");
 
-        // Return user object
         return { id: user._id.toString(), email: user.email, name: user.name };
       },
     }),
   ],
 
   pages: {
-    signIn: "/signin", // Custom sign-in page
+    signIn: "/signin",
   },
 
   secret: process.env.NEXTAUTH_SECRET,
@@ -60,13 +55,9 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.sub; // ✅ Type-safe fix
+        session.user.id = token.sub;
       }
       return session;
     },
   },
 };
-
-// Export NextAuth handler
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
