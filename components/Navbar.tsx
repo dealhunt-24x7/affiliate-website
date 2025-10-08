@@ -2,15 +2,8 @@
 
 import React, { useState, useRef } from "react";
 import Link from "next/link";
-import {
-  FiUser,
-  FiMenu,
-  FiX,
-  FiMoreHorizontal,
-  FiCamera,
-  FiMic,
-  FiSearch,
-} from "react-icons/fi";
+import { FiUser, FiMenu, FiX, FiMoreHorizontal, FiCamera, FiMic, FiSearch } from "react-icons/fi";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 const sampleSuggestions = [
   "Rolex Daytona",
@@ -21,10 +14,13 @@ const sampleSuggestions = [
 ];
 
 export default function Navbar() {
+  const { data: session } = useSession();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [listening, setListening] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,7 +101,6 @@ export default function Navbar() {
       />
 
       <div className="max-w-7xl mx-auto px-6 py-3 w-full">
-        {/* Top Row */}
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex flex-col">
@@ -144,15 +139,10 @@ export default function Navbar() {
                 <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
                 <FiMic
                   onClick={handleMicClick}
-                  className={`cursor-pointer ${
-                    listening ? "text-red-500 animate-pulse" : "text-gray-400"
-                  }`}
+                  className={`cursor-pointer ${listening ? "text-red-500 animate-pulse" : "text-gray-400"}`}
                 />
                 {searchQuery && (
-                  <FiSearch
-                    onClick={() => handleSelect(searchQuery)}
-                    className="cursor-pointer"
-                  />
+                  <FiSearch onClick={() => handleSelect(searchQuery)} className="cursor-pointer" />
                 )}
               </div>
             </div>
@@ -160,10 +150,33 @@ export default function Navbar() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg">
-              <Link href="/profile">
+            <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg relative">
+              <button onClick={() => setProfileOpen(!profileOpen)}>
                 <FiUser className="hover:text-yellow-500 cursor-pointer" />
-              </Link>
+              </button>
+
+              {profileOpen && (
+                <div className="absolute right-0 top-10 w-48 bg-white shadow-lg rounded-md p-2 z-50">
+                  {session ? (
+                    <>
+                      <p className="text-sm text-gray-800">Hello, {session.user?.name}</p>
+                      <button
+                        onClick={() => signOut()}
+                        className="mt-2 w-full text-left text-sm text-red-600 hover:bg-red-50 rounded px-2 py-1"
+                      >
+                        Sign out
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => signIn("google")}
+                      className="w-full text-left text-sm text-indigo-600 hover:bg-indigo-50 rounded px-2 py-1"
+                    >
+                      Sign in
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
 
             <button
@@ -174,9 +187,33 @@ export default function Navbar() {
             </button>
 
             <div className="md:hidden flex items-center gap-3">
-              <Link href="/profile">
+              <button onClick={() => setProfileOpen(!profileOpen)}>
                 <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
-              </Link>
+              </button>
+
+              {profileOpen && (
+                <div className="absolute right-3 top-12 w-48 bg-white shadow-lg rounded-md p-2 z-50">
+                  {session ? (
+                    <>
+                      <p className="text-sm text-gray-800">Hello, {session.user?.name}</p>
+                      <button
+                        onClick={() => signOut()}
+                        className="mt-2 w-full text-left text-sm text-red-600 hover:bg-red-50 rounded px-2 py-1"
+                      >
+                        Sign out
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => signIn("google")}
+                      className="w-full text-left text-sm text-indigo-600 hover:bg-indigo-50 rounded px-2 py-1"
+                    >
+                      Sign in
+                    </button>
+                  )}
+                </div>
+              )}
+
               <button className="text-2xl p-1" onClick={() => setDrawerOpen(true)}>
                 <FiMenu />
               </button>
@@ -210,15 +247,10 @@ export default function Navbar() {
             <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
             <FiMic
               onClick={handleMicClick}
-              className={`cursor-pointer ${
-                listening ? "text-red-500 animate-pulse" : "text-gray-400"
-              }`}
+              className={`cursor-pointer ${listening ? "text-red-500 animate-pulse" : "text-gray-400"}`}
             />
             {searchQuery && (
-              <FiSearch
-                onClick={() => handleSelect(searchQuery)}
-                className="cursor-pointer"
-              />
+              <FiSearch onClick={() => handleSelect(searchQuery)} className="cursor-pointer" />
             )}
           </div>
         </div>
@@ -227,10 +259,7 @@ export default function Navbar() {
       {/* Drawer */}
       {drawerOpen && (
         <>
-          <div
-            className="fixed inset-0 bg-black/50 z-[9998]"
-            onClick={() => setDrawerOpen(false)}
-          />
+          <div className="fixed inset-0 bg-black/50 z-[9998]" onClick={() => setDrawerOpen(false)} />
           <aside
             className={`fixed top-0 left-0 z-[9999] w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl max-h-[90vh] overflow-y-auto transition-transform duration-300 ${
               drawerOpen ? "translate-x-0" : "-translate-x-full"
@@ -245,28 +274,16 @@ export default function Navbar() {
             </button>
 
             <nav className="mt-8 flex flex-col gap-4">
-              <button
-                onClick={() => handleNavigate("/")}
-                className="text-yellow-500 text-left font-semibold"
-              >
+              <button onClick={() => handleNavigate("/")} className="text-yellow-500 text-left font-semibold">
                 Home
               </button>
-              <button
-                onClick={() => handleNavigate("/products")}
-                className="text-yellow-500 text-left font-semibold"
-              >
+              <button onClick={() => handleNavigate("/products")} className="text-yellow-500 text-left font-semibold">
                 Products
               </button>
-              <button
-                onClick={() => handleNavigate("/about")}
-                className="text-yellow-500 text-left font-semibold"
-              >
+              <button onClick={() => handleNavigate("/about")} className="text-yellow-500 text-left font-semibold">
                 About
               </button>
-              <button
-                onClick={() => scrollToSection("contact-section")}
-                className="text-yellow-500 text-left font-semibold"
-              >
+              <button onClick={() => scrollToSection("contact-section")} className="text-yellow-500 text-left font-semibold">
                 Contact
               </button>
 
@@ -277,34 +294,19 @@ export default function Navbar() {
                 ❤️ Join Cart to Heart Program
               </div>
 
-              <button
-                onClick={() => handleNavigate("/filter")}
-                className="text-yellow-500 text-left font-semibold"
-              >
+              <button onClick={() => handleNavigate("/filter")} className="text-yellow-500 text-left font-semibold">
                 Filter
               </button>
-              <button
-                onClick={() => handleNavigate("/donate")}
-                className="text-yellow-500 text-left font-semibold"
-              >
+              <button onClick={() => handleNavigate("/donate")} className="text-yellow-500 text-left font-semibold">
                 Donate Your Savings
               </button>
-              <button
-                onClick={() => handleNavigate("/refer")}
-                className="text-yellow-500 text-left font-semibold"
-              >
+              <button onClick={() => handleNavigate("/refer")} className="text-yellow-500 text-left font-semibold">
                 Refer & Earn
               </button>
-              <button
-                onClick={() => handleNavigate("/wallet")}
-                className="text-yellow-500 text-left font-semibold"
-              >
+              <button onClick={() => handleNavigate("/wallet")} className="text-yellow-500 text-left font-semibold">
                 Wallet
               </button>
-              <button
-                onClick={() => handleNavigate("/settings")}
-                className="text-yellow-500 text-left font-semibold"
-              >
+              <button onClick={() => handleNavigate("/settings")} className="text-yellow-500 text-left font-semibold">
                 Settings
               </button>
             </nav>
