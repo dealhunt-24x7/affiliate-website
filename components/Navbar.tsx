@@ -2,8 +2,9 @@
 
 import React, { useState, useRef } from "react";
 import Link from "next/link";
-import { FiUser, FiMenu, FiX, FiMoreHorizontal, FiCamera, FiMic, FiSearch } from "react-icons/fi";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { FiUser, FiMenu, FiX, FiCamera, FiMic, FiSearch } from "react-icons/fi";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const sampleSuggestions = [
   "Rolex Daytona",
@@ -15,11 +16,11 @@ const sampleSuggestions = [
 
 export default function Navbar() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [listening, setListening] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -40,7 +41,7 @@ export default function Navbar() {
     setSearchQuery(item);
     setSuggestions([]);
     setDrawerOpen(false);
-    window.location.href = `/products?search=${encodeURIComponent(item)}`;
+    router.push(`/products?search=${encodeURIComponent(item)}`);
   };
 
   const handleCameraClick = () => fileInputRef.current?.click();
@@ -84,7 +85,7 @@ export default function Navbar() {
   const handleNavigate = (href: string) => {
     setDrawerOpen(false);
     setTimeout(() => {
-      window.location.href = href;
+      router.push(href);
     }, 300);
   };
 
@@ -149,90 +150,16 @@ export default function Navbar() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-4 text-gray-700 text-lg relative">
-              <button onClick={() => setProfileOpen(!profileOpen)}>
-                <FiUser className="hover:text-yellow-500 cursor-pointer" />
-              </button>
-
-              {profileOpen && (
-                <div className="absolute right-0 top-10 w-48 bg-white shadow-lg rounded-md p-2 z-50">
-                  {session ? (
-                    <>
-                      <p className="text-sm text-gray-800">Hello, {session.user?.name}</p>
-                      <button
-                        onClick={() => signOut()}
-                        className="mt-2 w-full text-left text-sm text-red-600 hover:bg-red-50 rounded px-2 py-1"
-                      >
-                        Sign out
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => signIn("google")}
-                        className="w-full text-left text-sm text-indigo-600 hover:bg-indigo-50 rounded px-2 py-1"
-                      >
-                        Sign in with Google
-                      </button>
-                      <button
-                        onClick={() => alert("Facebook login (placeholder)")}
-                        className="w-full text-left text-sm text-blue-600 hover:bg-blue-50 rounded px-2 py-1 mt-1"
-                      >
-                        Sign in with Facebook
-                      </button>
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
-
             <button
-              className="hidden md:inline-flex p-2 rounded hover:bg-gray-100"
-              onClick={() => setDrawerOpen(true)}
+              onClick={() => router.push("/signin")}
+              className="text-gray-700 hover:text-yellow-500"
             >
-              <FiMoreHorizontal className="text-lg text-gray-700 hover:text-yellow-500" />
+              <FiUser className="text-xl" />
             </button>
 
-            <div className="md:hidden flex items-center gap-3">
-              <button onClick={() => setProfileOpen(!profileOpen)}>
-                <FiUser className="text-lg text-gray-700 hover:text-yellow-500 cursor-pointer" />
-              </button>
-
-              {profileOpen && (
-                <div className="absolute right-3 top-12 w-48 bg-white shadow-lg rounded-md p-2 z-50">
-                  {session ? (
-                    <>
-                      <p className="text-sm text-gray-800">Hello, {session.user?.name}</p>
-                      <button
-                        onClick={() => signOut()}
-                        className="mt-2 w-full text-left text-sm text-red-600 hover:bg-red-50 rounded px-2 py-1"
-                      >
-                        Sign out
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => signIn("google")}
-                        className="w-full text-left text-sm text-indigo-600 hover:bg-indigo-50 rounded px-2 py-1"
-                      >
-                        Sign in with Google
-                      </button>
-                      <button
-                        onClick={() => alert("Facebook login (placeholder)")}
-                        className="w-full text-left text-sm text-blue-600 hover:bg-blue-50 rounded px-2 py-1 mt-1"
-                      >
-                        Sign in with Facebook
-                      </button>
-                    </>
-                  )}
-                </div>
-              )}
-
-              <button className="text-2xl p-1" onClick={() => setDrawerOpen(true)}>
-                <FiMenu />
-              </button>
-            </div>
+            <button className="md:hidden text-2xl p-1" onClick={() => setDrawerOpen(true)}>
+              <FiMenu />
+            </button>
           </div>
         </div>
 
@@ -301,14 +228,12 @@ export default function Navbar() {
               <button onClick={() => scrollToSection("contact-section")} className="text-yellow-500 text-left font-semibold">
                 Contact
               </button>
-
               <div
                 onClick={() => scrollToSection("cart-to-heart")}
                 className="p-3 bg-gradient-to-r from-yellow-100 via-orange-100 to-pink-100 rounded-xl shadow-md text-yellow-700 text-center font-bold cursor-pointer hover:scale-[1.02] transition"
               >
                 ❤️ Join Cart to Heart Program
               </div>
-
               <button onClick={() => handleNavigate("/filter")} className="text-yellow-500 text-left font-semibold">
                 Filter
               </button>
