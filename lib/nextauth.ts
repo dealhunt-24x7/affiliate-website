@@ -1,43 +1,35 @@
-import { NextAuthOptions, DefaultSession } from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { connectDB } from "@/lib/mongodb";
-import User from "@/models/User";
-import { verifyPassword } from "@/utils/hash";
 
-// 🔹 Extend DefaultSession type for custom fields
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id?: string;
-    } & DefaultSession["user"];
-  }
-}
-
-export const authOptions: NextAuthOptions = {
+export const authOptions: AuthOptions = {
   providers: [
-    // ✅ Google login
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
 
-    // ✅ Manual email login
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID ?? "",
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET ?? "",
+    }),
+
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "example@email.com" },
+        email: { label: "Email", type: "text", placeholder: "you@example.com" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        await connectDB();
-        const user = await User.findOne({ email: credentials?.email });
-        if (!user) throw new Error("User not found");
-
-        const isValid = await verifyPassword(credentials!.password, user.password);
-        if (!isValid) throw new Error("Invalid password");
-
-        return { id: user._id.toString(), email: user.email, name: user.name };
+        // abhi DB ni h to fake login allow karte h
+        if (
+          credentials?.email === "test@demo.com" &&
+          credentials.password === "123456"
+        ) {
+          return { id: "1", name: "Demo User", email: "test@demo.com" };
+        }
+        throw new Error("Invalid credentials");
       },
     }),
   ],
@@ -48,14 +40,12 @@ export const authOptions: NextAuthOptions = {
 
   secret: process.env.NEXTAUTH_SECRET,
 
-  session: {
-    strategy: "jwt",
-  },
+  session: { strategy: "jwt" },
 
   callbacks: {
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.sub;
+      if (session.user && token.sub) {
+        (session.user as any).id = token.sub;
       }
       return session;
     },
