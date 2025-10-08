@@ -26,7 +26,6 @@ export default function Navbar() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
-
     if (value.trim().length > 0) {
       const filtered = sampleSuggestions.filter((item) =>
         item.toLowerCase().includes(value.toLowerCase())
@@ -168,12 +167,20 @@ export default function Navbar() {
                       </button>
                     </>
                   ) : (
-                    <button
-                      onClick={() => signIn("google")}
-                      className="w-full text-left text-sm text-indigo-600 hover:bg-indigo-50 rounded px-2 py-1"
-                    >
-                      Sign in
-                    </button>
+                    <>
+                      <button
+                        onClick={() => signIn("google")}
+                        className="w-full text-left text-sm text-indigo-600 hover:bg-indigo-50 rounded px-2 py-1"
+                      >
+                        Sign in with Google
+                      </button>
+                      <button
+                        onClick={() => alert("Facebook login (placeholder)")}
+                        className="w-full text-left text-sm text-blue-600 hover:bg-blue-50 rounded px-2 py-1 mt-1"
+                      >
+                        Sign in with Facebook
+                      </button>
+                    </>
                   )}
                 </div>
               )}
@@ -204,12 +211,20 @@ export default function Navbar() {
                       </button>
                     </>
                   ) : (
-                    <button
-                      onClick={() => signIn("google")}
-                      className="w-full text-left text-sm text-indigo-600 hover:bg-indigo-50 rounded px-2 py-1"
-                    >
-                      Sign in
-                    </button>
+                    <>
+                      <button
+                        onClick={() => signIn("google")}
+                        className="w-full text-left text-sm text-indigo-600 hover:bg-indigo-50 rounded px-2 py-1"
+                      >
+                        Sign in with Google
+                      </button>
+                      <button
+                        onClick={() => alert("Facebook login (placeholder)")}
+                        className="w-full text-left text-sm text-blue-600 hover:bg-blue-50 rounded px-2 py-1 mt-1"
+                      >
+                        Sign in with Facebook
+                      </button>
+                    </>
                   )}
                 </div>
               )}
