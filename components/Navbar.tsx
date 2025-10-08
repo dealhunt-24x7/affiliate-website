@@ -2,7 +2,14 @@
 
 import React, { useState, useRef } from "react";
 import Link from "next/link";
-import { FiUser, FiMenu, FiX, FiCamera, FiMic, FiSearch } from "react-icons/fi";
+import {
+  FiUser,
+  FiMoreVertical,
+  FiX,
+  FiCamera,
+  FiMic,
+  FiSearch,
+} from "react-icons/fi";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -139,26 +146,33 @@ export default function Navbar() {
                 <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
                 <FiMic
                   onClick={handleMicClick}
-                  className={`cursor-pointer ${listening ? "text-red-500 animate-pulse" : "text-gray-400"}`}
+                  className={`cursor-pointer ${
+                    listening ? "text-red-500 animate-pulse" : "text-gray-400"
+                  }`}
                 />
                 {searchQuery && (
-                  <FiSearch onClick={() => handleSelect(searchQuery)} className="cursor-pointer" />
+                  <FiSearch
+                    onClick={() => handleSelect(searchQuery)}
+                    className="cursor-pointer"
+                  />
                 )}
               </div>
             </div>
           </div>
 
           {/* Right Icons */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => router.push("/signin")}
-              className="text-gray-700 hover:text-yellow-500"
+              className="text-gray-700 hover:text-yellow-500 transition"
             >
               <FiUser className="text-xl" />
             </button>
-
-            <button className="md:hidden text-2xl p-1" onClick={() => setDrawerOpen(true)}>
-              <FiMenu />
+            <button
+              onClick={() => setDrawerOpen(true)}
+              className="text-gray-700 hover:text-yellow-500 transition"
+            >
+              <FiMoreVertical className="text-xl" />
             </button>
           </div>
         </div>
@@ -189,10 +203,15 @@ export default function Navbar() {
             <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
             <FiMic
               onClick={handleMicClick}
-              className={`cursor-pointer ${listening ? "text-red-500 animate-pulse" : "text-gray-400"}`}
+              className={`cursor-pointer ${
+                listening ? "text-red-500 animate-pulse" : "text-gray-400"
+              }`}
             />
             {searchQuery && (
-              <FiSearch onClick={() => handleSelect(searchQuery)} className="cursor-pointer" />
+              <FiSearch
+                onClick={() => handleSelect(searchQuery)}
+                className="cursor-pointer"
+              />
             )}
           </div>
         </div>
@@ -201,10 +220,13 @@ export default function Navbar() {
       {/* Drawer */}
       {drawerOpen && (
         <>
-          <div className="fixed inset-0 bg-black/50 z-[9998]" onClick={() => setDrawerOpen(false)} />
+          <div
+            className="fixed inset-0 bg-black/50 z-[9998]"
+            onClick={() => setDrawerOpen(false)}
+          />
           <aside
-            className={`fixed top-0 left-0 z-[9999] w-72 max-w-xs bg-white shadow-2xl p-6 rounded-r-2xl max-h-[90vh] overflow-y-auto transition-transform duration-300 ${
-              drawerOpen ? "translate-x-0" : "-translate-x-full"
+            className={`fixed top-0 right-0 z-[9999] w-72 max-w-xs bg-white shadow-2xl p-6 rounded-l-2xl max-h-[90vh] overflow-y-auto transition-transform duration-300 ${
+              drawerOpen ? "translate-x-0" : "translate-x-full"
             }`}
             onClick={(e) => e.stopPropagation()}
           >
@@ -216,17 +238,23 @@ export default function Navbar() {
             </button>
 
             <nav className="mt-8 flex flex-col gap-4">
-              <button onClick={() => handleNavigate("/")} className="text-yellow-500 text-left font-semibold">
+              <button onClick={() => handleNavigate("/")} className="text-yellow-500 font-semibold text-left">
                 Home
               </button>
-              <button onClick={() => handleNavigate("/products")} className="text-yellow-500 text-left font-semibold">
+              <button onClick={() => handleNavigate("/products")} className="text-yellow-500 font-semibold text-left">
                 Products
               </button>
-              <button onClick={() => handleNavigate("/about")} className="text-yellow-500 text-left font-semibold">
-                About
+              <button onClick={() => handleNavigate("/filter")} className="text-yellow-500 font-semibold text-left">
+                Filter
               </button>
-              <button onClick={() => scrollToSection("contact-section")} className="text-yellow-500 text-left font-semibold">
-                Contact
+              <button onClick={() => handleNavigate("/refer")} className="text-yellow-500 font-semibold text-left">
+                Refer & Earn
+              </button>
+              <button onClick={() => handleNavigate("/wallet")} className="text-yellow-500 font-semibold text-left">
+                Wallet
+              </button>
+              <button onClick={() => handleNavigate("/settings")} className="text-yellow-500 font-semibold text-left">
+                Settings
               </button>
               <div
                 onClick={() => scrollToSection("cart-to-heart")}
@@ -234,21 +262,6 @@ export default function Navbar() {
               >
                 ❤️ Join Cart to Heart Program
               </div>
-              <button onClick={() => handleNavigate("/filter")} className="text-yellow-500 text-left font-semibold">
-                Filter
-              </button>
-              <button onClick={() => handleNavigate("/donate")} className="text-yellow-500 text-left font-semibold">
-                Donate Your Savings
-              </button>
-              <button onClick={() => handleNavigate("/refer")} className="text-yellow-500 text-left font-semibold">
-                Refer & Earn
-              </button>
-              <button onClick={() => handleNavigate("/wallet")} className="text-yellow-500 text-left font-semibold">
-                Wallet
-              </button>
-              <button onClick={() => handleNavigate("/settings")} className="text-yellow-500 text-left font-semibold">
-                Settings
-              </button>
             </nav>
           </aside>
         </>
