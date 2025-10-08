@@ -1,8 +1,12 @@
-// app/(auth)/login/page.tsx 'use client'
+// app/(auth)/login/page.tsx
+'use client'
 
-import React from 'react' import { signIn } from 'next-auth/react'
+import React from 'react'
+import { signIn } from 'next-auth/react'
 
-export default function LoginPage() { return ( <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white px-6 py-12"> <div className="max-w-5xl w-full bg-white shadow-2xl rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+export default function LoginPage() {
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white px-6 py-12"> <div className="max-w-5xl w-full bg-white shadow-2xl rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
 
 {/* left image / branding area */}
     <div className="hidden md:flex flex-col justify-center items-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white p-10">
