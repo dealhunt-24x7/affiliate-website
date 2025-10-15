@@ -12,6 +12,7 @@ export default function AuthPage() {
   const [username, setUsername] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [localUser, setLocalUser] = useState<{ name: string; email?: string } | null>(null);
 
@@ -30,30 +31,45 @@ export default function AuthPage() {
 
   const handleCredentialsSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage("");
     setLoading(true);
+
     const res = await signIn("credentials", {
       redirect: false,
       email: emailOrUser,
       password,
     });
+
     setLoading(false);
+
     if (res?.error) {
-      alert(res.error);
-    } else {
+      // Wrong credentials or no such user
+      setErrorMessage(res.error || "Invalid credentials. Please try again.");
+      return;
+    }
+
+    if (res?.ok) {
+      // Only redirect if login successful
       window.location.href = "/";
+    } else {
+      setErrorMessage("Something went wrong. Please try again later.");
     }
   };
 
   const handleMockSignUp = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage("");
+
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setErrorMessage("Passwords do not match!");
       return;
     }
+
     const user = { name: username || emailOrUser, email: emailOrUser };
     localStorage.setItem("dealhuntUser", JSON.stringify(user));
     setLocalUser(user);
     alert("Signup successful (mock). Now you can Sign In or use a social login.");
+
     setTab("signin");
     setEmailOrUser("");
     setPassword("");
@@ -80,7 +96,7 @@ export default function AuthPage() {
           variants={cardVariants}
           className="relative bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2"
         >
-          {/* Left panel */}
+          {/* Left Panel */}
           <motion.div
             variants={slideVariant}
             custom={-1}
@@ -110,7 +126,7 @@ export default function AuthPage() {
             </p>
           </motion.div>
 
-          {/* Right panel */}
+          {/* Right Panel */}
           <motion.div variants={slideVariant} custom={1} className="p-8">
             <div className="max-w-md mx-auto">
               <div className="flex justify-center gap-4 mb-6">
@@ -151,6 +167,10 @@ export default function AuthPage() {
                     <div className="text-xs text-gray-400">or</div>
                     <div className="flex-1 h-px bg-gray-200" />
                   </div>
+
+                  {errorMessage && (
+                    <p className="text-center text-sm text-red-500 mb-3">{errorMessage}</p>
+                  )}
 
                   {tab === "signin" ? (
                     <motion.form
@@ -246,7 +266,8 @@ export default function AuthPage() {
                   )}
 
                   <div className="text-xs text-gray-400 text-center mt-4">
-                    By continuing you agree to our <a className="underline">Terms</a> and <a className="underline">Privacy Policy</a>.
+                    By continuing you agree to our <a className="underline">Terms</a> and{" "}
+                    <a className="underline">Privacy Policy</a>.
                   </div>
                 </>
               ) : (
