@@ -1,40 +1,17 @@
-"use client";
-
 import HeroBanner from "@/components/HeroBanner";
-import BannerAdSection from "@/components/BannerAdSection";
-import CategoryGrid from "@/components/CategoryGrid";
 import FeaturedDeals from "@/components/FeaturedDeals";
 import FeaturedProducts from "@/components/FeaturedProducts";
-import FAQSection from "@/components/FAQSection";
-import CartToHeartSection from "@/components/CartToHeartSection";
-import FloatingAIButtons from "@/components/FloatingAIButtons";
+import CategoryGrid from "@/components/CategoryGrid";
+import ModeToggle from "@/components/ModeToggle";
 
 export default function HomePage() {
   return (
-    <main className="space-y-12">
-      {/* Hero Banner */}
+    <div className="flex flex-col gap-10">
       <HeroBanner />
-
-      {/* Banner Ad Section */}
-      <BannerAdSection />
-
-      {/* Featured Deals */}
       <FeaturedDeals />
-
-      {/* Categories */}
-      <CategoryGrid />
-
-      {/* Cart to Heart Section */}
-      <CartToHeartSection />
-
-      {/* Featured Products */}
+      <ModeToggle />
       <FeaturedProducts />
-
-      {/* FAQ Section */}
-      <FAQSection />
-
-      {/* Floating AI Buttons */}
-      <FloatingAIButtons />
-    </main>
+      <CategoryGrid />
+    </div>
   );
 }
