@@ -11,3 +11,53 @@ html, body {
 a {
   @apply text-inherit no-underline;
 }
+
+/* 🌐 GENERAL MODE THEME FIXES */
+body.general-mode {
+  background: linear-gradient(to bottom, #ebf5ff, #ffffff);
+}
+
+/* Switch Button — blue theme for general mode */
+body.general-mode .mood-toggle {
+  border-color: #3b82f6 !important;
+}
+
+body.general-mode .mood-toggle .active-bg {
+  background: linear-gradient(to right, #2563eb, #1d4ed8) !important;
+}
+
+body.general-mode .mood-toggle span.active {
+  color: white !important;
+}
+body.general-mode .mood-toggle span.inactive {
+  color: #1e3a8a !important;
+}
+
+/* DealHunt brand text */
+body.general-mode h2,
+body.general-mode h1,
+body.general-mode .brand-text {
+  color: #1e3a8a !important;
+}
+
+/* Tagline */
+body.general-mode .tagline {
+  background: linear-gradient(to right, #3b82f6, #60a5fa) !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Buttons */
+body.general-mode .btn-primary {
+  background-color: #2563eb !important;
+  color: white !important;
+}
+body.general-mode .btn-primary:hover {
+  background-color: #1d4ed8 !important;
+}
+
+/* Floating AI Buttons */
+body.general-mode .floating-ai-btn {
+  background-color: #2563eb !important;
+  color: white !important;
+}
