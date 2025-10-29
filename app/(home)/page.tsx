@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HeroBanner from "@/components/HeroBanner";
-import HeroBannerGeneral from "@/components/HeroBannerGeneral"; // ✅ new hero for general
+import HeroBannerGeneral from "@/components/HeroBannerGeneral";
 import BannerAdSection from "@/components/BannerAdSection";
 import CategoryGrid from "@/components/CategoryGrid";
 import FeaturedDeals from "@/components/FeaturedDeals";
@@ -13,6 +13,15 @@ import MoodToggle from "@/components/MoodToggle";
 
 export default function HomePage() {
   const [mode, setMode] = useState<"luxury" | "general">("luxury");
+
+  // ✅ Add/remove class to body for general/luxury theme control
+  useEffect(() => {
+    if (mode === "general") {
+      document.body.classList.add("general-mode");
+    } else {
+      document.body.classList.remove("general-mode");
+    }
+  }, [mode]);
 
   return (
     <main
@@ -41,4 +50,4 @@ export default function HomePage() {
       <FloatingAIButtons />
     </main>
   );
-      }
+}
