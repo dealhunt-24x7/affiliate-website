@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import HeroBanner from "@/components/HeroBanner";
-import HeroBannerGeneral from "@/components/HeroBannerGeneral";
+import HeroBannerGeneral from "@/components/HeroBannerGeneral"; // ✅ new hero for general
 import BannerAdSection from "@/components/BannerAdSection";
 import CategoryGrid from "@/components/CategoryGrid";
 import FeaturedDeals from "@/components/FeaturedDeals";
@@ -14,14 +14,21 @@ import MoodToggle from "@/components/MoodToggle";
 export default function HomePage() {
   const [mode, setMode] = useState<"luxury" | "general">("luxury");
 
-  // ✅ Add/remove class to body for general/luxury theme control
+  // 🧭 Load saved mode from localStorage on mount
   useEffect(() => {
-    if (mode === "general") {
-      document.body.classList.add("general-mode");
-    } else {
-      document.body.classList.remove("general-mode");
+    const savedMode = localStorage.getItem("dealhunt-mode") as "luxury" | "general" | null;
+    if (savedMode) {
+      setMode(savedMode);
+      document.body.classList.toggle("general-mode", savedMode === "general");
     }
-  }, [mode]);
+  }, []);
+
+  // 💾 Save mode when user switches
+  const handleModeChange = (newMode: "luxury" | "general") => {
+    setMode(newMode);
+    localStorage.setItem("dealhunt-mode", newMode);
+    document.body.classList.toggle("general-mode", newMode === "general");
+  };
 
   return (
     <main
@@ -33,7 +40,7 @@ export default function HomePage() {
     >
       {/* 🟡 Mood Toggle */}
       <div className="flex justify-center w-full mt-4">
-        <MoodToggle onToggle={(newMode) => setMode(newMode as any)} />
+        <MoodToggle onToggle={handleModeChange} />
       </div>
 
       {/* 🎯 Dynamic Hero Section */}
