@@ -18,13 +18,21 @@ export default function MoodToggle({
     <div className="flex justify-center">
       <button
         onClick={toggleMode}
-        className="relative w-64 h-14 rounded-full border-2 border-yellow-400 overflow-hidden transition-all duration-500"
+        className={`relative w-64 h-14 rounded-full border-2 transition-all duration-500 overflow-hidden
+          ${
+            mode === "luxury"
+              ? "border-yellow-400"
+              : "border-blue-500"
+          }`}
       >
         {/* 🟢 Background slider */}
         <div
-          className={`absolute top-0 left-0 h-full w-1/2 rounded-full bg-gradient-to-r from-black to-red-700 transition-all duration-500
-            ${mode === "luxury" ? "translate-x-0" : "translate-x-full"}
-          `}
+          className={`absolute top-0 left-0 h-full w-1/2 rounded-full transition-all duration-500
+            ${
+              mode === "luxury"
+                ? "bg-gradient-to-r from-black to-red-700 translate-x-0"
+                : "bg-gradient-to-r from-blue-500 to-cyan-400 translate-x-full"
+            }`}
         ></div>
 
         {/* 🔤 Text */}
