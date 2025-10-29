@@ -27,18 +27,22 @@ export default function CategoryGrid() {
               href={`/products?category=${encodeURIComponent(cat.slug)}`}
               className="flex flex-col items-center text-center group cursor-pointer"
             >
-              <div className="relative group">
-  {/* 🔆 Golden aura background */}
-  <div className="absolute inset-0 rounded-full bg-yellow-400/30 blur-md scale-110 opacity-60 group-hover:opacity-90 transition-all duration-500"></div>
+              {/* wrapper with relative so Image fill works and golden aura sits behind */}
+              <div className="relative">
+                {/* Golden aura behind image */}
+                <div className="absolute inset-0 rounded-full bg-yellow-400/20 blur-md scale-110 opacity-60 group-hover:opacity-90 transition-all duration-500"></div>
 
-  <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-yellow-400/60 shadow-lg group-hover:shadow-[0_0_18px_rgba(255,215,0,0.7)] transition-all duration-300">
-    <Image
-      src={cat.image}
-      alt={cat.name}
-      fill
-      className="object-cover group-hover:scale-110 transition-transform duration-300"
-    />
-  </div>
+                <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-yellow-400/60 shadow-lg group-hover:shadow-[0_0_18px_rgba(255,215,0,0.7)] transition-all duration-300">
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    fill
+                    sizes="96px"
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+
               <span className="mt-3 text-sm font-medium text-gray-700 group-hover:text-yellow-600">
                 {cat.name}
               </span>
@@ -58,4 +62,4 @@ export default function CategoryGrid() {
       </div>
     </section>
   );
-                  }
+}
