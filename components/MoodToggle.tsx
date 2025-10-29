@@ -1,8 +1,7 @@
 "use client";
-
 import { useState } from "react";
 
-export default function MoodToggle({ onToggle }: { onToggle: (mode: string) => void }) {
+export default function MoodToggle({ onToggle }: { onToggle: (mode: "luxury" | "general") => void }) {
   const [mode, setMode] = useState<"luxury" | "general">("luxury");
 
   const toggleMode = () => {
@@ -12,36 +11,35 @@ export default function MoodToggle({ onToggle }: { onToggle: (mode: string) => v
   };
 
   return (
-    <div className="w-full flex justify-center py-4 bg-transparent">
-      <div
+    <div className="flex justify-center py-2">
+      <button
         onClick={toggleMode}
-        className={`relative flex items-center w-56 h-12 rounded-full p-1 cursor-pointer transition-all duration-500 backdrop-blur-md ${
+        className={`relative w-24 h-10 rounded-full transition-all duration-500 shadow-md border-2 ${
           mode === "luxury"
-            ? "bg-gradient-to-r from-yellow-400/70 to-yellow-600/70 shadow-[0_0_15px_rgba(255,215,0,0.4)]"
-            : "bg-gradient-to-r from-gray-300/70 to-gray-500/70 shadow-[0_0_15px_rgba(200,200,200,0.3)]"
+            ? "bg-black border-red-500"
+            : "bg-red-600 border-black"
         }`}
       >
-        <div
-          className={`absolute top-1 left-1 w-[calc(50%-4px)] h-10 rounded-full bg-white/30 backdrop-blur-md shadow-md transform transition-transform duration-500 ${
-            mode === "general" ? "translate-x-[calc(100%+4px)]" : ""
-          }`}
-        ></div>
-
         <span
-          className={`flex-1 text-center z-10 font-semibold transition-colors ${
-            mode === "luxury" ? "text-gray-900" : "text-white/80"
+          className={`absolute top-1 left-1 w-8 h-8 rounded-full bg-white shadow-md transform transition-transform duration-500 ${
+            mode === "luxury" ? "translate-x-0" : "translate-x-14"
           }`}
+        ></span>
+        <span
+          className={`absolute inset-0 flex items-center justify-center text-xs font-semibold text-white ${
+            mode === "luxury" ? "opacity-100" : "opacity-0"
+          } transition-opacity`}
         >
-          💎 Luxury
+          LUXURY
         </span>
         <span
-          className={`flex-1 text-center z-10 font-semibold transition-colors ${
-            mode === "general" ? "text-gray-900" : "text-white/80"
-          }`}
+          className={`absolute inset-0 flex items-center justify-center text-xs font-semibold text-white ${
+            mode === "general" ? "opacity-100" : "opacity-0"
+          } transition-opacity`}
         >
-          🛍️ General
+          GENERAL
         </span>
-      </div>
+      </button>
     </div>
   );
 }
