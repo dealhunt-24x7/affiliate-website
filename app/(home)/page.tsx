@@ -16,18 +16,22 @@ export default function HomePage() {
 
   // 🧭 Load saved mode from localStorage on mount
   useEffect(() => {
-    const savedMode = localStorage.getItem("dealhunt-mode") as "luxury" | "general" | null;
-    if (savedMode) {
-      setMode(savedMode);
-      document.body.classList.toggle("general-mode", savedMode === "general");
+    if (typeof window !== "undefined") {
+      const savedMode = localStorage.getItem("dealhunt-mode") as "luxury" | "general" | null;
+      if (savedMode) {
+        setMode(savedMode);
+        document.body.classList.toggle("general-mode", savedMode === "general");
+      }
     }
   }, []);
 
   // 💾 Save mode when user switches
   const handleModeChange = (newMode: "luxury" | "general") => {
     setMode(newMode);
-    localStorage.setItem("dealhunt-mode", newMode);
-    document.body.classList.toggle("general-mode", newMode === "general");
+    if (typeof window !== "undefined") {
+      localStorage.setItem("dealhunt-mode", newMode);
+      document.body.classList.toggle("general-mode", newMode === "general");
+    }
   };
 
   return (
