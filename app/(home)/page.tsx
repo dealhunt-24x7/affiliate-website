@@ -10,7 +10,6 @@ import FeaturedProducts from "@/components/FeaturedProducts";
 import CartToHeartSection from "@/components/CartToHeartSection";
 import FloatingAIButtons from "@/components/FloatingAIButtons";
 import MoodToggle from "@/components/MoodToggle";
-import Footer from "@/components/Footer";
 
 export default function HomePage() {
   const [mode, setMode] = useState<"luxury" | "general">("luxury");
