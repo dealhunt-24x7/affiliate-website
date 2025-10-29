@@ -15,8 +15,10 @@ export default function HomePage() {
 
   return (
     <main className="space-y-12">
-      {/* 🟡 Mood Toggle */}
-      <MoodToggle onToggle={(newMode) => setMode(newMode as any)} />
+      {/* 🟢 Mood Toggle - Now placed cleanly at the top center */}
+      <div className="w-full flex justify-center mt-4">
+        <MoodToggle onToggle={(newMode) => setMode(newMode as any)} />
+      </div>
 
       {/* Hero Banner */}
       <HeroBanner />
@@ -27,13 +29,13 @@ export default function HomePage() {
       {/* Featured Deals */}
       <FeaturedDeals />
 
-      {/* Shop by Category (now above Featured Products) */}
+      {/* Shop by Category (above Featured Products) */}
       <CategoryGrid />
 
       {/* Cart to Heart Section */}
       <CartToHeartSection />
 
-      {/* Featured Products (infinite scroll + mood switch) */}
+      {/* Featured Products (depends on mode) */}
       <FeaturedProducts mode={mode} />
 
       {/* Floating AI Buttons */}
