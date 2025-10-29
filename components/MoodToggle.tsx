@@ -1,7 +1,8 @@
 "use client";
+
 import { useState } from "react";
 
-export default function MoodToggle({ onToggle }: { onToggle: (mode: "luxury" | "general") => void }) {
+export default function MoodToggle({ onToggle }: { onToggle: (mode: string) => void }) {
   const [mode, setMode] = useState<"luxury" | "general">("luxury");
 
   const toggleMode = () => {
@@ -11,33 +12,15 @@ export default function MoodToggle({ onToggle }: { onToggle: (mode: "luxury" | "
   };
 
   return (
-    <div className="flex justify-center py-2">
+    <div className="flex justify-center">
       <button
         onClick={toggleMode}
-        className={`relative w-24 h-10 rounded-full transition-all duration-500 shadow-md border-2 ${
-          mode === "luxury"
-            ? "bg-black border-red-500"
-            : "bg-red-600 border-black"
-        }`}
+        className={`relative w-60 h-14 rounded-full border-2 border-yellow-400 text-lg font-semibold transition-all duration-500
+          ${mode === "luxury" ? "bg-gradient-to-r from-black to-red-700 text-white" : "bg-gradient-to-r from-gray-200 to-white text-gray-800"}
+        `}
       >
-        <span
-          className={`absolute top-1 left-1 w-8 h-8 rounded-full bg-white shadow-md transform transition-transform duration-500 ${
-            mode === "luxury" ? "translate-x-0" : "translate-x-14"
-          }`}
-        ></span>
-        <span
-          className={`absolute inset-0 flex items-center justify-center text-xs font-semibold text-white ${
-            mode === "luxury" ? "opacity-100" : "opacity-0"
-          } transition-opacity`}
-        >
-          LUXURY
-        </span>
-        <span
-          className={`absolute inset-0 flex items-center justify-center text-xs font-semibold text-white ${
-            mode === "general" ? "opacity-100" : "opacity-0"
-          } transition-opacity`}
-        >
-          GENERAL
+        <span className="absolute inset-0 flex items-center justify-center font-semibold tracking-wide">
+          {mode === "luxury" ? "Luxury Mood" : "General Mood"}
         </span>
       </button>
     </div>
