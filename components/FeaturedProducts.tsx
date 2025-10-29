@@ -48,18 +48,20 @@ export default function FeaturedProducts({ mode }: { mode: "luxury" | "general" 
       className={`py-10 transition-all duration-700 ${
         mode === "luxury"
           ? "bg-gradient-to-b from-[#fff8e1] to-[#fff] backdrop-blur-md"
-          : "bg-gradient-to-b from-gray-50 to-white"
+          : "bg-gradient-to-b from-blue-50 to-white"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4">
+        {/* ✅ Fixed Heading */}
         <h2
           className={`text-2xl font-bold mb-6 text-center ${
-            mode === "luxury" ? "text-yellow-700" : "text-gray-800"
+            mode === "luxury" ? "text-yellow-700" : "text-blue-800"
           }`}
         >
-          {mode === "luxury" ? "✨ Luxury Deals" : "🛒 General Items"}
+          {mode === "luxury" ? "✨ Luxury Deals" : "🛒 General Deals"}
         </h2>
 
+        {/* Product Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {products.slice(0, visibleCount).map((prod, index) => (
             <div
@@ -93,10 +95,10 @@ export default function FeaturedProducts({ mode }: { mode: "luxury" | "general" 
           ))}
         </div>
 
+        {/* Infinite Scroll Trigger */}
         <div ref={observerRef} className="h-10"></div>
       </div>
 
-      {/* Fade-in Keyframes */}
       <style jsx>{`
         @keyframes fadeIn {
           from {
@@ -111,4 +113,4 @@ export default function FeaturedProducts({ mode }: { mode: "luxury" | "general" 
       `}</style>
     </section>
   );
-  }
+}
