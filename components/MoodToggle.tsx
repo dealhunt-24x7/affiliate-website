@@ -1,18 +1,16 @@
 "use client";
 
-import { useState } from "react";
+type Mode = "luxury" | "general";
 
 export default function MoodToggle({
+  mode,
   onToggle,
 }: {
-  onToggle: (mode: "luxury" | "general") => void;
+  mode: Mode;
+  onToggle: (mode: Mode) => void;
 }) {
-  const [mode, setMode] = useState<"luxury" | "general">("luxury");
-
   const toggleMode = () => {
-    const newMode: "luxury" | "general" =
-      mode === "luxury" ? "general" : "luxury";
-    setMode(newMode);
+    const newMode: Mode = mode === "luxury" ? "general" : "luxury";
     onToggle(newMode);
   };
 
@@ -22,14 +20,14 @@ export default function MoodToggle({
         onClick={toggleMode}
         className="relative w-64 h-14 rounded-full border-2 border-yellow-400 overflow-hidden transition-all duration-500"
       >
-        {/* 🟡 Background slider */}
+        {/* 🟢 Background slider */}
         <div
           className={`absolute top-0 left-0 h-full w-1/2 rounded-full bg-gradient-to-r from-black to-red-700 transition-all duration-500
             ${mode === "luxury" ? "translate-x-0" : "translate-x-full"}
           `}
         ></div>
 
-        {/* 🔤 Text layers */}
+        {/* 🔤 Text */}
         <div className="absolute inset-0 flex text-lg font-semibold">
           <span
             className={`w-1/2 flex items-center justify-center transition-all duration-500 ${
@@ -49,4 +47,4 @@ export default function MoodToggle({
       </button>
     </div>
   );
-              }
+}
