@@ -1,48 +1,57 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 
-export default function MoodToggle() {
-  const [luxuryMode, setLuxuryMode] = useState(true);
+const categories = [
+  { name: "Watches", slug: "watches", image: "/images/categories/watches.jpg" },
+  { name: "Perfumes", slug: "perfumes", image: "/images/categories/perfumes.jpg" },
+  { name: "Jewelry", slug: "jewelry", image: "/images/categories/jewelry.jpg" },
+  { name: "Bags", slug: "bags", image: "/images/categories/bags.jpg" },
+  { name: "Sunglasses", slug: "sunglasses", image: "/images/categories/sunglasses.jpg" },
+  { name: "Footwear", slug: "footwear", image: "/images/categories/footwear.jpg" },
+];
 
+export default function CategoryGrid() {
   return (
-    <div className="flex justify-center items-center mt-8">
-      <button
-        onClick={() => setLuxuryMode(!luxuryMode)}
-        className={`relative w-56 h-16 flex items-center justify-between px-6 rounded-full border-2 
-        ${luxuryMode
-          ? "border-red-600 bg-gradient-to-r from-black to-red-800"
-          : "border-black bg-gradient-to-r from-gray-200 to-gray-400"}
-        shadow-[0_0_20px_rgba(255,0,0,0.4)] backdrop-blur-md transition-all duration-500`}
-      >
-        <span
-          className={`z-10 font-semibold text-base transition-colors duration-300 ${
-            luxuryMode ? "text-gray-300" : "text-gray-700"
-          }`}
-        >
-          General
-        </span>
+    <section className="py-12 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-10">
+          Shop by Category
+        </h2>
 
-        <span
-          className={`z-10 font-semibold text-base transition-colors duration-300 ${
-            luxuryMode ? "text-red-300" : "text-black"
-          }`}
-        >
-          Luxury
-        </span>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
+          {categories.map((cat) => (
+            <Link
+              key={cat.slug}
+              href={`/products?category=${encodeURIComponent(cat.slug)}`}
+              className="flex flex-col items-center text-center group cursor-pointer"
+            >
+              <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-yellow-400/60 shadow-lg group-hover:shadow-[0_0_18px_rgba(255,215,0,0.7)] transition-all duration-300">
+                <Image
+                  src={cat.image}
+                  alt={cat.name}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+              <span className="mt-3 text-sm font-medium text-gray-700 group-hover:text-yellow-600">
+                {cat.name}
+              </span>
+            </Link>
+          ))}
+        </div>
 
-        {/* Sliding Circle */}
-        <motion.div
-          layout
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          className={`absolute top-1 left-1 w-[calc(50%-6px)] h-[calc(100%-8px)] rounded-full shadow-lg ${
-            luxuryMode
-              ? "translate-x-[calc(100%+4px)] bg-gradient-to-r from-red-500 to-red-700"
-              : "translate-x-0 bg-gradient-to-r from-gray-300 to-gray-500"
-          }`}
-        ></motion.div>
-      </button>
-    </div>
+        {/* ✅ Fixed “See All Categories” button */}
+        <div className="text-center mt-8">
+          <Link
+            href="/categories"
+            className="inline-block px-6 py-2 rounded-full bg-yellow-500 text-white font-semibold hover:bg-yellow-600 transition"
+          >
+            See All Categories
+          </Link>
+        </div>
+      </div>
+    </section>
   );
-}
+                  }
