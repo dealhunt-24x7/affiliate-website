@@ -39,9 +39,6 @@ export default function HomePage() {
       <FeaturedProducts mode={mode} />
 
       <FloatingAIButtons />
-
-      {/* 🧭 Updated Footer */}
-      <Footer />
     </main>
   );
-}
+      }
