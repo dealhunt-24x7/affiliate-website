@@ -14,9 +14,9 @@ export default function HomePage() {
   const [mode, setMode] = useState<"luxury" | "general">("luxury");
 
   return (
-    <main className="space-y-12">
-      {/* 🟡 Mood Toggle — moved above Hero Section */}
-      <div className="flex justify-center mt-4">
+    <main className="space-y-12 relative">
+      {/* 🟡 Mood Toggle — fix: place on top center only once */}
+      <div className="flex justify-center w-full mt-4">
         <MoodToggle onToggle={(newMode) => setMode(newMode as any)} />
       </div>
 
@@ -29,16 +29,16 @@ export default function HomePage() {
       {/* Featured Deals */}
       <FeaturedDeals />
 
-      {/* Shop by Category */}
+      {/* 🛍️ Shop by Category — fix: visible + gold glow */}
       <CategoryGrid />
 
-      {/* Cart to Heart Section */}
+      {/* ❤️ Cart to Heart Section */}
       <CartToHeartSection />
 
-      {/* Featured Products (infinite scroll + mood switch) */}
+      {/* 🌟 Featured Products — infinite scroll */}
       <FeaturedProducts mode={mode} />
 
-      {/* Floating AI Buttons */}
+      {/* 🤖 Floating AI Buttons */}
       <FloatingAIButtons />
     </main>
   );
