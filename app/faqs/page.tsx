@@ -1,125 +1,104 @@
+// /app/faqs/page.tsx
 "use client";
 
-import { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { faqs, categories } from "@/data/faqs";
+import FAQSearch from "@/components/FAQSearch";
+import FAQCategoryTabs from "@/components/FAQCategoryTabs";
+import FAQList from "@/components/FAQList";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 
-type FAQItem = { q: string; a: string };
-type FAQCategories = Record<string, FAQItem[]>;
+// JSON-LD generator for top questions (server-friendly string)
+function buildFaqJsonLd(topItems: { q: string; a: string }[]) {
+  const mainEntity = topItems.map((t) => ({
+    "@type": "Question",
+    "name": t.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": t.a,
+    },
+  }));
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity,
+  };
+}
 
 export default function FAQPage() {
-  const allFaqs: FAQCategories = {
-    General: [
-      { q: "How do I buy a deal?", a: "Click on the deal and follow the link to purchase." },
-      { q: "Are these deals real?", a: "Yes, we only show verified affiliate deals." },
-      { q: "How often are deals updated?", a: "We update our deals daily." },
-    ],
-    Orders: [
-      { q: "Can I return a product?", a: "Return policies depend on the merchant site." },
-      { q: "Do I earn cashback?", a: "Some deals provide cashback via our affiliate programs." },
-      { q: "Where can I track my order?", a: "You can track it directly on the merchant's website." },
-    ],
-    Account: [
-      { q: "How do I create an account?", a: "Click on 'Sign Up' and fill in your details to create an account." },
-      { q: "How do I change my password?", a: "Go to Settings → Security → Change Password." },
-      { q: "Can I delete my account?", a: "Yes, contact support and we’ll help you remove your account." },
-    ],
-  };
-
-  const categories = Object.keys(allFaqs);
-  const [activeCategory, setActiveCategory] = useState<string>("General");
+  const cats = categories;
+  const [active, setActive] = useState<string>(cats[0] || "General");
   const [search, setSearch] = useState("");
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const debouncedSearch = useDebouncedValue(search, 250);
 
-  const filteredFaqs = allFaqs[activeCategory].filter((faq) =>
-    faq.q.toLowerCase().includes(search.toLowerCase())
-  );
+  // filtered list memoized
+  const filtered = useMemo(() => {
+    const list = faqs[active] || [];
+    if (!debouncedSearch.trim()) return list;
+    const s = debouncedSearch.toLowerCase();
+    return list.filter((f) => f.q.toLowerCase().includes(s) || f.a.toLowerCase().includes(s));
+  }, [active, debouncedSearch]);
+
+  // prepare JSON-LD for top 12 items across active category
+  const topForSchema = useMemo(() => {
+    return filtered.slice(0, 12).map((f) => ({ q: f.q, a: f.a }));
+  }, [filtered]);
+
+  const jsonLd = JSON.stringify(buildFaqJsonLd(topForSchema));
 
   return (
-    <main className="max-w-5xl mx-auto px-6 py-12">
-      {/* 🔙 Back Button */}
-      <Link
-        href="/"
-        className="inline-block mb-6 text-yellow-600 font-medium hover:underline"
-      >
-        ← Back to Home
-      </Link>
+    <main className="max-w-6xl mx-auto px-4 py-12">
+      <head>
+        <title>DealHunt — FAQ</title>
+        <meta name="description" content="Frequently asked questions about DealHunt — products, wallet, account, affiliate program and Cart to Heart." />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
+      </head>
 
-      <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
-        🧠 Frequently Asked Questions
-      </h1>
-
-      {/* 🔍 Search Bar */}
-      <div className="flex justify-center mb-8">
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search for an answer..."
-          className="w-full md:w-2/3 px-4 py-3 rounded-full border focus:ring-2 focus:ring-yellow-400 outline-none shadow-sm"
-        />
+      <div className="mb-6">
+        <Link href="/" className="text-yellow-600 font-medium hover:underline">← Back to Home</Link>
       </div>
 
-      {/* 🏷️ Category Tabs */}
-      <div className="flex flex-wrap justify-center gap-3 mb-10">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => {
-              setActiveCategory(cat);
-              setSearch("");
-              setOpenIndex(null);
-            }}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-              activeCategory === cat
-                ? "bg-yellow-500 text-white shadow-md"
-                : "bg-gray-100 hover:bg-yellow-100 text-gray-700"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
+      <h1 className="text-4xl font-bold text-gray-800 mb-6 text-center">DealHunt FAQ Hub</h1>
+
+      <section className="bg-white rounded-2xl p-6 mb-8 shadow">
+        <h2 className="text-2xl font-semibold mb-2">Welcome to DealHunt Help</h2>
+        <p className="text-gray-700 leading-relaxed">
+          This hub answers questions about product categories (luxury and general), how our affiliate system works, wallet & cashback, account & login,
+          the Cart to Heart program, and partnerships. Use the search or choose a category to get started. If you can't find an answer, contact
+          us through <Link href="/support" className="text-yellow-600 underline">Support</Link>.
+        </p>
+      </section>
+
+      <div className="flex justify-center mb-6">
+        <FAQSearch value={search} onChange={setSearch} placeholder="Search FAQs (e.g. 'cashback', 'refund', 'warranty')"/>
       </div>
 
-      {/* 💬 FAQ List */}
-      <div className="space-y-4">
-        {filteredFaqs.length > 0 ? (
-          filteredFaqs.map((faq, index) => (
-            <div
-              key={index}
-              className="bg-white p-5 rounded-2xl shadow-md border border-gray-100 transition hover:shadow-lg"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full flex justify-between items-center font-semibold text-left text-gray-800"
-              >
-                <span>{faq.q}</span>
-                <span className="text-yellow-500 text-xl">
-                  {openIndex === index ? "−" : "+"}
-                </span>
-              </button>
+      <FAQCategoryTabs categories={cats} active={active} onChange={(c) => { setActive(c); setSearch(""); }} />
 
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.p
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="mt-3 text-gray-600 leading-relaxed"
-                  >
-                    {faq.a}
-                  </motion.p>
-                )}
-              </AnimatePresence>
-            </div>
-          ))
-        ) : (
-          <p className="text-center text-gray-500 mt-6">
-            No matching results found.
-          </p>
-        )}
+      <div className="mb-6">
+        <div className="bg-white rounded-xl p-4 shadow-sm">
+          <h3 className="text-lg font-semibold">{active}</h3>
+          <p className="text-gray-600 mt-2">{{
+            "General": "DealHunt curates deals across categories. Use this section to understand how we work and how to get the most value.",
+            "Orders & Products": "Important details about products, authenticity, logistics and merchant-specific policies.",
+            "Cashback & Wallet": "How cashback & wallet works — when you'll see rewards, withdrawal rules and effects of returns.",
+            "Account & Login": "Account FAQs: sign-in (Google-only), profile, privacy and session guidance.",
+            "Cart to Heart": "Cart to Heart is our social initiative — learn more about the mission and how to participate.",
+            "Affiliate & Partners": "Info for merchants and publishers about our affiliate model and partnerships.",
+          }[active]}</p>
+        </div>
+      </div>
+
+      <div>
+        <FAQList items={filtered} searchTerm={debouncedSearch} />
+      </div>
+
+      <div className="mt-10 text-sm text-gray-500">
+        <p>
+          Note: Prices, stock and shipping details are provided by merchants. DealHunt links you to merchant pages and provides tools to discover deals.
+        </p>
       </div>
     </main>
   );
-                                 }
+}
