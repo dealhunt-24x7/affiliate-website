@@ -5,29 +5,30 @@ import Link from "next/link";
 const faqs = [
   { id: 1, question: "How do I buy a deal?", answer: "Click on the deal and follow the link to purchase." },
   { id: 2, question: "Are these deals real?", answer: "Yes, we only show verified affiliate deals." },
-  { id: 3, question: "Can I return a product?", answer: "Return policies depend on the merchant site." },
+  { id: 3, question: "Do I earn cashback?", answer: "Some deals provide cashback via our affiliate programs." },
 ];
 
 export default function FAQSection() {
   return (
-    <section className="max-w-5xl mx-auto px-4 py-10">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">FAQs</h2>
+    <section className="max-w-6xl mx-auto px-6 py-12 text-center">
+      <h2 className="text-3xl font-bold text-gray-800 mb-8">💬 FAQs</h2>
 
-      {/* Show only first 3 FAQs */}
-      <div className="space-y-4">
+      <div className="grid gap-6 md:grid-cols-3">
         {faqs.map((faq) => (
-          <div key={faq.id} className="bg-white p-4 rounded-xl shadow">
-            <h3 className="font-semibold">{faq.question}</h3>
-            <p className="mt-1 text-gray-600">{faq.answer}</p>
+          <div
+            key={faq.id}
+            className="bg-white p-6 rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition"
+          >
+            <h3 className="font-semibold text-gray-800">{faq.question}</h3>
+            <p className="mt-2 text-gray-600 text-sm">{faq.answer}</p>
           </div>
         ))}
       </div>
 
-      {/* ✅ View All FAQs Button */}
-      <div className="text-center mt-6">
+      <div className="mt-8">
         <Link
           href="/faqs"
-          className="inline-block text-yellow-500 font-semibold hover:underline"
+          className="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full font-semibold shadow-lg transition"
         >
           View All FAQs
         </Link>
