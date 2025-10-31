@@ -8,6 +8,7 @@ export default function SettingsPage() {
     localStorage.removeItem("affiliateCart");
     alert("Cart cleared");
   };
+
   const clearWishlist = () => {
     localStorage.removeItem("affiliateWishlist");
     alert("Wishlist cleared");
