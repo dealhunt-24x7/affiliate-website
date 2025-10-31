@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -17,6 +17,7 @@
     "lucide-react": "^0.462.0",
     "next-auth": "^4.24.12",
     "bcryptjs": "^2.4.3",
+    "@prisma/client": "^5.10.0",
     "mongoose": "^7.6.3",
     "nodemailer": "^7.0.7"
   },
@@ -28,6 +29,7 @@
     "eslint-config-next": "14.2.5",
     "tailwindcss": "^3.4.1",
     "postcss": "^8.4.31",
-    "autoprefixer": "^10.4.16"
+    "autoprefixer": "^10.4.16",
+    "prisma": "^5.10.0"
   }
 }
