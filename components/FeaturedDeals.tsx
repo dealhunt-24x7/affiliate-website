@@ -13,7 +13,6 @@ const deals = [
 export default function FeaturedDeals() {
   const [current, setCurrent] = useState(0);
 
-  // ✅ Auto-slide effect
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % deals.length);
@@ -22,52 +21,56 @@ export default function FeaturedDeals() {
   }, []);
 
   return (
-    <section className="w-full bg-gradient-to-b from-gray-50 to-white py-10">
+    <section className="w-full bg-gradient-to-b from-gray-50 to-white py-8">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Featured Deals</h2>
-
-          {/* ✅ Link to Deals Page */}
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+            Featured Deals
+          </h2>
           <Link
             href="/deals"
-            className="text-yellow-600 font-semibold hover:underline hover:text-yellow-700 transition-colors"
+            className="text-yellow-600 font-semibold hover:underline"
           >
-            View More Deals
+            View All
           </Link>
         </div>
 
         {/* Carousel */}
         <div className="relative w-full overflow-hidden rounded-2xl shadow-md bg-white">
-          <div className="relative h-64">
+          <div className="relative h-56 sm:h-64">
             {deals.map((deal, index) => (
               <div
                 key={deal.id}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                className={`absolute inset-0 transition-opacity duration-700 ${
                   index === current ? "opacity-100 z-10" : "opacity-0 z-0"
                 }`}
               >
                 <img
                   src={deal.image}
                   alt={deal.title}
-                  className="w-full h-64 object-cover rounded-t-2xl"
+                  className="w-full h-full object-cover"
                 />
-                <div className="p-4 text-center bg-white/90 rounded-b-2xl">
-                  <h3 className="font-semibold text-lg text-gray-800">{deal.title}</h3>
-                  <p className="text-yellow-600 font-bold">{deal.price}</p>
+                <div className="absolute bottom-0 w-full bg-white/80 text-center py-2 rounded-b-2xl">
+                  <h3 className="font-semibold text-gray-800 text-sm sm:text-base">
+                    {deal.title}
+                  </h3>
+                  <p className="text-yellow-600 font-bold text-sm sm:text-base">
+                    {deal.price}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* ✅ Indicator dots */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          {/* Dots */}
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
             {deals.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrent(index)}
-                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                  index === current ? "bg-yellow-500 scale-125" : "bg-gray-300"
+                className={`w-2.5 h-2.5 rounded-full ${
+                  index === current ? "bg-yellow-500" : "bg-gray-300"
                 }`}
               ></button>
             ))}
