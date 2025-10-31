@@ -289,7 +289,7 @@ export default function Navbar() {
                 Settings
               </button>
               <div
-                onClick={() => alert("Coming Soon")}
+                onClick={() => handleNavigate("/cart-to-heart-coming-soon")}
                 className="p-3 bg-gradient-to-r from-yellow-100 via-orange-100 to-pink-100 rounded-xl shadow-md text-yellow-700 text-center font-bold cursor-pointer hover:scale-[1.02] transition"
               >
                 ❤️ Join Cart to Heart
@@ -300,4 +300,4 @@ export default function Navbar() {
       )}
     </header>
   );
-  }
+    }
