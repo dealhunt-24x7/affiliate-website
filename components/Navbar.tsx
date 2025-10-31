@@ -81,14 +81,6 @@ export default function Navbar() {
     recognition.start();
   };
 
-  const scrollToSection = (id: string) => {
-    setDrawerOpen(false);
-    setTimeout(() => {
-      const section = document.getElementById(id);
-      if (section) section.scrollIntoView({ behavior: "smooth" });
-    }, 300);
-  };
-
   const handleNavigate = (href: string) => {
     setDrawerOpen(false);
     setTimeout(() => {
@@ -98,7 +90,6 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
-      {/* Hidden file input */}
       <input
         type="file"
         accept="image/*"
@@ -143,7 +134,7 @@ export default function Navbar() {
                 </ul>
               )}
 
-              {/* Designed buttons */}
+              {/* Styled buttons */}
               <div className="absolute inset-y-0 right-3 flex items-center gap-2">
                 <button
                   onClick={handleCameraClick}
@@ -221,11 +212,9 @@ export default function Navbar() {
             <button
               onClick={handleCameraClick}
               className="p-2 bg-white hover:bg-yellow-100 shadow-md rounded-full text-gray-600 hover:text-yellow-500 transition transform hover:scale-110"
-              title="Search by image"
             >
               <FiCamera className="w-5 h-5" />
             </button>
-
             <button
               onClick={handleMicClick}
               className={`p-2 bg-white shadow-md rounded-full transition transform hover:scale-110 ${
@@ -233,16 +222,13 @@ export default function Navbar() {
                   ? "text-red-500 animate-pulse"
                   : "text-gray-600 hover:text-yellow-500"
               }`}
-              title="Search by voice"
             >
               <FiMic className="w-5 h-5" />
             </button>
-
             {searchQuery && (
               <button
                 onClick={() => handleSelect(searchQuery)}
                 className="p-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full shadow-md transition transform hover:scale-110"
-                title="Search"
               >
                 <FiSearch className="w-5 h-5" />
               </button>
@@ -285,12 +271,6 @@ export default function Navbar() {
                 Products
               </button>
               <button
-                onClick={() => handleNavigate("/filter")}
-                className="text-yellow-500 font-semibold text-left"
-              >
-                Filter
-              </button>
-              <button
                 onClick={() => handleNavigate("/refer")}
                 className="text-yellow-500 font-semibold text-left"
               >
@@ -309,10 +289,10 @@ export default function Navbar() {
                 Settings
               </button>
               <div
-                onClick={() => scrollToSection("cart-to-heart")}
+                onClick={() => alert("Coming Soon")}
                 className="p-3 bg-gradient-to-r from-yellow-100 via-orange-100 to-pink-100 rounded-xl shadow-md text-yellow-700 text-center font-bold cursor-pointer hover:scale-[1.02] transition"
               >
-                ❤️ Join Cart to Heart Program
+                ❤️ Join Cart to Heart
               </div>
             </nav>
           </aside>
@@ -320,4 +300,4 @@ export default function Navbar() {
       )}
     </header>
   );
-    }
+  }
