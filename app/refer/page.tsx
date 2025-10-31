@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function ReferPage() {
   return (
     <main className="max-w-4xl mx-auto py-10 px-4">
@@ -7,10 +5,14 @@ export default function ReferPage() {
       <p className="mt-4 text-gray-600">
         Invite friends and earn exciting rewards when they shop.
       </p>
+
       <div className="mt-8">
-        <Link href="/" className="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md">
+        <a
+          href="/"
+          className="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
+        >
           Back to Home
-        </Link>
+        </a>
       </div>
     </main>
   );
