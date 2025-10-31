@@ -5,7 +5,7 @@ import { FiCamera } from "react-icons/fi";
 
 export default function FloatingAIButtons() {
   const [speaking, setSpeaking] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef(null);
 
   const handleVoice = () => {
     setSpeaking(true);
@@ -15,18 +15,20 @@ export default function FloatingAIButtons() {
   };
 
   const handleCamera = () => {
-    // Trigger hidden file input
-    fileInputRef.current?.click();
+    // Trigger hidden file input (opens gallery/camera)
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     console.log("Selected file:", file);
-    // aap yahan file ko search / AI detect ke liye pass kar sakte ho
     alert(`Selected file: ${file.name}`);
-    // reset input
+
+    // Reset input for next selection
     e.target.value = "";
   };
 
@@ -58,4 +60,4 @@ export default function FloatingAIButtons() {
       </div>
     </>
   );
-    }
+        }
