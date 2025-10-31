@@ -13,8 +13,26 @@ export default function FloatingAIButtons() {
     window.speechSynthesis.speak(speech);
   };
 
-  const handleCamera = () => {
-    alert("Open camera or upload image to detect product (demo).");
+  const handleCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      // Camera stream open hua, ab aap modal me ya video element me dikha sakte ho
+      const video = document.createElement("video");
+      video.srcObject = stream;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.className = "fixed top-1/2 left-1/2 w-80 h-60 -translate-x-1/2 -translate-y-1/2 z-50 border-4 border-white rounded-lg shadow-lg";
+      document.body.appendChild(video);
+
+      // Optional: click on video to close camera
+      video.onclick = () => {
+        stream.getTracks().forEach(track => track.stop());
+        video.remove();
+      };
+    } catch (err) {
+      console.error(err);
+      alert("Camera access denied or not supported on this device.");
+    }
   };
 
   return (
