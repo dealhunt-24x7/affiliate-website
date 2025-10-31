@@ -15,7 +15,6 @@ export default function FloatingAIButtons() {
   };
 
   const handleCamera = () => {
-    // Trigger hidden file input (opens gallery/camera)
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -24,12 +23,9 @@ export default function FloatingAIButtons() {
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     console.log("Selected file:", file);
     alert(`Selected file: ${file.name}`);
-
-    // Reset input for next selection
-    e.target.value = "";
+    e.target.value = ""; // reset input
   };
 
   return (
@@ -38,7 +34,6 @@ export default function FloatingAIButtons() {
       <input
         type="file"
         accept="image/*"
-        capture="environment"
         ref={fileInputRef}
         onChange={handleFileChange}
         className="hidden"
@@ -60,4 +55,4 @@ export default function FloatingAIButtons() {
       </div>
     </>
   );
-        }
+      }
