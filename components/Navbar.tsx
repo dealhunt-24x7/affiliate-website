@@ -26,12 +26,12 @@ export default function Navbar() {
   const router = useRouter();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState([]);
   const [listening, setListening] = useState(false);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const value = e.target.value;
     setSearchQuery(value);
     if (value.trim().length > 0) {
@@ -44,7 +44,7 @@ export default function Navbar() {
     }
   };
 
-  const handleSelect = (item: string) => {
+  const handleSelect = (item) => {
     setSearchQuery(item);
     setSuggestions([]);
     setDrawerOpen(false);
@@ -53,7 +53,7 @@ export default function Navbar() {
 
   const handleCameraClick = () => fileInputRef.current?.click();
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (e) => {
     if (e.target.files?.[0]) {
       alert(`📷 Image selected: ${e.target.files[0].name}`);
     }
@@ -61,7 +61,7 @@ export default function Navbar() {
 
   const handleMicClick = () => {
     const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       alert("Voice recognition not supported");
       return;
@@ -73,7 +73,7 @@ export default function Navbar() {
 
     setListening(true);
 
-    recognition.onresult = (e: any) => {
+    recognition.onresult = (e) => {
       setSearchQuery(e.results[0][0].transcript);
       setListening(false);
     };
@@ -81,7 +81,7 @@ export default function Navbar() {
     recognition.start();
   };
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = (id) => {
     setDrawerOpen(false);
     setTimeout(() => {
       const section = document.getElementById(id);
@@ -89,7 +89,7 @@ export default function Navbar() {
     }, 300);
   };
 
-  const handleNavigate = (href: string) => {
+  const handleNavigate = (href) => {
     setDrawerOpen(false);
     setTimeout(() => {
       router.push(href);
@@ -127,7 +127,7 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={handleChange}
                 placeholder="Search products..."
-                className="w-full px-4 pr-20 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
+                className="w-full px-4 pr-28 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
               />
               {suggestions.length > 0 && (
                 <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
@@ -142,19 +142,37 @@ export default function Navbar() {
                   ))}
                 </ul>
               )}
-              <div className="absolute inset-y-0 right-3 flex items-center gap-3 text-gray-400">
-                <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
-                <FiMic
+
+              {/* Designed buttons */}
+              <div className="absolute inset-y-0 right-3 flex items-center gap-2">
+                <button
+                  onClick={handleCameraClick}
+                  className="p-2 bg-white hover:bg-yellow-100 shadow-md rounded-full text-gray-600 hover:text-yellow-500 transition transform hover:scale-110"
+                  title="Search by image"
+                >
+                  <FiCamera className="w-5 h-5" />
+                </button>
+
+                <button
                   onClick={handleMicClick}
-                  className={`cursor-pointer ${
-                    listening ? "text-red-500 animate-pulse" : "text-gray-400"
+                  className={`p-2 bg-white shadow-md rounded-full transition transform hover:scale-110 ${
+                    listening
+                      ? "text-red-500 animate-pulse"
+                      : "text-gray-600 hover:text-yellow-500"
                   }`}
-                />
+                  title="Search by voice"
+                >
+                  <FiMic className="w-5 h-5" />
+                </button>
+
                 {searchQuery && (
-                  <FiSearch
+                  <button
                     onClick={() => handleSelect(searchQuery)}
-                    className="cursor-pointer"
-                  />
+                    className="p-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full shadow-md transition transform hover:scale-110"
+                    title="Search"
+                  >
+                    <FiSearch className="w-5 h-5" />
+                  </button>
                 )}
               </div>
             </div>
@@ -184,7 +202,7 @@ export default function Navbar() {
             value={searchQuery}
             onChange={handleChange}
             placeholder="Search products..."
-            className="w-full px-4 pr-20 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm bg-white"
+            className="w-full px-4 pr-28 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm bg-white"
           />
           {suggestions.length > 0 && (
             <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
@@ -199,19 +217,35 @@ export default function Navbar() {
               ))}
             </ul>
           )}
-          <div className="absolute inset-y-0 right-3 flex items-center gap-3 text-gray-400">
-            <FiCamera onClick={handleCameraClick} className="cursor-pointer" />
-            <FiMic
+          <div className="absolute inset-y-0 right-3 flex items-center gap-2">
+            <button
+              onClick={handleCameraClick}
+              className="p-2 bg-white hover:bg-yellow-100 shadow-md rounded-full text-gray-600 hover:text-yellow-500 transition transform hover:scale-110"
+              title="Search by image"
+            >
+              <FiCamera className="w-5 h-5" />
+            </button>
+
+            <button
               onClick={handleMicClick}
-              className={`cursor-pointer ${
-                listening ? "text-red-500 animate-pulse" : "text-gray-400"
+              className={`p-2 bg-white shadow-md rounded-full transition transform hover:scale-110 ${
+                listening
+                  ? "text-red-500 animate-pulse"
+                  : "text-gray-600 hover:text-yellow-500"
               }`}
-            />
+              title="Search by voice"
+            >
+              <FiMic className="w-5 h-5" />
+            </button>
+
             {searchQuery && (
-              <FiSearch
+              <button
                 onClick={() => handleSelect(searchQuery)}
-                className="cursor-pointer"
-              />
+                className="p-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full shadow-md transition transform hover:scale-110"
+                title="Search"
+              >
+                <FiSearch className="w-5 h-5" />
+              </button>
             )}
           </div>
         </div>
@@ -238,22 +272,40 @@ export default function Navbar() {
             </button>
 
             <nav className="mt-8 flex flex-col gap-4">
-              <button onClick={() => handleNavigate("/")} className="text-yellow-500 font-semibold text-left">
+              <button
+                onClick={() => handleNavigate("/")}
+                className="text-yellow-500 font-semibold text-left"
+              >
                 Home
               </button>
-              <button onClick={() => handleNavigate("/products")} className="text-yellow-500 font-semibold text-left">
+              <button
+                onClick={() => handleNavigate("/products")}
+                className="text-yellow-500 font-semibold text-left"
+              >
                 Products
               </button>
-              <button onClick={() => handleNavigate("/filter")} className="text-yellow-500 font-semibold text-left">
+              <button
+                onClick={() => handleNavigate("/filter")}
+                className="text-yellow-500 font-semibold text-left"
+              >
                 Filter
               </button>
-              <button onClick={() => handleNavigate("/refer")} className="text-yellow-500 font-semibold text-left">
+              <button
+                onClick={() => handleNavigate("/refer")}
+                className="text-yellow-500 font-semibold text-left"
+              >
                 Refer & Earn
               </button>
-              <button onClick={() => handleNavigate("/wallet")} className="text-yellow-500 font-semibold text-left">
+              <button
+                onClick={() => handleNavigate("/wallet")}
+                className="text-yellow-500 font-semibold text-left"
+              >
                 Wallet
               </button>
-              <button onClick={() => handleNavigate("/settings")} className="text-yellow-500 font-semibold text-left">
+              <button
+                onClick={() => handleNavigate("/settings")}
+                className="text-yellow-500 font-semibold text-left"
+              >
                 Settings
               </button>
               <div
@@ -268,4 +320,4 @@ export default function Navbar() {
       )}
     </header>
   );
-}
+    }
