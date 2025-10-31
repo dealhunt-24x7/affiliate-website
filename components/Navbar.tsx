@@ -88,6 +88,11 @@ export default function Navbar() {
     }, 300);
   };
 
+  const handleCartToHeartClick = () => {
+    router.push("/cart-to-heart-coming-soon");
+    setDrawerOpen(false);
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
       <input
@@ -100,7 +105,6 @@ export default function Navbar() {
 
       <div className="max-w-7xl mx-auto px-6 py-3 w-full">
         <div className="flex items-center justify-between">
-          {/* Logo */}
           <div className="flex flex-col">
             <Link href="/" className="text-2xl font-bold tracking-wide">
               <span className="text-yellow-500">Deal</span>Hunt
@@ -110,7 +114,6 @@ export default function Navbar() {
             </span>
           </div>
 
-          {/* Desktop Search */}
           <div className="hidden md:flex flex-1 justify-center px-4">
             <div className="relative w-full max-w-md">
               <input
@@ -133,8 +136,6 @@ export default function Navbar() {
                   ))}
                 </ul>
               )}
-
-              {/* Styled buttons */}
               <div className="absolute inset-y-0 right-3 flex items-center gap-2">
                 <button
                   onClick={handleCameraClick}
@@ -143,7 +144,6 @@ export default function Navbar() {
                 >
                   <FiCamera className="w-5 h-5" />
                 </button>
-
                 <button
                   onClick={handleMicClick}
                   className={`p-2 bg-white shadow-md rounded-full transition transform hover:scale-110 ${
@@ -155,7 +155,6 @@ export default function Navbar() {
                 >
                   <FiMic className="w-5 h-5" />
                 </button>
-
                 {searchQuery && (
                   <button
                     onClick={() => handleSelect(searchQuery)}
@@ -169,7 +168,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Right Icons */}
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.push("/signin")}
@@ -195,45 +193,6 @@ export default function Navbar() {
             placeholder="Search products..."
             className="w-full px-4 pr-28 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm bg-white"
           />
-          {suggestions.length > 0 && (
-            <ul className="absolute w-full bg-white shadow-md rounded-b-md mt-1 max-h-60 overflow-y-auto z-50">
-              {suggestions.map((item, idx) => (
-                <li
-                  key={idx}
-                  className="px-4 py-2 hover:bg-yellow-100 cursor-pointer"
-                  onClick={() => handleSelect(item)}
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          )}
-          <div className="absolute inset-y-0 right-3 flex items-center gap-2">
-            <button
-              onClick={handleCameraClick}
-              className="p-2 bg-white hover:bg-yellow-100 shadow-md rounded-full text-gray-600 hover:text-yellow-500 transition transform hover:scale-110"
-            >
-              <FiCamera className="w-5 h-5" />
-            </button>
-            <button
-              onClick={handleMicClick}
-              className={`p-2 bg-white shadow-md rounded-full transition transform hover:scale-110 ${
-                listening
-                  ? "text-red-500 animate-pulse"
-                  : "text-gray-600 hover:text-yellow-500"
-              }`}
-            >
-              <FiMic className="w-5 h-5" />
-            </button>
-            {searchQuery && (
-              <button
-                onClick={() => handleSelect(searchQuery)}
-                className="p-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full shadow-md transition transform hover:scale-110"
-              >
-                <FiSearch className="w-5 h-5" />
-              </button>
-            )}
-          </div>
         </div>
       </div>
 
@@ -288,8 +247,9 @@ export default function Navbar() {
               >
                 Settings
               </button>
+
               <div
-                onClick={() => handleNavigate("/cart-to-heart-coming-soon")}
+                onClick={handleCartToHeartClick}
                 className="p-3 bg-gradient-to-r from-yellow-100 via-orange-100 to-pink-100 rounded-xl shadow-md text-yellow-700 text-center font-bold cursor-pointer hover:scale-[1.02] transition"
               >
                 ❤️ Join Cart to Heart
@@ -300,4 +260,4 @@ export default function Navbar() {
       )}
     </header>
   );
-    }
+}
