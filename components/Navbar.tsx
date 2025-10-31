@@ -26,12 +26,12 @@ export default function Navbar() {
   const router = useRouter();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [listening, setListening] = useState(false);
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
     if (value.trim().length > 0) {
@@ -44,7 +44,7 @@ export default function Navbar() {
     }
   };
 
-  const handleSelect = (item) => {
+  const handleSelect = (item: string) => {
     setSearchQuery(item);
     setSuggestions([]);
     setDrawerOpen(false);
@@ -53,7 +53,7 @@ export default function Navbar() {
 
   const handleCameraClick = () => fileInputRef.current?.click();
 
-  const handleFileSelect = (e) => {
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
       alert(`📷 Image selected: ${e.target.files[0].name}`);
     }
@@ -61,7 +61,7 @@ export default function Navbar() {
 
   const handleMicClick = () => {
     const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
       alert("Voice recognition not supported");
       return;
@@ -73,7 +73,7 @@ export default function Navbar() {
 
     setListening(true);
 
-    recognition.onresult = (e) => {
+    recognition.onresult = (e: any) => {
       setSearchQuery(e.results[0][0].transcript);
       setListening(false);
     };
@@ -81,7 +81,7 @@ export default function Navbar() {
     recognition.start();
   };
 
-  const scrollToSection = (id) => {
+  const scrollToSection = (id: string) => {
     setDrawerOpen(false);
     setTimeout(() => {
       const section = document.getElementById(id);
@@ -89,7 +89,7 @@ export default function Navbar() {
     }, 300);
   };
 
-  const handleNavigate = (href) => {
+  const handleNavigate = (href: string) => {
     setDrawerOpen(false);
     setTimeout(() => {
       router.push(href);
