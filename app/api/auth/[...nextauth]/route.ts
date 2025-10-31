@@ -1,10 +1,27 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions, Session } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { JWT } from "next-auth/jwt";
 
-// ⚙️ Auth configuration
+// ⚙️ Type augmentation
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+  }
+}
+
 const authOptions: NextAuthOptions = {
   providers: [
-    // 🟢 Google Auth only
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -15,13 +32,13 @@ const authOptions: NextAuthOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.id = (user as any).id;
+      if (user) token.id = (user as any).id || user.email || "no-id";
       return token;
     },
 
     async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.id as string;
+      if (token) {
+        session.user.id = token.id; // ✅ now TS knows user has 'id'
       }
       return session;
     },
@@ -31,5 +48,4 @@ const authOptions: NextAuthOptions = {
 };
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };
