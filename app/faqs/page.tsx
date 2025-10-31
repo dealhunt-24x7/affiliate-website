@@ -4,8 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
+type FAQItem = { q: string; a: string };
+type FAQCategories = Record<string, FAQItem[]>;
+
 export default function FAQPage() {
-  const allFaqs = {
+  const allFaqs: FAQCategories = {
     General: [
       { q: "How do I buy a deal?", a: "Click on the deal and follow the link to purchase." },
       { q: "Are these deals real?", a: "Yes, we only show verified affiliate deals." },
@@ -24,7 +27,7 @@ export default function FAQPage() {
   };
 
   const categories = Object.keys(allFaqs);
-  const [activeCategory, setActiveCategory] = useState("General");
+  const [activeCategory, setActiveCategory] = useState<string>("General");
   const [search, setSearch] = useState("");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -119,4 +122,4 @@ export default function FAQPage() {
       </div>
     </main>
   );
-                }
+                                 }
