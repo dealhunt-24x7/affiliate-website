@@ -10,10 +10,10 @@ export default function CartToHeartSection() {
         impact while shopping.
       </p>
       <button
-        onClick={() => (window.location.href = "/cart-to-heart")}
+        onClick={() => (window.location.href = "/cart-to-heart-coming-soon")}
         className="mt-6 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full shadow-lg transition"
       >
-        Join Now
+        Coming Soon
       </button>
     </section>
   );
