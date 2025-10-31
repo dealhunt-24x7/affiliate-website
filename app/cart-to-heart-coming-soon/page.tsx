@@ -1,20 +1,23 @@
 import Link from "next/link";
 
-export default function Page() {
+export default function CartToHeartComingSoon() {
   return (
-    <main className="max-w-4xl mx-auto py-10 px-4 space-y-6">
+    <main className="max-w-4xl mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold text-yellow-600">Coming Soon</h1>
-      <p className="text-gray-600 font-semibold">
+      <p className="mt-4 text-gray-600">
         ❤️ Cart to Heart Program
       </p>
-      <p className="text-gray-600">
-        This unique program allows you to donate, support, or get crowdfunding 
-        for education, health, and other social causes. Enjoy exclusive rewards 
-        while making a positive impact through your purchases.
+      <p className="mt-2 text-gray-700">
+        Our unique program allows you to donate, support, and contribute to social causes while shopping.
+        You can benefit from exclusive rewards and make a positive impact in areas like education, health,
+        and community development. Stay tuned for full launch soon!
       </p>
 
       <div className="mt-8">
-        <Link href="/" className="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md">
+        <Link
+          href="/"
+          className="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
+        >
           Back to Home
         </Link>
       </div>
