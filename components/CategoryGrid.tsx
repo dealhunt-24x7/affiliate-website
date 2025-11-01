@@ -87,10 +87,9 @@ export default function CategoryGrid({ mode }: Props) {
             <Link
               key={cat.slug}
               href={`/products?category=${encodeURIComponent(cat.slug)}`}
-              className="flex-shrink-0 w-[14%] sm:w-[12%] md:w-32 flex flex-col items-center text-center group cursor-pointer"
+              className="flex-shrink-0 w-1/6 sm:w-1/6 md:w-32 flex flex-col items-center text-center group cursor-pointer"
             >
               <div className="relative w-full aspect-square rounded-full overflow-hidden border-2 shadow-lg transition-all duration-300">
-                {/* Background aura */}
                 <div
                   className={`absolute inset-0 rounded-full ${
                     isLuxury
@@ -107,11 +106,11 @@ export default function CategoryGrid({ mode }: Props) {
               </div>
               {/* Responsive text size for mobile / desktop */}
               <span
-                className={`mt-2 font-medium group-hover:font-semibold transition-colors text-center break-words ${
+                className={`mt-1 font-medium group-hover:font-semibold transition-colors text-center break-words ${
                   isLuxury
                     ? "text-yellow-800 group-hover:text-yellow-700"
                     : "text-blue-800 group-hover:text-blue-600"
-                } text-xs sm:text-sm md:text-base`}
+                } text-[0.65rem] sm:text-xs md:text-sm lg:text-base`}
               >
                 {cat.name}
               </span>
