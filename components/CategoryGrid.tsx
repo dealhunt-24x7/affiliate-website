@@ -9,7 +9,7 @@ interface Category {
   image: string;
 }
 
-// Categories including extra general categories
+// All categories including new extra ones
 const allCategories: Category[] = [
   { name: "Watches", slug: "watches", image: "/images/categories/watches.jpg" },
   { name: "Perfumes", slug: "perfumes", image: "/images/categories/perfumes.jpg" },
@@ -29,6 +29,11 @@ const allCategories: Category[] = [
   { name: "Electronics", slug: "electronics", image: "/images/categories/electronics.jpg" },
   { name: "Beauty", slug: "beauty", image: "/images/categories/beauty.jpg" },
   { name: "Toys", slug: "toys", image: "/images/categories/toys.jpg" },
+  // New extra categories
+  { name: "Mobile/Smartphones", slug: "mobile-smartphones", image: "/images/categories/mobile.jpg" },
+  { name: "Laptop", slug: "laptop", image: "/images/categories/laptop.jpg" },
+  { name: "Undergarments", slug: "undergarments", image: "/images/categories/undergarments.jpg" },
+  { name: "Others", slug: "others", image: "/images/categories/others.jpg" },
 ];
 
 interface Props {
@@ -53,12 +58,12 @@ export default function CategoryGrid({ mode }: Props) {
         </h2>
 
         {/* Horizontal scrollable strip */}
-        <div className="flex space-x-4 overflow-x-auto scrollbar-hide py-4">
+        <div className="flex space-x-3 overflow-x-auto scrollbar-hide py-4">
           {displayCategories.map((cat) => (
             <Link
               key={cat.slug}
               href={`/products?category=${encodeURIComponent(cat.slug)}`}
-              className="flex-shrink-0 w-[16.666%] sm:w-[14.28%] md:w-32 flex flex-col items-center text-center group cursor-pointer"
+              className="flex-shrink-0 w-[14%] sm:w-[12%] md:w-32 flex flex-col items-center text-center group cursor-pointer"
             >
               <div className="relative w-full aspect-square rounded-full overflow-hidden border-2 shadow-lg transition-all duration-300">
                 {/* Background aura */}
@@ -77,7 +82,7 @@ export default function CategoryGrid({ mode }: Props) {
                 />
               </div>
               <span
-                className={`mt-2 text-sm font-medium group-hover:font-semibold transition-colors ${
+                className={`mt-2 text-xs sm:text-sm font-medium group-hover:font-semibold transition-colors ${
                   isLuxury ? "text-yellow-800 group-hover:text-yellow-700" : "text-blue-800 group-hover:text-blue-600"
                 }`}
               >
@@ -103,4 +108,4 @@ export default function CategoryGrid({ mode }: Props) {
       </div>
     </section>
   );
-}
+   }
