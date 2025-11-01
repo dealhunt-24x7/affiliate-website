@@ -24,16 +24,32 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold text-white mb-3">Quick Links</h3>
             <ul className="space-y-2">
-              <li><Link href="/" className="hover:text-white">Home</Link></li>
-              <li><Link href="/products" className="hover:text-white">Products</Link></li>
-              <li><Link href="/about" className="hover:text-white">About</Link></li>
-              <li><Link href="/faqs" className="hover:text-white">FAQs</Link></li>
+              <li>
+                <Link href="/" className="hover:text-white transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/products" className="hover:text-white transition-colors">
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-white transition-colors">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href="/faqs" className="hover:text-white transition-colors">
+                  FAQs
+                </Link>
+              </li>
 
               {/* 📞 Contact Section */}
               <li id="contact-section">
                 <button
                   onClick={() => setShowContact(!showContact)}
-                  className="hover:text-white focus:outline-none"
+                  className="hover:text-white focus:outline-none transition-colors"
                 >
                   Contact Us
                 </button>
@@ -44,7 +60,7 @@ export default function Footer() {
                       <a
                         href="https://wa.me/918279521992"
                         target="_blank"
-                        className="hover:text-yellow-500"
+                        className="hover:text-yellow-500 transition-colors"
                       >
                         +91 82795 21992
                       </a>
@@ -53,7 +69,7 @@ export default function Footer() {
                       📧 Email:{" "}
                       <a
                         href="mailto:dealhunt24x7@gmail.com"
-                        className="hover:text-yellow-500"
+                        className="hover:text-yellow-500 transition-colors"
                       >
                         dealhunt24x7@gmail.com
                       </a>
@@ -71,11 +87,11 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-3 py-2 rounded-md text-black w-full sm:flex-1"
+                className="px-3 py-2 rounded-md text-black w-full sm:flex-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
               />
               <button
                 type="submit"
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md"
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition-colors"
               >
                 Subscribe
               </button>
@@ -83,10 +99,10 @@ export default function Footer() {
 
             {/* 🌐 Social Icons */}
             <div className="flex gap-4 mt-4 text-2xl text-gray-400">
-              <a href="https://youtube.com" target="_blank" className="hover:text-red-500"><FaYoutube /></a>
-              <a href="https://x.com" target="_blank" className="hover:text-gray-200"><FaXTwitter /></a>
-              <a href="https://instagram.com" target="_blank" className="hover:text-pink-500"><FaInstagram /></a>
-              <a href="https://t.me" target="_blank" className="hover:text-blue-400"><FaTelegram /></a>
+              <a href="https://youtube.com" target="_blank" className="hover:text-red-500 transition-colors"><FaYoutube /></a>
+              <a href="https://x.com" target="_blank" className="hover:text-gray-200 transition-colors"><FaXTwitter /></a>
+              <a href="https://instagram.com" target="_blank" className="hover:text-pink-500 transition-colors"><FaInstagram /></a>
+              <a href="https://t.me" target="_blank" className="hover:text-blue-400 transition-colors"><FaTelegram /></a>
             </div>
           </div>
         </div>
