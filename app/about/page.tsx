@@ -18,6 +18,7 @@ export default function AboutPage() {
       {/* Our Story */}
       <section className="flex flex-col md:flex-row items-center gap-8">
         <div className="relative w-full md:w-1/2 h-64 md:h-80 rounded-xl overflow-hidden shadow-lg">
+        </div>
           <Image
             src="/images/about-our-story.jpg"
             alt="Our Story"
