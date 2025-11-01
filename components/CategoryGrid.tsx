@@ -105,12 +105,13 @@ export default function CategoryGrid({ mode }: Props) {
                   className="object-cover group-hover:scale-110 transition-transform duration-300 relative"
                 />
               </div>
+              {/* Responsive text size for mobile / desktop */}
               <span
-                className={`mt-2 text-xs sm:text-sm font-medium group-hover:font-semibold transition-colors text-center break-words ${
+                className={`mt-2 font-medium group-hover:font-semibold transition-colors text-center break-words ${
                   isLuxury
                     ? "text-yellow-800 group-hover:text-yellow-700"
                     : "text-blue-800 group-hover:text-blue-600"
-                }`}
+                } text-xs sm:text-sm md:text-base`}
               >
                 {cat.name}
               </span>
