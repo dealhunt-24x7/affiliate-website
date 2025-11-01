@@ -1,6 +1,3 @@
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
-
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -23,15 +20,24 @@ interface Product {
   rating: number;
 }
 
+// ✅ Keep only this line
+export const dynamic = "force-dynamic";
+
 export default function ProductsPage() {
-  const searchParams = useSearchParams();
-  const searchQuery = searchParams?.get("search") || "";
+  let searchQuery = "";
+  try {
+    const searchParams = useSearchParams();
+    searchQuery = searchParams?.get("search") || "";
+  } catch (err) {
+    searchQuery = "";
+  }
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const [selectedBrand, setSelectedBrand] = useState("all");
-  const [minRating, setMinRating] = useState(0);
+  // Filters
+  const [selectedBrand, setSelectedBrand] = useState<string>("all");
+  const [minRating, setMinRating] = useState<number>(0);
   const [priceSort, setPriceSort] = useState<"high" | "low" | "none">("none");
   const [partners, setPartners] = useState<string[]>([]);
   const [selectedPartners, setSelectedPartners] = useState<string[]>([]);
@@ -85,12 +91,12 @@ export default function ProductsPage() {
       setPriceRange([min, max]);
 
       setLoading(false);
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(timeout);
   }, [searchQuery]);
 
-  // FILTERS
+  // Filters
   let filteredProducts = products.filter((p) => {
     const numericPrice = Number(p.price.replace(/[^0-9]/g, ""));
     return (
@@ -105,7 +111,6 @@ export default function ProductsPage() {
     );
   });
 
-  // SORT
   if (priceSort === "high")
     filteredProducts.sort(
       (a, b) =>
@@ -128,26 +133,28 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
-      <Link
-        href="/"
-        className="text-blue-600 hover:underline text-sm md:text-base mb-4 inline-block"
-      >
-        ← Back to Home
-      </Link>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mb-4">
+        <Link
+          href="/"
+          className="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md shadow-md"
+        >
+          ← Back to Home
+        </Link>
+      </div>
 
       <h1 className="text-2xl md:text-3xl font-bold mb-6">
         Showing results for:{" "}
-        <span className="text-yellow-600">{searchQuery || "All Products"}</span>
+        <span className="text-yellow-600">{searchQuery}</span>
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Sidebar Filters */}
-        <aside className="bg-white rounded-xl shadow-md p-4 h-fit flex flex-col gap-4 sticky top-4">
-          <h2 className="text-lg font-semibold mb-2">Filters</h2>
+        <aside className="bg-white rounded-xl shadow-md p-4 h-fit flex flex-col gap-4">
+          <h2 className="text-lg font-semibold mb-3">Filters</h2>
 
-          {/* Brand */}
-          <label className="block">
+          {/* Brand Filter */}
+          <label className="block mb-3">
             <span className="text-sm font-medium text-gray-700">Brand</span>
             <select
               value={selectedBrand}
@@ -163,8 +170,8 @@ export default function ProductsPage() {
             </select>
           </label>
 
-          {/* Rating */}
-          <div>
+          {/* Rating Filter */}
+          <div className="mb-3">
             <span className="text-sm font-medium text-gray-700">
               Minimum Rating
             </span>
@@ -185,8 +192,33 @@ export default function ProductsPage() {
             </div>
           </div>
 
+          {/* Price Range */}
+          <div className="mb-3">
+            <span className="text-sm font-medium text-gray-700">Price Range</span>
+            <div className="flex items-center gap-2 mt-2">
+              <input
+                type="number"
+                value={priceRange[0]}
+                min={0}
+                onChange={(e) =>
+                  setPriceRange([Number(e.target.value), priceRange[1]])
+                }
+                className="w-20 border rounded px-2 py-1"
+              />
+              <span>-</span>
+              <input
+                type="number"
+                value={priceRange[1]}
+                onChange={(e) =>
+                  setPriceRange([priceRange[0], Number(e.target.value)])
+                }
+                className="w-20 border rounded px-2 py-1"
+              />
+            </div>
+          </div>
+
           {/* Partners */}
-          <div>
+          <div className="mb-3">
             <span className="text-sm font-medium text-gray-700">Partners</span>
             <div className="flex flex-col gap-1 mt-2">
               {partners.map((partner) => (
@@ -209,9 +241,7 @@ export default function ProductsPage() {
             </span>
             <select
               value={priceSort}
-              onChange={(e) =>
-                setPriceSort(e.target.value as "high" | "low" | "none")
-              }
+              onChange={(e) => setPriceSort(e.target.value as any)}
               className="w-full mt-1 border border-gray-300 rounded-md px-3 py-2"
             >
               <option value="none">None</option>
@@ -222,36 +252,61 @@ export default function ProductsPage() {
         </aside>
 
         {/* Products */}
-        <div className="md:col-span-3 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {loading ? (
             Array.from({ length: 6 }).map((_, idx) => (
               <div
                 key={idx}
                 className="bg-white rounded-xl shadow-md p-4 animate-pulse"
               >
-                <div className="w-full h-40 bg-gray-200 rounded-lg"></div>
+                <div className="w-full h-48 bg-gray-200 rounded-lg"></div>
                 <div className="mt-3 h-4 bg-gray-200 rounded w-3/4"></div>
                 <div className="mt-2 h-4 bg-gray-200 rounded w-1/2"></div>
+                <div className="mt-3 h-20 bg-gray-100 rounded"></div>
               </div>
             ))
           ) : filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-xl shadow-md p-3 hover:shadow-lg transition"
+                className="bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition"
               >
                 <img
                   src={product.img}
                   alt={product.name}
-                  className="w-full h-40 object-cover rounded-lg"
+                  className="w-full h-48 object-cover rounded-lg"
                 />
-                <h2 className="text-base font-semibold mt-3">
-                  {product.name}
-                </h2>
-                <p className="text-lg font-bold text-green-600">
+
+                <h2 className="text-lg font-semibold mt-3">{product.name}</h2>
+                <p className="text-xl font-bold text-green-600">
                   {product.price}
                 </p>
-                <p className="text-sm text-gray-500">⭐ {product.rating}</p>
+
+                <div className="mt-3 bg-gray-50 rounded-lg p-3 border border-gray-200">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                    Compare Prices:
+                  </h3>
+                  <div className="flex flex-col gap-2">
+                    {product.comparison.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="flex justify-between items-center bg-white px-3 py-2 rounded-md shadow-sm"
+                      >
+                        <span className="font-medium">{item.site}</span>
+                        <span className="text-yellow-600 font-bold">
+                          {item.price}
+                        </span>
+                        <span className="text-gray-500 text-sm">
+                          ⭐ {item.rating}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <button className="mt-4 w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 rounded-lg">
+                  View Details
+                </button>
               </div>
             ))
           ) : (
@@ -263,4 +318,4 @@ export default function ProductsPage() {
       </div>
     </div>
   );
-                              }
+            }
