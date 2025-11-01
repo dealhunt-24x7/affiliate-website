@@ -1,3 +1,6 @@
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -20,15 +23,12 @@ interface Product {
   rating: number;
 }
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 export default function ProductsPage() {
   let searchQuery = "";
   try {
     const searchParams = useSearchParams();
     searchQuery = searchParams?.get("search") || "";
-  } catch (err) {
+  } catch {
     searchQuery = "";
   }
 
