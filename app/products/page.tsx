@@ -42,6 +42,7 @@ export default function ProductsPage() {
   const [partners, setPartners] = useState<string[]>([]);
   const [selectedPartners, setSelectedPartners] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
+  const [showFilters, setShowFilters] = useState(false); // ✅ mobile toggle state
 
   useEffect(() => {
     setLoading(true);
@@ -148,9 +149,23 @@ export default function ProductsPage() {
         <span className="text-yellow-600">{searchQuery}</span>
       </h1>
 
+      {/* 🔹 Mobile Toggle Button */}
+      <div className="md:hidden mb-4">
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          className="w-full bg-yellow-500 text-white font-semibold py-2 rounded-lg shadow-md"
+        >
+          {showFilters ? "Hide Filters" : "Show Filters"}
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {/* Sidebar Filters */}
-        <aside className="bg-white rounded-xl shadow-md p-4 h-fit flex flex-col gap-4">
+        {/* 🔹 Filters Section */}
+        <aside
+          className={`bg-white rounded-xl shadow-md p-4 h-fit flex flex-col gap-4 transition-all duration-300 ${
+            showFilters ? "block" : "hidden"
+          } md:block`}
+        >
           <h2 className="text-lg font-semibold mb-3">Filters</h2>
 
           {/* Brand Filter */}
@@ -251,60 +266,38 @@ export default function ProductsPage() {
           </label>
         </aside>
 
-        {/* Products */}
-        <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* 🔹 Products */}
+        <div className="md:col-span-3 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {loading ? (
             Array.from({ length: 6 }).map((_, idx) => (
               <div
                 key={idx}
                 className="bg-white rounded-xl shadow-md p-4 animate-pulse"
               >
-                <div className="w-full h-48 bg-gray-200 rounded-lg"></div>
+                <div className="w-full h-40 bg-gray-200 rounded-lg"></div>
                 <div className="mt-3 h-4 bg-gray-200 rounded w-3/4"></div>
                 <div className="mt-2 h-4 bg-gray-200 rounded w-1/2"></div>
-                <div className="mt-3 h-20 bg-gray-100 rounded"></div>
               </div>
             ))
           ) : filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition"
+                className="bg-white rounded-xl shadow-md p-3 hover:shadow-lg transition"
               >
                 <img
                   src={product.img}
                   alt={product.name}
-                  className="w-full h-48 object-cover rounded-lg"
+                  className="w-full h-40 object-cover rounded-lg"
                 />
-
-                <h2 className="text-lg font-semibold mt-3">{product.name}</h2>
-                <p className="text-xl font-bold text-green-600">
+                <h2 className="text-base font-semibold mt-2 line-clamp-2">
+                  {product.name}
+                </h2>
+                <p className="text-lg font-bold text-green-600">
                   {product.price}
                 </p>
 
-                <div className="mt-3 bg-gray-50 rounded-lg p-3 border border-gray-200">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-2">
-                    Compare Prices:
-                  </h3>
-                  <div className="flex flex-col gap-2">
-                    {product.comparison.map((item, idx) => (
-                      <div
-                        key={idx}
-                        className="flex justify-between items-center bg-white px-3 py-2 rounded-md shadow-sm"
-                      >
-                        <span className="font-medium">{item.site}</span>
-                        <span className="text-yellow-600 font-bold">
-                          {item.price}
-                        </span>
-                        <span className="text-gray-500 text-sm">
-                          ⭐ {item.rating}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <button className="mt-4 w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 rounded-lg">
+                <button className="mt-3 w-full bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-semibold py-2 rounded-lg">
                   View Details
                 </button>
               </div>
@@ -318,4 +311,4 @@ export default function ProductsPage() {
       </div>
     </div>
   );
-            }
+         }
