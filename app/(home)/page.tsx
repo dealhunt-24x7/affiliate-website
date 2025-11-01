@@ -37,7 +37,7 @@ export default function HomePage() {
   return (
     <main
       className={`relative transition-all duration-700 space-y-12 ${
-        isLuxury ? "bg-gray-900 text-white" : "bg-gradient-to-b from-blue-50 to-white text-gray-900"
+        isLuxury ? "bg-yellow-50 text-gray-800" : "bg-gradient-to-b from-blue-50 to-white text-gray-900"
       }`}
     >
       {/* Mood Toggle */}
@@ -75,4 +75,4 @@ export default function HomePage() {
       <FloatingAIButtons />
     </main>
   );
-    }
+            }
