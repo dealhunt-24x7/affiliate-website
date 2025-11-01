@@ -29,7 +29,7 @@ const allCategories: Category[] = [
   { name: "Electronics", slug: "electronics", image: "/images/categories/electronics.jpg" },
   { name: "Beauty", slug: "beauty", image: "/images/categories/beauty.jpg" },
   { name: "Toys", slug: "toys", image: "/images/categories/toys.jpg" },
-  { name: "Mobile/Smartphones", slug: "mobile-smartphones", image: "/images/categories/mobile.jpg" },
+  { name: "Smartphones", slug: "smartphones", image: "/images/categories/smartphones.jpg" },
   { name: "Laptop", slug: "laptop", image: "/images/categories/laptop.jpg" },
   { name: "Undergarments", slug: "undergarments", image: "/images/categories/undergarments.jpg" },
   { name: "Others", slug: "others", image: "/images/categories/others.jpg" },
@@ -42,24 +42,36 @@ interface Props {
 export default function CategoryGrid({ mode }: Props) {
   const isLuxury = mode === "luxury";
 
-  // Luxury: only merchant-available premium categories
+  // Filter categories for luxury
+  const luxuryCategories = [
+    "Watches",
+    "Perfumes",
+    "Jewelry",
+    "Bags",
+    "Sunglasses",
+    "Footwear",
+    "Smartphones",
+    "Laptop",
+  ];
+
   const displayCategories = isLuxury
-    ? allCategories.filter((cat) =>
-        [
-          "Watches",
-          "Perfumes",
-          "Jewelry",
-          "Bags",
-          "Sunglasses",
-          "Footwear",
-          "Mobile/Smartphones",
-          "Laptop",
-        ].includes(cat.name)
-      )
-    : allCategories;
+    ? allCategories.filter((cat) => luxuryCategories.includes(cat.name))
+    : [
+        // For general, move Smartphones + Laptop to start
+        ...allCategories.filter((cat) =>
+          ["Smartphones", "Laptop"].includes(cat.name)
+        ),
+        ...allCategories.filter(
+          (cat) => !["Smartphones", "Laptop"].includes(cat.name)
+        ),
+      ];
 
   return (
-    <section className={`py-12 ${isLuxury ? "bg-yellow-50 text-gray-800" : "bg-blue-50 text-gray-900"}`}>
+    <section
+      className={`py-12 ${
+        isLuxury ? "bg-yellow-50 text-gray-800" : "bg-blue-50 text-gray-900"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4">
         <h2
           className={`text-2xl font-bold text-center mb-10 ${
