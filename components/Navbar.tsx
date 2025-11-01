@@ -105,13 +105,13 @@ export default function Navbar() {
 
       <div className="max-w-7xl mx-auto px-6 py-3 w-full">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex flex-col">
+          {/* Logo + Username */}
+          <div className="flex flex-col md:flex-row md:items-center gap-2">
             <Link href="/" className="text-2xl font-bold tracking-wide">
               <span className="text-yellow-500">Deal</span>Hunt
             </Link>
-            <span className="mt-1 text-sm font-semibold bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent animate-pulse">
-              Cart to Heart
+            <span className="hidden md:inline text-gray-700 font-medium">
+              Hi, {session?.user?.name || "Guest"}
             </span>
           </div>
 
