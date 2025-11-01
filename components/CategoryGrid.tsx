@@ -9,7 +9,7 @@ interface Category {
   image: string;
 }
 
-// All categories including new extra ones
+// All categories including extra ones
 const allCategories: Category[] = [
   { name: "Watches", slug: "watches", image: "/images/categories/watches.jpg" },
   { name: "Perfumes", slug: "perfumes", image: "/images/categories/perfumes.jpg" },
@@ -29,7 +29,6 @@ const allCategories: Category[] = [
   { name: "Electronics", slug: "electronics", image: "/images/categories/electronics.jpg" },
   { name: "Beauty", slug: "beauty", image: "/images/categories/beauty.jpg" },
   { name: "Toys", slug: "toys", image: "/images/categories/toys.jpg" },
-  // New extra categories
   { name: "Mobile/Smartphones", slug: "mobile-smartphones", image: "/images/categories/mobile.jpg" },
   { name: "Laptop", slug: "laptop", image: "/images/categories/laptop.jpg" },
   { name: "Undergarments", slug: "undergarments", image: "/images/categories/undergarments.jpg" },
@@ -46,14 +45,27 @@ export default function CategoryGrid({ mode }: Props) {
   // Luxury: only merchant-available premium categories
   const displayCategories = isLuxury
     ? allCategories.filter((cat) =>
-        ["Watches", "Perfumes", "Jewelry", "Bags", "Sunglasses", "Footwear"].includes(cat.name)
+        [
+          "Watches",
+          "Perfumes",
+          "Jewelry",
+          "Bags",
+          "Sunglasses",
+          "Footwear",
+          "Mobile/Smartphones",
+          "Laptop",
+        ].includes(cat.name)
       )
     : allCategories;
 
   return (
     <section className={`py-12 ${isLuxury ? "bg-yellow-50 text-gray-800" : "bg-blue-50 text-gray-900"}`}>
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className={`text-2xl font-bold text-center mb-10 ${isLuxury ? "text-yellow-700" : "text-blue-800"}`}>
+        <h2
+          className={`text-2xl font-bold text-center mb-10 ${
+            isLuxury ? "text-yellow-700" : "text-blue-800"
+          }`}
+        >
           Shop by Category
         </h2>
 
@@ -82,8 +94,10 @@ export default function CategoryGrid({ mode }: Props) {
                 />
               </div>
               <span
-                className={`mt-2 text-xs sm:text-sm font-medium group-hover:font-semibold transition-colors ${
-                  isLuxury ? "text-yellow-800 group-hover:text-yellow-700" : "text-blue-800 group-hover:text-blue-600"
+                className={`mt-2 text-xs sm:text-sm font-medium group-hover:font-semibold transition-colors text-center break-words ${
+                  isLuxury
+                    ? "text-yellow-800 group-hover:text-yellow-700"
+                    : "text-blue-800 group-hover:text-blue-600"
                 }`}
               >
                 {cat.name}
