@@ -10,7 +10,7 @@ import {
 
 export default function ReferPage() {
   const [copied, setCopied] = useState(false);
-  const referralCode = "DEALHUNT50"; // Example code
+  const referralCode = "DEALHUNT50";
   const referralLink = `https://dealhunt.in/ref/${referralCode}`;
 
   const copyToClipboard = async () => {
@@ -23,11 +23,9 @@ export default function ReferPage() {
     <main className="max-w-4xl mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold text-yellow-600">Refer & Earn</h1>
       <p className="mt-4 text-gray-600">
-        Invite friends to DealHunt and earn exciting rewards when they shop
-        using your referral link!
+        Invite friends to DealHunt and earn rewards when they shop using your link!
       </p>
 
-      {/* Referral Code Box */}
       <div className="mt-8 bg-white p-6 rounded-lg shadow text-center">
         <p className="text-lg text-gray-700">Your Referral Link:</p>
         <div className="flex items-center justify-center gap-2 mt-3">
@@ -47,7 +45,6 @@ export default function ReferPage() {
         {copied && <p className="text-green-500 mt-2">Copied!</p>}
       </div>
 
-      {/* Share Options */}
       <div className="mt-8 text-center">
         <h2 className="text-xl font-semibold mb-4">Share via</h2>
         <div className="flex justify-center gap-4 text-2xl">
@@ -60,7 +57,6 @@ export default function ReferPage() {
           >
             <FaWhatsapp />
           </a>
-
           <a
             href={`https://t.me/share/url?url=${encodeURIComponent(
               referralLink
@@ -70,7 +66,6 @@ export default function ReferPage() {
           >
             <FaTelegram />
           </a>
-
           <a
             href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
               referralLink
@@ -80,7 +75,6 @@ export default function ReferPage() {
           >
             <FaXTwitter />
           </a>
-
           <a
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
               referralLink
@@ -103,4 +97,4 @@ export default function ReferPage() {
       </div>
     </main>
   );
-            }
+      }
