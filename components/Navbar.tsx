@@ -89,6 +89,11 @@ export default function Navbar() {
     router.push("/cart-to-heart-coming-soon");
   };
 
+  // truncate user name to max 2 words
+  const displayName = session?.user?.name
+    ? session.user.name.split(" ").slice(0, 2).join(" ")
+    : "Guest";
+
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
       <input
@@ -102,12 +107,12 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-3 w-full">
         <div className="flex flex-col md:flex-row md:items-center justify-between">
           {/* Logo + Tagline */}
-          <div className="flex flex-col md:flex-row md:items-center md:gap-2 text-center md:text-left">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <Link href="/" className="text-2xl font-bold tracking-wide">
               <span className="text-yellow-500">Deal</span>Hunt
             </Link>
-            <p className="text-sm text-gray-600 md:ml-3 mt-1 md:mt-0">
-              Your Hunt Ends Here
+            <p className="text-sm font-semibold bg-gradient-to-r from-yellow-400 to-pink-500 bg-clip-text text-transparent">
+              Saving you money with verified deals
             </p>
           </div>
 
@@ -172,18 +177,20 @@ export default function Navbar() {
 
           {/* Right Icons + Hi, Guest */}
           <div className="flex items-center gap-3 mt-3 md:mt-0">
-            <span className="text-gray-700 font-medium text-sm hidden sm:inline">
-              Hi, {session?.user?.name || "Guest"}
-            </span>
             <button
               onClick={() => router.push("/signin")}
               className="text-gray-700 hover:text-yellow-500 transition"
+              title="Profile"
             >
               <FiUser className="text-xl" />
             </button>
+            <span className="text-gray-700 font-medium text-sm hidden sm:inline">
+              Hi, {displayName}
+            </span>
             <button
               onClick={() => setDrawerOpen(true)}
               className="text-gray-700 hover:text-yellow-500 transition"
+              title="Menu"
             >
               <FiMoreVertical className="text-xl" />
             </button>
@@ -230,6 +237,23 @@ export default function Navbar() {
               </button>
             )}
           </div>
+        </div>
+
+        {/* Mobile Hi Guest + Icons */}
+        <div className="flex justify-end items-center gap-2 mt-2 md:hidden">
+          <span className="text-gray-700 text-sm font-medium">Hi, {displayName}</span>
+          <button
+            onClick={() => router.push("/signin")}
+            className="text-gray-700 hover:text-yellow-500 transition"
+          >
+            <FiUser className="text-lg" />
+          </button>
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className="text-gray-700 hover:text-yellow-500 transition"
+          >
+            <FiMoreVertical className="text-lg" />
+          </button>
         </div>
       </div>
 
