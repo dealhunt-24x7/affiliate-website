@@ -3,75 +3,63 @@ import { useState } from "react";
 
 export default function SettingsPage() {
   const [notifications, setNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
 
-  const clearCart = () => {
-    localStorage.removeItem("affiliateCart");
-    alert("Cart cleared successfully!");
+  const clearPreferences = () => {
+    localStorage.clear();
+    alert("All saved preferences cleared!");
   };
 
-  const clearWishlist = () => {
-    localStorage.removeItem("affiliateWishlist");
-    alert("Wishlist cleared successfully!");
+  const logout = () => {
+    alert("You’ve been logged out successfully.");
+    // Later: integrate NextAuth signOut()
   };
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-10 space-y-8">
-      <h1 className="text-3xl font-bold text-yellow-600">Settings</h1>
+    <div className="max-w-3xl mx-auto px-4 py-10 space-y-6">
+      <h1 className="text-3xl font-bold mb-6 text-yellow-600">Settings</h1>
 
-      {/* Preferences */}
-      <section className="bg-white p-6 rounded-2xl shadow space-y-4">
-        <h2 className="font-semibold text-lg">App Preferences</h2>
-        <label className="flex items-center justify-between">
-          <span>Enable Notifications</span>
+      {/* Notification Preference */}
+      <div className="bg-white p-4 rounded-lg shadow space-y-4">
+        <h2 className="font-semibold text-lg">Preferences</h2>
+        <label className="flex items-center gap-2">
           <input
             type="checkbox"
             checked={notifications}
             onChange={() => setNotifications(!notifications)}
             className="accent-yellow-500"
           />
+          Enable Notifications
         </label>
+      </div>
 
-        <label className="flex items-center justify-between">
-          <span>Dark Mode</span>
-          <input
-            type="checkbox"
-            checked={darkMode}
-            onChange={() => setDarkMode(!darkMode)}
-            className="accent-yellow-500"
-          />
-        </label>
-      </section>
-
-      {/* Data Management */}
-      <section className="bg-white p-6 rounded-2xl shadow space-y-4">
-        <h2 className="font-semibold text-lg">Data Management</h2>
+      {/* Account Management */}
+      <div className="bg-white p-4 rounded-lg shadow space-y-4">
+        <h2 className="font-semibold text-lg">Account Management</h2>
         <button
-          onClick={clearCart}
-          className="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+          onClick={clearPreferences}
+          className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
         >
-          Clear Cart
+          Clear Preferences
         </button>
         <button
-          onClick={clearWishlist}
-          className="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+          onClick={logout}
+          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
         >
-          Clear Wishlist
+          Logout
         </button>
-      </section>
+      </div>
 
-      {/* Links */}
-      <section className="bg-white p-6 rounded-2xl shadow space-y-2">
-        <a href="/privacy" className="block text-yellow-600 hover:underline">
-          Privacy Policy
-        </a>
-        <a href="/terms" className="block text-yellow-600 hover:underline">
-          Terms of Use
-        </a>
-        <a href="mailto:support@dealhunt.in" className="block text-yellow-600 hover:underline">
-          Contact Support
-        </a>
-      </section>
-    </main>
+      {/* Privacy Section */}
+      <div className="bg-white p-4 rounded-lg shadow space-y-3">
+        <h2 className="font-semibold text-lg">Privacy & Security</h2>
+        <p className="text-gray-600 text-sm">
+          DealHunt never shares your personal information with third parties.
+          For more details, visit our{" "}
+          <a href="/privacy" className="text-yellow-600 underline">
+            Privacy Policy
+          </a>.
+        </p>
+      </div>
+    </div>
   );
-          }
+}
