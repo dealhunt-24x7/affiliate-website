@@ -1,70 +1,111 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { motion } from "framer-motion";
 
-export default function SignInPage() {
+export default function AuthPage() {
+  const { data: session } = useSession();
+  const [localUser, setLocalUser] = useState<{ name: string; email?: string } | null>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("dealhuntUser");
+    if (stored) setLocalUser(JSON.parse(stored));
+  }, []);
+
+  const userName = session?.user?.name || localUser?.name || "";
+  const userImage = session?.user?.image || undefined;
+  const userInitial = userName ? userName[0].toUpperCase() : "U";
+
+  const handleSocialSignIn = (provider: "google") => {
+    signIn(provider, { callbackUrl: "/" });
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 18 },
+    show: { opacity: 1, y: 0, transition: { staggerChildren: 0.04 } },
+  };
+
+  const slideVariant = {
+    hidden: (dir: number) => ({ x: dir * 40, opacity: 0 }),
+    show: { x: 0, opacity: 1, transition: { type: "spring", stiffness: 260, damping: 22 } },
+  };
+
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-      
-      {/* Image Section */}
-      <div className="w-full md:w-1/2 h-64 md:h-auto relative">
-        <Image
-          src="/signin-illustration.jpg"
-          alt="Sign In Illustration"
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
-
-      {/* Form Section */}
-      <div className="w-full md:w-1/2 flex items-center justify-center px-6 py-12">
-        <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-md text-center">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6">
-            Welcome Back 👋
-          </h1>
-          <p className="text-gray-500 mb-6">
-            Sign in to continue to <span className="text-yellow-500 font-semibold">DealHunt</span>
-          </p>
-
-          <button
-            onClick={() => signIn("google")}
-            className="flex items-center justify-center w-full py-3 px-4 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg transition"
+    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 via-pink-500 to-yellow-400">
+      <div className="w-full max-w-4xl p-6">
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={cardVariants}
+          className="relative bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl overflow-hidden flex flex-col md:grid md:grid-cols-2"
+        >
+          {/* Left Panel */}
+          <motion.div
+            variants={slideVariant}
+            custom={-1}
+            className="flex flex-col items-center justify-center gap-6 p-10 bg-gradient-to-br from-indigo-700 via-purple-700 to-pink-600 text-white order-1 md:order-none"
           >
-            <svg
-              className="w-5 h-5 mr-2"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 48 48"
-            >
-              <path
-                fill="#FFC107"
-                d="M43.6 20.5H42V20H24v8h11.3C33.8 32.1 29.4 35 24 35c-6.1 0-11-4.9-11-11s4.9-11 11-11c2.8 0 5.4 1.1 7.4 2.8l5.7-5.7C33.5 7.1 28.9 5 24 5 13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19c0-1.3-.1-2.7-.4-3.9z"
-              />
-              <path
-                fill="#FF3D00"
-                d="M6.3 14.7l6.6 4.8C14.5 16.1 18.9 13 24 13c2.8 0 5.4 1.1 7.4 2.8l5.7-5.7C33.5 7.1 28.9 5 24 5c-7.3 0-13.5 3.7-17.1 9.7z"
-              />
-              <path
-                fill="#4CAF50"
-                d="M24 43c5.3 0 9.8-1.8 13.1-4.9l-6-4.9C29.4 35 24 35 24 35c-5.4 0-9.8-2.9-12.1-7.1l-6.5 5C10.5 39.6 16.8 43 24 43z"
-              />
-              <path
-                fill="#1976D2"
-                d="M43.6 20.5H42V20H24v8h11.3C34.2 32.1 29.4 35 24 35v8c6.8 0 12.5-2.3 16.6-6.1l-7-5.7z"
-              />
-            </svg>
-            Continue with Google
-          </button>
+            <div className="flex flex-col items-center gap-3">
+              {userImage ? (
+                <img
+                  src={userImage}
+                  alt={userName || "User"}
+                  className="w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-white shadow-lg object-cover"
+                />
+              ) : (
+                <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-white/10 flex items-center justify-center text-3xl md:text-4xl font-semibold text-white">
+                  {userInitial}
+                </div>
+              )}
+              <div className="text-center">
+                <h3 className="text-lg md:text-xl font-semibold">{userName || "Welcome!"}</h3>
+                <p className="text-xs md:text-sm opacity-80 mt-1">
+                  {session ? "Signed in via Google" : "Sign in to continue"}
+                </p>
+              </div>
+            </div>
+            <p className="max-w-xs text-center text-xs md:text-sm opacity-85 mt-2 md:mt-0">
+              DealHunt brings curated luxury deals right to you — sign in to save favorites, get offers and manage your account.
+            </p>
+          </motion.div>
 
-          <p className="text-gray-500 text-sm mt-6">
-            By signing in, you agree to our{" "}
-            <a href="/terms" className="text-yellow-500 hover:underline">
-              Terms & Conditions
-            </a>
-          </p>
-        </div>
+          {/* Right Panel */}
+          <motion.div variants={slideVariant} custom={1} className="p-8 order-2">
+            <div className="max-w-md mx-auto">
+              {!session ? (
+                <>
+                  {/* Google Button Only */}
+                  <div className="space-y-3">
+                    <button
+                      onClick={() => handleSocialSignIn("google")}
+                      className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-gray-200 bg-white hover:shadow transition"
+                    >
+                      <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
+                      Continue with Google
+                    </button>
+                  </div>
+
+                  <div className="text-xs text-gray-400 text-center mt-4">
+                    By continuing you agree to our <a className="underline">Terms</a> and{" "}
+                    <a className="underline">Privacy Policy</a>.
+                  </div>
+                </>
+              ) : (
+                <div className="space-y-4 text-center">
+                  <p className="text-lg font-semibold">Hello, {userName}!</p>
+                  <button
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="w-full bg-red-600 text-white py-3 rounded-lg font-medium hover:bg-red-700 transition"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
-    </div>
+    </main>
   );
-}
+    }
