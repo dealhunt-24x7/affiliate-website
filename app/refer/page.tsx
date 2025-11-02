@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { FaCopy, FaWhatsapp, FaTelegramPlane, FaXTwitter } from "react-icons/fa6";
+import { FaCopy, FaWhatsapp, FaTelegram, FaXTwitter } from "react-icons/fa6";
 
 export default function ReferPage() {
   const [copied, setCopied] = useState(false);
@@ -44,7 +44,7 @@ export default function ReferPage() {
             href={`https://t.me/share/url?url=${encodeURIComponent(referralLink)}`}
             className="bg-sky-500 hover:bg-sky-600 text-white p-2 rounded-full"
           >
-            <FaTelegramPlane />
+            <FaTelegram />
           </a>
           <a
             href={`https://x.com/intent/tweet?text=${encodeURIComponent(referralLink)}`}
@@ -78,4 +78,4 @@ export default function ReferPage() {
       </a>
     </main>
   );
-        }
+}
