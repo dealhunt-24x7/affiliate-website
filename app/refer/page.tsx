@@ -1,81 +1,106 @@
 "use client";
 import { useState } from "react";
-import { FaCopy, FaWhatsapp, FaTelegram, FaXTwitter } from "react-icons/fa6";
+import {
+  FaCopy,
+  FaWhatsapp,
+  FaTelegram,
+  FaXTwitter,
+  FaFacebookF,
+} from "react-icons/fa6";
 
 export default function ReferPage() {
   const [copied, setCopied] = useState(false);
-  const referralCode = "DH12345";
-  const referralLink = `https://dealhunt.in/ref?id=${referralCode}`;
+  const referralCode = "DEALHUNT50"; // Example code
+  const referralLink = `https://dealhunt.in/ref/${referralCode}`;
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(referralLink);
+  const copyToClipboard = async () => {
+    await navigator.clipboard.writeText(referralLink);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
 
   return (
-    <main className="max-w-3xl mx-auto py-10 px-4 space-y-8">
+    <main className="max-w-4xl mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold text-yellow-600">Refer & Earn</h1>
-      <p className="text-gray-600">
-        Invite your friends to DealHunt and earn rewards when they shop with your link!
+      <p className="mt-4 text-gray-600">
+        Invite friends to DealHunt and earn exciting rewards when they shop
+        using your referral link!
       </p>
 
-      {/* Referral Card */}
-      <div className="bg-white rounded-2xl shadow p-6 space-y-4 border border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-800">Your Referral Link</h2>
-        <div className="flex items-center justify-between bg-gray-100 p-3 rounded-lg">
-          <span className="text-sm text-gray-700 truncate">{referralLink}</span>
+      {/* Referral Code Box */}
+      <div className="mt-8 bg-white p-6 rounded-lg shadow text-center">
+        <p className="text-lg text-gray-700">Your Referral Link:</p>
+        <div className="flex items-center justify-center gap-2 mt-3">
+          <input
+            type="text"
+            readOnly
+            value={referralLink}
+            className="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-96 text-gray-600"
+          />
           <button
-            onClick={handleCopy}
-            className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1.5 rounded-md text-sm"
+            onClick={copyToClipboard}
+            className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-md"
           >
-            <FaCopy /> {copied ? "Copied!" : "Copy"}
+            <FaCopy />
           </button>
         </div>
+        {copied && <p className="text-green-500 mt-2">Copied!</p>}
+      </div>
 
-        <div className="flex gap-3 pt-2">
+      {/* Share Options */}
+      <div className="mt-8 text-center">
+        <h2 className="text-xl font-semibold mb-4">Share via</h2>
+        <div className="flex justify-center gap-4 text-2xl">
           <a
-            href={`https://wa.me/?text=${encodeURIComponent(referralLink)}`}
-            className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full"
+            href={`https://wa.me/?text=${encodeURIComponent(
+              `Check this out: ${referralLink}`
+            )}`}
+            target="_blank"
+            className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full"
           >
             <FaWhatsapp />
           </a>
+
           <a
-            href={`https://t.me/share/url?url=${encodeURIComponent(referralLink)}`}
-            className="bg-sky-500 hover:bg-sky-600 text-white p-2 rounded-full"
+            href={`https://t.me/share/url?url=${encodeURIComponent(
+              referralLink
+            )}&text=Join DealHunt and earn rewards!`}
+            target="_blank"
+            className="bg-sky-500 hover:bg-sky-600 text-white p-3 rounded-full"
           >
             <FaTelegram />
           </a>
+
           <a
-            href={`https://x.com/intent/tweet?text=${encodeURIComponent(referralLink)}`}
-            className="bg-gray-800 hover:bg-black text-white p-2 rounded-full"
+            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+              referralLink
+            )}&text=Join DealHunt and earn rewards!`}
+            target="_blank"
+            className="bg-black hover:bg-gray-800 text-white p-3 rounded-full"
           >
             <FaXTwitter />
+          </a>
+
+          <a
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+              referralLink
+            )}`}
+            target="_blank"
+            className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full"
+          >
+            <FaFacebookF />
           </a>
         </div>
       </div>
 
-      {/* Earning Summary */}
-      <div className="grid sm:grid-cols-2 gap-4">
-        {[
-          { label: "Total Referrals", value: "12" },
-          { label: "Successful Referrals", value: "7" },
-          { label: "Total Earnings", value: "₹350" },
-          { label: "Pending Earnings", value: "₹150" },
-        ].map((item, i) => (
-          <div key={i} className="bg-white p-4 rounded-xl shadow text-center">
-            <h3 className="text-xl font-bold text-yellow-600">{item.value}</h3>
-            <p className="text-sm text-gray-600">{item.label}</p>
-          </div>
-        ))}
+      <div className="mt-10 text-center">
+        <a
+          href="/"
+          className="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-md"
+        >
+          Back to Home
+        </a>
       </div>
-
-      <a
-        href="/"
-        className="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
-      >
-        Back to Home
-      </a>
     </main>
   );
-}
+            }
