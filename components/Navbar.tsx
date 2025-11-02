@@ -52,7 +52,6 @@ export default function Navbar() {
   };
 
   const handleCameraClick = () => fileInputRef.current?.click();
-
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
       alert(`📷 Image selected: ${e.target.files[0].name}`);
@@ -70,7 +69,6 @@ export default function Navbar() {
     const recognition = new SpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = false;
-
     setListening(true);
 
     recognition.onresult = (e: any) => {
@@ -83,9 +81,7 @@ export default function Navbar() {
 
   const handleNavigate = (href: string) => {
     setDrawerOpen(false);
-    setTimeout(() => {
-      router.push(href);
-    }, 300);
+    setTimeout(() => router.push(href), 300);
   };
 
   const handleCartToHeartClick = () => {
@@ -104,19 +100,19 @@ export default function Navbar() {
       />
 
       <div className="max-w-7xl mx-auto px-6 py-3 w-full">
-        <div className="flex items-center justify-between">
-          {/* Logo + Username */}
-          <div className="flex flex-col md:flex-row md:items-center gap-2">
+        <div className="flex flex-col md:flex-row md:items-center justify-between">
+          {/* Logo + Tagline */}
+          <div className="flex flex-col md:flex-row md:items-center md:gap-2 text-center md:text-left">
             <Link href="/" className="text-2xl font-bold tracking-wide">
               <span className="text-yellow-500">Deal</span>Hunt
             </Link>
-            <span className="hidden md:inline text-gray-700 font-medium">
-              Hi, {session?.user?.name || "Guest"}
-            </span>
+            <p className="text-sm text-gray-600 md:ml-3 mt-1 md:mt-0">
+              Your Hunt Ends Here
+            </p>
           </div>
 
           {/* Desktop Search */}
-          <div className="hidden md:flex flex-1 justify-center px-4">
+          <div className="hidden md:flex flex-1 justify-center px-4 mt-3 md:mt-0">
             <div className="relative w-full max-w-md">
               <input
                 type="text"
@@ -174,8 +170,11 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Right Icons */}
-          <div className="flex items-center gap-4">
+          {/* Right Icons + Hi, Guest */}
+          <div className="flex items-center gap-3 mt-3 md:mt-0">
+            <span className="text-gray-700 font-medium text-sm hidden sm:inline">
+              Hi, {session?.user?.name || "Guest"}
+            </span>
             <button
               onClick={() => router.push("/signin")}
               className="text-gray-700 hover:text-yellow-500 transition"
@@ -255,38 +254,12 @@ export default function Navbar() {
             </button>
 
             <nav className="mt-8 flex flex-col gap-4">
-              <button
-                onClick={() => handleNavigate("/")}
-                className="text-yellow-500 font-semibold text-left"
-              >
-                Home
-              </button>
-              <button
-                onClick={() => handleNavigate("/products")}
-                className="text-yellow-500 font-semibold text-left"
-              >
-                Products
-              </button>
-              <button
-                onClick={() => handleNavigate("/refer")}
-                className="text-yellow-500 font-semibold text-left"
-              >
-                Refer & Earn
-              </button>
-              <button
-                onClick={() => handleNavigate("/wallet")}
-                className="text-yellow-500 font-semibold text-left"
-              >
-                Wallet
-              </button>
-              <button
-                onClick={() => handleNavigate("/settings")}
-                className="text-yellow-500 font-semibold text-left"
-              >
-                Settings
-              </button>
+              <button onClick={() => handleNavigate("/")} className="text-yellow-500 font-semibold text-left">Home</button>
+              <button onClick={() => handleNavigate("/products")} className="text-yellow-500 font-semibold text-left">Products</button>
+              <button onClick={() => handleNavigate("/refer")} className="text-yellow-500 font-semibold text-left">Refer & Earn</button>
+              <button onClick={() => handleNavigate("/wallet")} className="text-yellow-500 font-semibold text-left">Wallet</button>
+              <button onClick={() => handleNavigate("/settings")} className="text-yellow-500 font-semibold text-left">Settings</button>
 
-              {/* Cart to Heart */}
               <div
                 onClick={handleCartToHeartClick}
                 className="p-3 bg-gradient-to-r from-yellow-100 via-orange-100 to-pink-100 rounded-xl shadow-md text-yellow-700 text-center font-bold cursor-pointer hover:scale-[1.02] transition"
