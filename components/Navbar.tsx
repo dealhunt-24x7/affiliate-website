@@ -175,8 +175,8 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Right Icons + Hi, Guest */}
-          <div className="flex items-center gap-3 mt-3 md:mt-0">
+          {/* Right Icons + Hi, Guest (Desktop only) */}
+          <div className="hidden md:flex items-center gap-3 mt-3 md:mt-0">
             <button
               onClick={() => router.push("/signin")}
               className="text-gray-700 hover:text-yellow-500 transition"
@@ -184,7 +184,7 @@ export default function Navbar() {
             >
               <FiUser className="text-xl" />
             </button>
-            <span className="text-gray-700 font-medium text-sm hidden sm:inline">
+            <span className="text-gray-700 font-medium text-sm">
               Hi, {displayName}
             </span>
             <button
@@ -239,9 +239,11 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Hi Guest + Icons */}
+        {/* ✅ Mobile Hi, Guest + Profile + Menu */}
         <div className="flex justify-end items-center gap-2 mt-2 md:hidden">
-          <span className="text-gray-700 text-sm font-medium">Hi, {displayName}</span>
+          <span className="text-gray-700 text-sm font-medium">
+            Hi, {displayName}
+          </span>
           <button
             onClick={() => router.push("/signin")}
             className="text-gray-700 hover:text-yellow-500 transition"
