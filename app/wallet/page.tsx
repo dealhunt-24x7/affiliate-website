@@ -2,7 +2,13 @@
 import { useState } from "react";
 
 export default function WalletPage() {
-  const [balance] = useState(250);
+  const [summary] = useState({
+    available: 250,
+    pending: 80,
+    withdrawn: 500,
+    totalEarned: 830,
+  });
+
   const [transactions] = useState([
     { date: "30 Oct 2025", desc: "Referral Reward", type: "Credit", amount: 50 },
     { date: "28 Oct 2025", desc: "Withdrawal to UPI", type: "Debit", amount: 100 },
@@ -10,19 +16,32 @@ export default function WalletPage() {
   ]);
 
   return (
-    <main className="max-w-4xl mx-auto py-10 px-4 space-y-8">
-      <h1 className="text-3xl font-bold text-yellow-600">Wallet</h1>
-      <p className="text-gray-600">Track your DealHunt earnings & withdrawals here.</p>
+    <main className="max-w-5xl mx-auto py-10 px-4 space-y-8">
+      <h1 className="text-3xl font-bold text-yellow-600">My Wallet</h1>
+      <p className="text-gray-600">Track your DealHunt cashback & referral rewards.</p>
 
-      {/* Wallet Summary */}
-      <div className="bg-white rounded-lg shadow p-6 text-center">
-        <h2 className="text-xl font-semibold text-gray-800">Available Balance</h2>
-        <p className="text-4xl font-bold text-green-600 mt-2">₹{balance}</p>
+      {/* Summary Cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {[
+          { label: "Available", value: summary.available, color: "text-green-600" },
+          { label: "Pending", value: summary.pending, color: "text-yellow-600" },
+          { label: "Withdrawn", value: summary.withdrawn, color: "text-blue-600" },
+          { label: "Total Earned", value: summary.totalEarned, color: "text-purple-600" },
+        ].map((item, i) => (
+          <div key={i} className="bg-white p-4 rounded-lg shadow text-center">
+            <p className="text-sm text-gray-500">{item.label}</p>
+            <p className={`text-2xl font-bold ${item.color}`}>₹{item.value}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Withdraw Button */}
+      <div className="text-center">
         <button
-          className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg"
-          onClick={() => alert("Withdrawals feature coming soon!")}
+          className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg mt-4"
+          onClick={() => alert("Withdraw feature coming soon!")}
         >
-          Request Withdrawal
+          Withdraw Funds
         </button>
       </div>
 
