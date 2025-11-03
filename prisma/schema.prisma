@@ -3,11 +3,11 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite" // For local setup
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-/* ---------- AUTH MODELS ---------- */
+// ---------- AUTH MODELS ----------
 
 model User {
   id            String   @id @default(cuid())
@@ -54,4 +54,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}l
+}
+
+// ---------- APP MODELS (Future) ----------
