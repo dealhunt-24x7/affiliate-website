@@ -1,8 +1,9 @@
-import NextAuth, { NextAuthOptions, Session } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { JWT } from "next-auth/jwt";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import prisma from "@/lib/prisma";
 
-// ⚙️ Type augmentation
+// type augmentation (optional for TS)
 declare module "next-auth" {
   interface Session {
     user: {
@@ -14,36 +15,25 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
-  interface JWT {
-    id: string;
-  }
-}
-
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
   ],
-
   session: { strategy: "jwt" },
-
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.id = (user as any).id || user.email || "no-id";
+      if (user) token.id = (user as any).id;
       return token;
     },
-
     async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id; // ✅ now TS knows user has 'id'
-      }
+      if (token) (session as any).user.id = (token as any).id;
       return session;
     },
   },
-
   secret: process.env.NEXTAUTH_SECRET,
 };
 
