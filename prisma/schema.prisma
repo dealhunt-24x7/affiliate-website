@@ -3,24 +3,23 @@ generator client {
 }
 
 datasource db {
-  provider = env("DB_PROVIDER") != "" ? env("DB_PROVIDER") : "sqlite"
+  provider = "sqlite" // For local setup
   url      = env("DATABASE_URL")
 }
 
-/* Auth tables (next-auth) + app models */
+/* ---------- AUTH MODELS ---------- */
 
 model User {
-  id            String    @id @default(cuid())
+  id            String   @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?  @unique
   emailVerified DateTime?
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  password      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   accounts      Account[]
   sessions      Session[]
-  wallet        Wallet?
-  referrals     Referral[] @relation("ref_by")
 }
 
 model Account {
@@ -55,53 +54,4 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-/* App models */
-
-model Wallet {
-  id           String        @id @default(cuid())
-  userId       String        @unique
-  available    Float         @default(0)
-  pending      Float         @default(0)
-  withdrawn    Float         @default(0)
-  transactions Transaction[]
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Transaction {
-  id          String   @id @default(cuid())
-  walletId    String
-  type        String   // "Credit" or "Debit"
-  amount      Float
-  description String?
-  createdAt   DateTime @default(now())
-  wallet      Wallet   @relation(fields: [walletId], references: [id], onDelete: Cascade)
-}
-
-model Referral {
-  id         String   @id @default(cuid())
-  code       String   @unique
-  referredBy String
-  joinedUser String?
-  reward     Float    @default(0)
-  createdAt  DateTime @default(now())
-
-  // optional relation to user who owns this code
-  owner      User?    @relation("ref_by", fields: [referredBy], references: [id])
-}
-
-model Feedback {
-  id        String   @id @default(cuid())
-  name      String
-  message   String
-  createdAt DateTime @default(now())
-}
-
-model Contact {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  message   String
-  createdAt DateTime @default(now())
-}
+}l
