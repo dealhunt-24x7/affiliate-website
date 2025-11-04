@@ -1,11 +1,11 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -15,18 +15,15 @@ const handler = NextAuth({
   ],
   session: { strategy: "jwt" },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.id = (user as any).id || user.email || "no-id";
-      return token;
-    },
     async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = typeof token.id === "string" ? token.id : "";
+      if (session.user && token.sub) {
+        session.user.id = token.sub; // ✅ Fixed "id" error
       }
       return session;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
