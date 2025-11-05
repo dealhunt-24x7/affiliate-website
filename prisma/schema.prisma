@@ -80,4 +80,6 @@ model Contact {
   id        String   @id @default(cuid())
   name      String
   email     String
-  message
+  message   String
+  createdAt DateTime @default(now())
+}
