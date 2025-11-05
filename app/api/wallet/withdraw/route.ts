@@ -1,18 +1,17 @@
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"; // ✅ fixed import path
-import { PrismaClient } from "@prisma/client";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email)
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
 
-  const body = await req.json();
-  const amount = Number(body.amount || 0);
-  if (!amount || amount <= 0)
+  const { amount } = await req.json();
+  const value = Number(amount || 0);
+
+  if (!value || value <= 0)
     return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
 
   const user = await prisma.user.findUnique({
@@ -27,21 +26,18 @@ export async function POST(req: Request) {
   if (!wallet)
     return NextResponse.json({ error: "Wallet not found" }, { status: 404 });
 
-  if (amount > wallet.available)
-    return NextResponse.json(
-      { error: "Insufficient funds" },
-      { status: 400 }
-    );
+  if (value > wallet.available)
+    return NextResponse.json({ error: "Insufficient funds" }, { status: 400 });
 
   const updated = await prisma.wallet.update({
     where: { userId: user.id },
     data: {
-      available: { decrement: amount },
-      withdrawn: { increment: amount },
+      available: { decrement: value },
+      withdrawn: { increment: value },
       transactions: {
         create: {
           type: "Debit",
-          amount,
+          amount: value,
           description: "Withdrawal request",
         },
       },
