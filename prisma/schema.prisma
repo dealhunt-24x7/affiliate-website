@@ -8,25 +8,24 @@ datasource db {
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String?
-  email         String?       @unique
+  email         String?      @unique
   emailVerified DateTime?
   image         String?
   password      String?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   accounts      Account[]
   sessions      Session[]
   wallet        Wallet?
-  referrals     Referral[]    @relation("UserReferrals", references: [id])
+  referrals     Referral[]   @relation("UserReferrals")
   feedbacks     Feedback[]
   contacts      Contact[]
 }
 
 model Account {
-  id                String   @id @default(cuid())
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
@@ -38,7 +37,7 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -72,13 +71,33 @@ model Wallet {
 }
 
 model Transaction {
-  id          String     @id @default(cuid())
+  id          String   @id @default(cuid())
   walletId    String
   amount      Float
   type        String
   description String?
-  createdAt   DateTime   @default(now())
-  wallet      Wallet     @relation(fields: [walletId], references: [id])
+  status      String   @default("completed")
+  createdAt   DateTime @default(now())
+  wallet      Wallet   @relation(fields: [walletId], references: [id])
+}
+
+model Referral {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  referredBy  String
+  joinedUser  String?
+  reward      Float    @default(0)
+  createdAt   DateTime @default(now())
+  user        User     @relation("UserReferrals", fields: [referredBy], references: [id])
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  name      String
+  message   String
+  createdAt DateTime @default(now())
+  userId    String? 
+  user      User?    @relation(fields: [userId], references: [id])
 }
 
 model Contact {
@@ -87,25 +106,6 @@ model Contact {
   email     String
   message   String
   createdAt DateTime @default(now())
-}
-
-model Feedback {
-  id        String   @id @default(cuid())
-  name      String
-  message   String
-  createdAt DateTime @default(now())
-  userId    String?  
+  userId    String? 
   user      User?    @relation(fields: [userId], references: [id])
-}
-
-model Referral {
-  id          String   @id @default(cuid())
-  code        String   @unique
-  referredBy  String
-  joinedUser  String?
-  reward      Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  user        User     @relation("UserReferrals", fields: [referredBy], references: [id])
 }
