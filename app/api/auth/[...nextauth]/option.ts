@@ -2,7 +2,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
+import { compare } from "bcryptjs";
 import type { AuthOptions } from "next-auth";
 
 const prisma = new PrismaClient();
@@ -17,28 +17,24 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password)
-          throw new Error("Please provide both email and password");
+        if (!credentials?.email || !credentials.password) return null;
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
+        if (!user || !user.password) return null;
 
-        if (!user) throw new Error("No user found with this email");
-
-        const isValid = await bcrypt.compare(credentials.password, user.password || "");
-        if (!isValid) throw new Error("Invalid password");
+        const isValid = await compare(credentials.password, user.password);
+        if (!isValid) return null;
 
         return user;
       },
     }),
   ],
-  session: {
-    strategy: "jwt" as const,
-  },
+  session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
 };
