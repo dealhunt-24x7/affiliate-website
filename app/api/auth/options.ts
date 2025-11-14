@@ -1,62 +1,39 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
 import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { compare } from "bcryptjs";
-import type { AuthOptions } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 
-const prisma = new PrismaClient();
-
-export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
-
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
-
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) return null;
-
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
-
-        if (!user || !user.password) return null;
-
-        const isValid = await compare(credentials.password, user.password);
-        if (!isValid) return null;
-
-        return user;
-      },
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
 
-  session: { strategy: "jwt" },
-  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/login",
+  },
 
-  // ⭐ ADDING JWT + SESSION CALLBACKS (user.id always available)
+  session: {
+    strategy: "jwt",
+  },
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id; // store id in token
+        token.name = user.name;
+        token.email = user.email;
+        token.picture = user.image;
       }
       return token;
     },
 
     async session({ session, token }) {
-      if (session.user && token.id) {
-        session.user.id = token.id as string; // store id in session
+      if (session.user) {
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
+        session.user.image = token.picture as string;
       }
       return session;
     },
   },
-}; lo
+};
