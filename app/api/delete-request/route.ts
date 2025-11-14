@@ -7,30 +7,42 @@ export async function POST() {
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session?.user?.email) {
-      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    // ❗  Authentication check
+    if (!session || !session.user || !session.user.email) {
+      return NextResponse.json(
+        { error: "Not authenticated" },
+        { status: 401 }
+      );
     }
 
-    const email = session.user.email;
+    const user = session.user;
 
-    const user = await prisma.user.findUnique({
-      where: { email },
-      select: { id: true, email: true }
-    });
+    // email type: string | null → safe convert
+    const email = user.email || "";
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    // ❗  Assume user.id aapke NextAuth JWT me already aa raha hai
+    // Agar nahi aa raha to main aapko uska fix bhi de dunga
+    const userId = (user as any).id; 
+    if (!userId) {
+      return NextResponse.json(
+        { error: "User ID missing in session" },
+        { status: 400 }
+      );
     }
 
+    // Save/Delete request
     await prisma.deleteRequest.upsert({
-      where: { userId: user.id },
-      update: {},
-      create: { userId: user.id, email: user.email }
+      where: { userId },
+      update: { email },
+      create: { userId, email },
     });
 
     return NextResponse.json({ success: true });
-
-  } catch (e) {
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  } catch (error) {
+    console.error("Delete request error:", error);
+    return NextResponse.json(
+      { error: "Server error" },
+      { status: 500 }
+    );
   }
 }
