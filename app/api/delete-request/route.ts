@@ -1,33 +1,41 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/options";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.email || !session.user.id) {
+
+    // Must have email
+    if (!session?.user?.email) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const body = await req.json();
-    // optional: allow body override but prefer session
-    const userId = session.user.id;
-    const email = session.user.email;
-
-    // Prevent duplicate requests
-    const existing = await prisma.deleteRequest.findUnique({ where: { userId } });
-    if (existing) {
-      return NextResponse.json({ success: true, message: "Request already submitted" });
-    }
-
-    const rec = await prisma.deleteRequest.create({
-      data: { userId, email },
+    // Fetch user ID via email
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      select: { id: true, email: true },
     });
 
-    return NextResponse.json({ success: true, id: rec.id });
-  } catch (err: any) {
-    console.error("DeleteRequest error:", err);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Create delete request
+    await prisma.deleteRequest.create({
+      data: {
+        userId: user.id,
+        email: user.email,
+      },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Delete Request Error:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
-      }
+}
