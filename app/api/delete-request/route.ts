@@ -1,41 +1,36 @@
-import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/option";
+import prisma from "@/lib/prisma";
 
-export async function POST(req: Request) {
+export async function POST() {
   try {
     const session = await getServerSession(authOptions);
 
-    // Must have email
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    // Fetch user ID via email
+    const email = session.user.email;
+
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-      select: { id: true, email: true },
+      where: { email },
+      select: { id: true, email: true }
     });
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Create delete request
-    await prisma.deleteRequest.create({
-      data: {
-        userId: user.id,
-        email: user.email,
-      },
+    await prisma.deleteRequest.upsert({
+      where: { userId: user.id },
+      update: {},
+      create: { userId: user.id, email: user.email }
     });
 
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Delete Request Error:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+
+  } catch (e) {
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
