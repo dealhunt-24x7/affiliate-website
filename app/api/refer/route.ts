@@ -4,6 +4,9 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { randomBytes } from "crypto";
 
+const REWARD_PERCENT = 0.4; // 40% of merchant profit
+const REWARD_CAP = 50;      // Max ₹50 per referral
+
 export async function GET() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email)
@@ -15,6 +18,7 @@ export async function GET() {
   if (!user)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
 
+  // Check or create referral code
   let ref = await prisma.referral.findFirst({
     where: { referredBy: user.id },
   });
@@ -45,20 +49,31 @@ export async function GET() {
       successful,
       totalRewards: totalRewards._sum.reward || 0,
     },
+    rewardPolicy: {
+      percent: REWARD_PERCENT * 100,
+      maxReward: REWARD_CAP,
+    },
   });
 }
 
+// --------------------------
+// Reward Credit after Purchase
+// --------------------------
 export async function POST(req: Request) {
-  const { code, joinedUserId } = await req.json();
+  const { code, joinedUserId, merchantProfit } = await req.json();
 
-  if (!code || !joinedUserId)
+  if (!code || !joinedUserId || !merchantProfit)
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
   const ref = await prisma.referral.findUnique({ where: { code } });
   if (!ref)
     return NextResponse.json({ error: "Referral not found" }, { status: 404 });
 
-  const reward = 50;
+  // Dynamic reward logic
+  const reward = Math.min(merchantProfit * REWARD_PERCENT, REWARD_CAP);
+
+  if (reward <= 0)
+    return NextResponse.json({ error: "No profit to share" }, { status: 400 });
 
   await prisma.$transaction(async (tx) => {
     await tx.referral.update({
@@ -82,10 +97,10 @@ export async function POST(req: Request) {
         walletId: wallet.id,
         type: "Credit",
         amount: reward,
-        description: `Referral reward for user ${joinedUserId}`,
+        description: `Referral reward for user ${joinedUserId} (Profit: ₹${merchantProfit})`,
       },
     });
   });
 
-  return NextResponse.json({ success: true });
-}
+  return NextResponse.json({ success: true, reward });
+        }
