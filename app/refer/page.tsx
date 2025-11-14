@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   FaCopy,
   FaWhatsapp,
@@ -10,45 +10,24 @@ import {
 
 export default function ReferPage() {
   const [copied, setCopied] = useState(false);
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchReferral = async () => {
-      try {
-        const res = await fetch("/api/refer");
-        if (!res.ok) throw new Error("Failed to fetch referral data");
-        const json = await res.json();
-        setData(json);
-      } catch (err) {
-        console.error(err);
-        alert("Error loading referral info!");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchReferral();
-  }, []);
+  const referralCode = "DEALHUNT50";
+  const referralLink = `https://dealhunt.in/ref/${referralCode}`;
 
   const copyToClipboard = async () => {
-    if (!data) return;
-    await navigator.clipboard.writeText(data.link);
+    await navigator.clipboard.writeText(referralLink);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
-
-  if (loading)
-    return (
-      <div className="text-center py-20 text-gray-500 text-lg">
-        Loading referral info...
-      </div>
-    );
 
   return (
     <main className="max-w-4xl mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold text-yellow-600">Refer & Earn</h1>
       <p className="mt-4 text-gray-600">
-        Invite friends to DealHunt and earn rewards when they shop using your link!
+        Invite friends to DealHunt and{" "}
+        <span className="text-yellow-600 font-semibold">
+          earn up to ₹50
+        </span>{" "}
+        for each successful referral when your friend makes a purchase!
       </p>
 
       <div className="mt-8 bg-white p-6 rounded-lg shadow text-center">
@@ -57,7 +36,7 @@ export default function ReferPage() {
           <input
             type="text"
             readOnly
-            value={data.link}
+            value={referralLink}
             className="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-96 text-gray-600"
           />
           <button
@@ -68,12 +47,6 @@ export default function ReferPage() {
           </button>
         </div>
         {copied && <p className="text-green-500 mt-2">Copied!</p>}
-
-        <div className="mt-4 text-sm text-gray-500">
-          <p>Total Referrals: {data.stats.totalRefs}</p>
-          <p>Successful: {data.stats.successful}</p>
-          <p>Total Rewards: ₹{data.stats.totalRewards}</p>
-        </div>
       </div>
 
       <div className="mt-8 text-center">
@@ -81,7 +54,7 @@ export default function ReferPage() {
         <div className="flex justify-center gap-4 text-2xl">
           <a
             href={`https://wa.me/?text=${encodeURIComponent(
-              `Check this out: ${data.link}`
+              `Check this out: ${referralLink}`
             )}`}
             target="_blank"
             className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full"
@@ -90,7 +63,7 @@ export default function ReferPage() {
           </a>
           <a
             href={`https://t.me/share/url?url=${encodeURIComponent(
-              data.link
+              referralLink
             )}&text=Join DealHunt and earn rewards!`}
             target="_blank"
             className="bg-sky-500 hover:bg-sky-600 text-white p-3 rounded-full"
@@ -99,7 +72,7 @@ export default function ReferPage() {
           </a>
           <a
             href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-              data.link
+              referralLink
             )}&text=Join DealHunt and earn rewards!`}
             target="_blank"
             className="bg-black hover:bg-gray-800 text-white p-3 rounded-full"
@@ -108,7 +81,7 @@ export default function ReferPage() {
           </a>
           <a
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-              data.link
+              referralLink
             )}`}
             target="_blank"
             className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full"
@@ -128,4 +101,4 @@ export default function ReferPage() {
       </div>
     </main>
   );
-}
+              }
