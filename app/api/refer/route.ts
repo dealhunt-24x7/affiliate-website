@@ -1,5 +1,5 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/options";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/app/api/auth/options";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { randomBytes } from "crypto";
@@ -8,13 +8,15 @@ const REWARD_PERCENT = 0.4; // 40% of merchant profit
 const REWARD_CAP = 50;      // Max ₹50 per referral
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authConfig);
+
   if (!session?.user?.email)
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
 
   const user = await prisma.user.findUnique({
     where: { email: session.user.email },
   });
+
   if (!user)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
 
@@ -43,12 +45,16 @@ export async function GET() {
 
   return NextResponse.json({
     code: ref.code,
-    link: `${process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXTAUTH_URL}/ref/${ref.code}`,
+    link: `${
+      process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXTAUTH_URL
+    }/ref/${ref.code}`,
+
     stats: {
       totalRefs,
       successful,
       totalRewards: totalRewards._sum.reward || 0,
     },
+
     rewardPolicy: {
       percent: REWARD_PERCENT * 100,
       maxReward: REWARD_CAP,
@@ -57,7 +63,7 @@ export async function GET() {
 }
 
 // --------------------------
-// Reward Credit after Purchase
+// Reward Credit After Purchase
 // --------------------------
 export async function POST(req: Request) {
   const { code, joinedUserId, merchantProfit } = await req.json();
@@ -66,10 +72,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
   const ref = await prisma.referral.findUnique({ where: { code } });
+
   if (!ref)
     return NextResponse.json({ error: "Referral not found" }, { status: 404 });
 
-  // Dynamic reward logic
+  // Calculate reward dynamically
   const reward = Math.min(merchantProfit * REWARD_PERCENT, REWARD_CAP);
 
   if (reward <= 0)
@@ -103,4 +110,4 @@ export async function POST(req: Request) {
   });
 
   return NextResponse.json({ success: true, reward });
-        }
+    }
