@@ -1,45 +1,57 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/options";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/app/api/auth/options";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
+export async function POST(req: Request) {
+  const session = await getServerSession(authConfig);
+
   if (!session?.user?.email)
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+
+  const { amount } = await req.json();
+  const value = Number(amount || 0);
+
+  if (!value || value <= 0)
+    return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
 
   const user = await prisma.user.findUnique({
     where: { email: session.user.email },
   });
+
   if (!user)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
 
-  let wallet = await prisma.wallet.findUnique({
+  const wallet = await prisma.wallet.findUnique({
     where: { userId: user.id },
-    include: { transactions: { orderBy: { createdAt: "desc" }, take: 50 } },
   });
 
-  if (!wallet) {
-    wallet = await prisma.wallet.create({
-      data: { userId: user.id, available: 0, pending: 0, withdrawn: 0 },
-      include: { transactions: true },
-    });
-  }
+  if (!wallet)
+    return NextResponse.json({ error: "Wallet not found" }, { status: 404 });
 
-  const summary = {
-    available: wallet.available,
-    pending: wallet.pending,
-    withdrawn: wallet.withdrawn,
-    totalEarned: wallet.available + wallet.pending + wallet.withdrawn,
-  };
+  if (value > wallet.available)
+    return NextResponse.json({ error: "Insufficient funds" }, { status: 400 });
 
-  const transactions = wallet.transactions.map((t) => ({
-    id: t.id,
-    date: t.createdAt,
-    description: t.description,
-    type: t.type,
-    amount: t.amount,
-  }));
+  const updated = await prisma.wallet.update({
+    where: { userId: user.id },
+    data: {
+      available: { decrement: value },
+      withdrawn: { increment: value },
+      transactions: {
+        create: {
+          type: "Debit",
+          amount: value,
+          description: "Withdrawal request",
+        },
+      },
+    },
+  });
 
-  return NextResponse.json({ summary, transactions });
+  return NextResponse.json({
+    success: true,
+    wallet: {
+      available: updated.available,
+      withdrawn: updated.withdrawn,
+    },
+  });
 }
