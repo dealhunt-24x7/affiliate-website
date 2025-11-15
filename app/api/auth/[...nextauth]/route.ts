@@ -1,6 +1,11 @@
-import NextAuth from "next-auth";
 import { authConfig } from "../options";
 
-const handler = NextAuth(authConfig);
+export const GET = async (...args) => {
+  const { NextAuth } = await import("next-auth");
+  return NextAuth(authConfig).GET(...args);
+};
 
-export { handler as GET, handler as POST };
+export const POST = async (...args) => {
+  const { NextAuth } = await import("next-auth");
+  return NextAuth(authConfig).POST(...args);
+};
