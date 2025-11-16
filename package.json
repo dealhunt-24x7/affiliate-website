@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && prisma migrate deploy && next build",
+    "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@auth/core": "^0.35.3",
     "@auth/prisma-adapter": "^1.5.1",
     "@prisma/client": "^5.10.0",
     "bcryptjs": "^2.4.3",
@@ -17,7 +18,7 @@
     "lucide-react": "^0.462.0",
     "mongoose": "^7.6.3",
     "next": "14.2.5",
-    "next-auth": "^4.24.12",
+    "next-auth": "^5.0.0",
     "nodemailer": "^7.0.7",
     "react": "18.3.1",
     "react-dom": "18.3.1",
