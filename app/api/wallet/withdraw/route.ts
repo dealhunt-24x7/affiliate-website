@@ -1,10 +1,11 @@
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/app/api/auth/options";
+// app/api/wallet/withdraw/route.ts
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/options";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authConfig);
+  const session = await getServerSession(authOptions);
 
   if (!session?.user?.email)
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
@@ -18,14 +19,12 @@ export async function POST(req: Request) {
   const user = await prisma.user.findUnique({
     where: { email: session.user.email },
   });
-
   if (!user)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
 
   const wallet = await prisma.wallet.findUnique({
     where: { userId: user.id },
   });
-
   if (!wallet)
     return NextResponse.json({ error: "Wallet not found" }, { status: 404 });
 
