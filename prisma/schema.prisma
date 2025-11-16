@@ -1,29 +1,65 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
 model User {
   id        String   @id @default(cuid())
   name      String?
   email     String?  @unique
   image     String?
-  referralCode   String   @unique @default(cuid())
-  referredBy     String?
-  
-  wallet   Wallet?
-  withdraw Withdraw[]
+  password  String?
+
+  wallet    Wallet?
+  referral  Referral?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Wallet {
-  id        String  @id @default(cuid())
-  userId    String  @unique
-  balance   Int     @default(0)
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  user       User     @relation(fields: [userId], references: [id])
 
-  user      User    @relation(fields: [userId], references: [id])
+  available  Int      @default(0)
+  pending    Int      @default(0)
+  withdrawn  Int      @default(0)
+
+  transactions Transaction[]
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
-model Withdraw {
-  id        String   @id @default(cuid())
-  userId    String
-  amount    Int
-  status    String   @default("pending")
-  createdAt DateTime @default(now())
+model Transaction {
+  id          String   @id @default(cuid())
+  walletId    String
+  wallet      Wallet   @relation(fields: [walletId], references: [id])
 
-  user      User     @relation(fields: [userId], references: [id])
+  type        String
+  amount      Int
+  description String?
+  createdAt   DateTime @default(now())
+}
+
+model Referral {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+
+  referredUsers ReferredUser[]
+}
+
+model ReferredUser {
+  id          String   @id @default(cuid())
+  referralId  String
+  referral    Referral @relation(fields: [referralId], references: [id])
+
+  userId      String?
+  createdAt   DateTime @default(now())
 }
