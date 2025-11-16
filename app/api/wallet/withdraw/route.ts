@@ -5,12 +5,8 @@ import { auth } from "@/lib/auth";
 export async function POST(req: Request) {
   try {
     const session = await auth();
-
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: "Not authenticated" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
     const { amount, method } = await req.json();
@@ -20,18 +16,23 @@ export async function POST(req: Request) {
       where: { userId },
     });
 
-    if (!wallet || wallet.balance < amount) {
+    if (!wallet || wallet.available < amount) {
       return NextResponse.json(
         { error: "Insufficient balance" },
         { status: 400 }
       );
     }
 
+    // Decrease available balance
     await prisma.wallet.update({
       where: { userId },
-      data: { balance: { decrement: amount } },
+      data: {
+        available: { decrement: amount },
+        pending: { increment: amount },
+      },
     });
 
+    // Create Withdraw Request
     await prisma.withdraw.create({
       data: {
         userId,
