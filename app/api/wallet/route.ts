@@ -1,13 +1,29 @@
-import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id) return Response.json({ error: "Not logged in" });
+  try {
+    const session = await auth();
 
-  const wallet = await prisma.wallet.findUnique({
-    where: { userId: session.user.id },
-  });
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: "Not authenticated" },
+        { status: 401 }
+      );
+    }
 
-  return Response.json(wallet);
+    const userId = session.user.id;
+
+    const wallet = await prisma.wallet.findUnique({
+      where: { userId },
+    });
+
+    return NextResponse.json({ success: true, wallet });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 }
+    );
+  }
 }
