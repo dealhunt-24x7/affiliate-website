@@ -1,56 +1,31 @@
-// app/api/wallet/withdraw/route.ts
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/options";
-import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user?.email)
-    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  const session = await auth();
+  if (!session?.user?.id) return Response.json({ error: "Not logged in" });
 
   const { amount } = await req.json();
-  const value = Number(amount || 0);
-
-  if (!value || value <= 0)
-    return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
-
-  const user = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  });
-  if (!user)
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
 
   const wallet = await prisma.wallet.findUnique({
-    where: { userId: user.id },
+    where: { userId: session.user.id },
   });
-  if (!wallet)
-    return NextResponse.json({ error: "Wallet not found" }, { status: 404 });
 
-  if (value > wallet.available)
-    return NextResponse.json({ error: "Insufficient funds" }, { status: 400 });
+  if (!wallet || wallet.balance < amount) {
+    return Response.json({ error: "Insufficient balance" });
+  }
 
-  const updated = await prisma.wallet.update({
-    where: { userId: user.id },
+  await prisma.wallet.update({
+    where: { userId: session.user.id },
+    data: { balance: wallet.balance - amount },
+  });
+
+  await prisma.withdraw.create({
     data: {
-      available: { decrement: value },
-      withdrawn: { increment: value },
-      transactions: {
-        create: {
-          type: "Debit",
-          amount: value,
-          description: "Withdrawal request",
-        },
-      },
+      userId: session.user.id,
+      amount,
     },
   });
 
-  return NextResponse.json({
-    success: true,
-    wallet: {
-      available: updated.available,
-      withdrawn: updated.withdrawn,
-    },
-  });
+  return Response.json({ success: true });
 }
