@@ -1,23 +1,29 @@
-callbacks: {
-  async signIn({ user, request }) {
-    const url = new URL(request.url);
-    const ref = url.searchParams.get("ref");
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 
-    if (ref) {
-      await prisma.user.update({
-        where: { id: user.id },
-        data: {
-          referredBy: ref,
-        },
-      });
-
-      // Refer bonus
-      await prisma.wallet.updateMany({
-        where: { userId: ref },
-        data: { balance: { increment: 10 } },
-      });
+export async function GET(req: Request) {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    return true;
-  },
+    const userId = session.user.id;
+
+    // Fetch user refer stats
+    const data = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        totalEarned: true,
+        referrals: {
+          select: { email: true, createdAt: true },
+        },
+      },
+    });
+
+    return NextResponse.json({ success: true, data });
+  } catch (error) {
+    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+  }
 }
