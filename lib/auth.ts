@@ -1,22 +1,22 @@
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import NextAuth from "next-auth";
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
+
   providers: [
-    GoogleProvider({
+    Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
 
     Credentials({
-      // 🔥 REQUIRED (ye missing tha)
       credentials: {
-        email: { label: "Email", type: "email", required: true },
+        email: { label: "Email", type: "text", required: true },
         password: { label: "Password", type: "password", required: true },
       },
 
@@ -29,31 +29,19 @@ export const authOptions = {
 
         if (!user) return null;
 
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isPasswordValid) return null;
+        const valid = await bcrypt.compare(credentials.password, user.password);
+        if (!valid) return null;
 
         return user;
       },
     }),
   ],
 
-  session: {
-    strategy: "jwt",
-  },
-
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.id = user.id;
-      return token;
-    },
-
     async session({ session, token }) {
-      // @ts-ignore
-      session.user.id = token.id;
+      if (token && session.user) {
+        session.user.id = token.sub!;
+      }
       return session;
     },
   },
