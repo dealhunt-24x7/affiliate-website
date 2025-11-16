@@ -8,15 +8,12 @@ export default function SettingsPage() {
   const { data: session } = useSession();
   const router = useRouter();
 
-  // Notification preferences (persist in localStorage)
   const [notifEmail, setNotifEmail] = useState<boolean>(true);
   const [notifOffers, setNotifOffers] = useState<boolean>(true);
   const [notifReferral, setNotifReferral] = useState<boolean>(true);
 
-  // Account management UI state
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  // On mount read saved prefs
   useEffect(() => {
     const e = localStorage.getItem("notifEmail");
     const o = localStorage.getItem("notifOffers");
@@ -26,19 +23,19 @@ export default function SettingsPage() {
     if (r !== null) setNotifReferral(r === "true");
   }, []);
 
-  // Persist changes
   useEffect(() => {
     localStorage.setItem("notifEmail", String(notifEmail));
   }, [notifEmail]);
+
   useEffect(() => {
     localStorage.setItem("notifOffers", String(notifOffers));
   }, [notifOffers]);
+
   useEffect(() => {
     localStorage.setItem("notifReferral", String(notifReferral));
   }, [notifReferral]);
 
   const clearPreferences = () => {
-    // Clear stored prefs and reset UI
     localStorage.removeItem("notifEmail");
     localStorage.removeItem("notifOffers");
     localStorage.removeItem("notifReferral");
@@ -49,7 +46,6 @@ export default function SettingsPage() {
   };
 
   const handleLogout = async () => {
-    // Use next-auth signOut
     await signOut({ callbackUrl: "/" });
   };
 
@@ -66,15 +62,20 @@ export default function SettingsPage() {
 
     try {
       setDeleteLoading(true);
+
       const res = await fetch("/api/delete-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: session.user.id,
-          email: session.user.email,
+          // @ts-ignore
+          userId: session?.user?.id,
+          // @ts-ignore
+          email: session?.user?.email,
         }),
       });
+
       const data = await res.json();
+
       if (res.ok) {
         alert("Account deletion request submitted. We will process it shortly.");
       } else {
@@ -89,7 +90,6 @@ export default function SettingsPage() {
     }
   };
 
-  // Determine if user logged in via OAuth
   const signedWithOAuth = Boolean(session?.user?.image || session?.user?.name);
 
   return (
@@ -153,11 +153,9 @@ export default function SettingsPage() {
       <div className="bg-white p-4 rounded-lg shadow space-y-4">
         <h2 className="font-semibold text-lg">Account Management</h2>
 
-        {/* Change password note */}
         <div className="bg-gray-50 p-3 rounded-md">
           {session?.user ? (
             <>
-              { /* If user logged in with OAuth (Google), show note */ }
               <p className="text-sm text-gray-700">
                 {session?.user && session.user.email ? (
                   <>
@@ -187,10 +185,7 @@ export default function SettingsPage() {
           </button>
 
           <button
-            onClick={() => {
-              // Give user a quick way to go to account edit if you have one
-              router.push("/profile");
-            }}
+            onClick={() => router.push("/profile")}
             className="px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50"
           >
             Edit Account
@@ -206,7 +201,6 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Privacy & Support */}
       <div className="bg-white p-4 rounded-lg shadow space-y-4">
         <h2 className="font-semibold text-lg">Privacy & Support</h2>
         <p className="text-sm text-gray-600">
@@ -233,4 +227,4 @@ export default function SettingsPage() {
       </div>
     </div>
   );
-          }
+}
