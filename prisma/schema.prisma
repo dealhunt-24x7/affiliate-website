@@ -16,6 +16,7 @@ model User {
 
   wallet    Wallet?
   referral  Referral?
+  withdraws Withdraw[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -69,5 +70,16 @@ model Contact {
   name      String
   email     String
   message   String
+  createdAt DateTime @default(now())
+}
+
+model Withdraw {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  amount    Int
+  method    String
+  status    String   @default("pending")
   createdAt DateTime @default(now())
 }
