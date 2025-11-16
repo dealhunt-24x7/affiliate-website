@@ -3,7 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 import { compare } from "bcryptjs";
 
-export const authConfig = {
+export const authOptions = {
   adapter: PrismaAdapter(prisma),
 
   providers: [
@@ -13,6 +13,7 @@ export const authConfig = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
+
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) return null;
 
@@ -22,8 +23,8 @@ export const authConfig = {
 
         if (!user) return null;
 
-        const isValid = await compare(credentials.password, user.password);
-        if (!isValid) return null;
+        const valid = await compare(credentials.password, user.password);
+        if (!valid) return null;
 
         return user;
       },
@@ -31,7 +32,7 @@ export const authConfig = {
   ],
 
   session: {
-    strategy: "jwt",
+    strategy: "jwt", // 👈 v4 me yahi sahi hai, koi error nahi dega
   },
 
   pages: {
