@@ -1,11 +1,6 @@
+import NextAuth from "next-auth/next";
 import { authConfig } from "../options";
 
-export const GET = async (...args: any[]) => {
-  const { NextAuth } = await import("next-auth");
-  return NextAuth(authConfig).GET(...args);
-};
+const handler = NextAuth(authConfig);
 
-export const POST = async (...args: any[]) => {
-  const { NextAuth } = await import("next-auth");
-  return NextAuth(authConfig).POST(...args);
-};
+export { handler as GET, handler as POST };
