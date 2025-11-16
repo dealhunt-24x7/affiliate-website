@@ -73,6 +73,13 @@ model Contact {
   createdAt DateTime @default(now())
 }
 
+model Feedback {
+  id        String   @id @default(cuid())
+  name      String
+  message   String
+  createdAt DateTime @default(now())
+}
+
 model Withdraw {
   id        String   @id @default(cuid())
   userId    String
