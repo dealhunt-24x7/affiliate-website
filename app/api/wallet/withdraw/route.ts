@@ -1,31 +1,54 @@
-import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session?.user?.id) return Response.json({ error: "Not logged in" });
+  try {
+    const session = await auth();
 
-  const { amount } = await req.json();
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: "Not authenticated" },
+        { status: 401 }
+      );
+    }
 
-  const wallet = await prisma.wallet.findUnique({
-    where: { userId: session.user.id },
-  });
+    const { amount, method } = await req.json();
+    const userId = session.user.id;
 
-  if (!wallet || wallet.balance < amount) {
-    return Response.json({ error: "Insufficient balance" });
+    const wallet = await prisma.wallet.findUnique({
+      where: { userId },
+    });
+
+    if (!wallet || wallet.balance < amount) {
+      return NextResponse.json(
+        { error: "Insufficient balance" },
+        { status: 400 }
+      );
+    }
+
+    await prisma.wallet.update({
+      where: { userId },
+      data: { balance: { decrement: amount } },
+    });
+
+    await prisma.withdraw.create({
+      data: {
+        userId,
+        amount,
+        method,
+        status: "pending",
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: "Withdraw request submitted",
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 }
+    );
   }
-
-  await prisma.wallet.update({
-    where: { userId: session.user.id },
-    data: { balance: wallet.balance - amount },
-  });
-
-  await prisma.withdraw.create({
-    data: {
-      userId: session.user.id,
-      amount,
-    },
-  });
-
-  return Response.json({ success: true });
 }
