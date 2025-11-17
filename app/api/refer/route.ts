@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
-import { auth } from "@/lib/auth";
+import { auth } from "@auth/core";
+import { prisma } from "@/lib/prisma";
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    const session = await auth();
+    const session = await auth({ req });
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
@@ -13,13 +13,12 @@ export async function GET() {
 
     const referral = await prisma.referral.findUnique({
       where: { userId },
-      include: {
-        referredUsers: true,
-      },
+      include: { referredUsers: true },
     });
 
     return NextResponse.json({ success: true, data: referral });
-  } catch (error) {
+  } catch (err) {
+    console.error("Referral error:", err);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }
