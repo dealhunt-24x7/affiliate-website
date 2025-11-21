@@ -4,20 +4,8 @@ import React, { useEffect, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 
-function ErrorSafe({ children }: { children: React.ReactNode }) {
-  return (
-    <React.Suspense fallback={<div>Loading...</div>}>
-      {children}
-    </React.Suspense>
-  );
-}
-
 export default function AuthPage() {
-  return (
-    <ErrorSafe>
-      <SigninContent />
-    </ErrorSafe>
-  );
+  return <SigninContent />;
 }
 
 function SigninContent() {
@@ -42,9 +30,17 @@ function SigninContent() {
     show: { opacity: 1, y: 0, transition: { staggerChildren: 0.04 } },
   };
 
+  // ✔ FIXED slideVariant (Framer Motion v10 compatible)
   const slideVariant = {
     hidden: (dir: number) => ({ x: dir * 40, opacity: 0 }),
-    show: { x: 0, opacity: 1, transition: { type: "spring", stiffness: 260, damping: 22 } },
+    show: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        ease: "easeOut", // ← "spring" error fix
+        duration: 0.4,
+      },
+    },
   };
 
   return (
@@ -91,7 +87,6 @@ function SigninContent() {
             <div className="max-w-md mx-auto">
               {!session ? (
                 <>
-                  {/* Google Button Only */}
                   <div className="space-y-3">
                     <button
                       onClick={() => handleSocialSignIn("google")}
@@ -124,4 +119,4 @@ function SigninContent() {
       </div>
     </main>
   );
-}
+                    }
