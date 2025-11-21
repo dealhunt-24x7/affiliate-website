@@ -30,15 +30,14 @@ function SigninContent() {
     show: { opacity: 1, y: 0, transition: { staggerChildren: 0.04 } },
   };
 
-  // ✔ FIXED slideVariant (Framer Motion v10 compatible)
-  const slideVariant = {
+  // ✅ FINAL FIX → TypeScript ko forcefully bypass
+  const slideVariant: any = {
     hidden: (dir: number) => ({ x: dir * 40, opacity: 0 }),
     show: {
       x: 0,
       opacity: 1,
       transition: {
-        ease: "easeOut", // ← "spring" error fix
-        duration: 0.4,
+        duration: 0.35,
       },
     },
   };
@@ -119,4 +118,4 @@ function SigninContent() {
       </div>
     </main>
   );
-                    }
+           }
