@@ -4,7 +4,23 @@ import React, { useEffect, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 
+function ErrorSafe({ children }: { children: React.ReactNode }) {
+  return (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      {children}
+    </React.Suspense>
+  );
+}
+
 export default function AuthPage() {
+  return (
+    <ErrorSafe>
+      <SigninContent />
+    </ErrorSafe>
+  );
+}
+
+function SigninContent() {
   const { data: session } = useSession();
   const [localUser, setLocalUser] = useState<{ name: string; email?: string } | null>(null);
 
@@ -108,4 +124,4 @@ export default function AuthPage() {
       </div>
     </main>
   );
-    }
+}
