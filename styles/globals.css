@@ -2,88 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ----------- GLOBAL BASE STYLE (NO @apply HERE) ----------- */
+/* ----------- GLOBAL BASE STYLE ----------- */
 html, body {
   background: white;
-    color: #111827; /* text-gray-900 */
-      font-family: ui-sans-serif, system-ui, sans-serif;
-        padding: 0;
-          margin: 0;
-          }
+  color: #111827; /* text-gray-900 */
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  padding: 0;
+  margin: 0;
+}
 
-          a {
-            color: inherit;
-              text-decoration: none;
-              }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-              /* ----------- GENERAL MODE THEMING (SAFE PURE CSS) ----------- */
-              body.general-mode {
-                background: linear-gradient(to bottom, #ebf5ff, #ffffff);
-                  color: #1e3a8a;
-                  }
+/* ----------- GENERAL MODE DEFAULT THEME ----------- */
+body {
+  background: linear-gradient(to bottom, #ebf5ff, #ffffff);
+  color: #1e3a8a;
+}
 
-                  body.general-mode .mood-toggle {
-                    border-color: #3b82f6 !important;
-                    }
+/* General Mode UI Adjustments */
+.brand-text {
+  color: #1e3a8a !important;
+}
 
-                    body.general-mode .mood-toggle .active-bg {
-                      background: linear-gradient(to right, #2563eb, #1d4ed8) !important;
-                      }
+.tagline {
+  background: linear-gradient(to right, #2563eb, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-                      body.general-mode .mood-toggle span.active {
-                        color: white !important;
-                        }
+.featured-deals .view-more,
+button.view-more {
+  background-color: #2563eb !important;
+  color: white !important;
+}
 
-                        body.general-mode .mood-toggle span.inactive {
-                          color: #1e3a8a !important;
-                          }
+.featured-deals .view-more:hover,
+button.view-more:hover {
+  background-color: #1d4ed8 !important;
+}
 
-                          body.general-mode .brand-text {
-                            color: #1e3a8a !important;
-                            }
+.category-grid .see-all {
+  color: #2563eb !important;
+  border-color: #2563eb !important;
+}
 
-                            body.general-mode .tagline {
-                              background: linear-gradient(to right, #2563eb, #60a5fa);
-                                -webkit-background-clip: text;
-                                  -webkit-text-fill-color: transparent;
-                                  }
+.category-grid .see-all:hover {
+  background-color: #2563eb !important;
+  color: white !important;
+}
 
-                                  body.general-mode .featured-deals .view-more,
-                                  body.general-mode button.view-more {
-                                    background-color: #2563eb !important;
-                                      color: white !important;
-                                      }
+.cart-to-heart .join-now {
+  background-color: #2563eb !important;
+  color: white !important;
+}
 
-                                      body.general-mode .featured-deals .view-more:hover,
-                                      body.general-mode button.view-more:hover {
-                                        background-color: #1d4ed8 !important;
-                                        }
+.cart-to-heart .join-now:hover {
+  background-color: #1d4ed8 !important;
+}
 
-                                        body.general-mode .category-grid .see-all {
-                                          color: #2563eb !important;
-                                            border-color: #2563eb !important;
-                                            }
+.floating-ai-btn {
+  background-color: #2563eb !important;
+  color: white !important;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+}
 
-                                            body.general-mode .category-grid .see-all:hover {
-                                              background-color: #2563eb !important;
-                                                color: white !important;
-                                                }
-
-                                                body.general-mode .cart-to-heart .join-now {
-                                                  background-color: #2563eb !important;
-                                                    color: white !important;
-                                                    }
-
-                                                    body.general-mode .cart-to-heart .join-now:hover {
-                                                      background-color: #1d4ed8 !important;
-                                                      }
-
-                                                      body.general-mode .floating-ai-btn {
-                                                        background-color: #2563eb !important;
-                                                          color: white !important;
-                                                            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
-                                                            }
-
-                                                            body.general-mode .floating-ai-btn:hover {
-                                                              background-color: #1d4ed8 !important;
-                                                              }
+.floating-ai-btn:hover {
+  background-color: #1d4ed8 !important;
+}
